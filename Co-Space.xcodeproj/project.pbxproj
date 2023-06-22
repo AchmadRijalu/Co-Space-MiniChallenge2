@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		563F6A182A440192006B910C /* RealTimeGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 563F6A172A440192006B910C /* RealTimeGame.swift */; };
+		563F6A1A2A440207006B910C /* RealTimeGame+GKGameCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 563F6A192A440207006B910C /* RealTimeGame+GKGameCenterViewController.swift */; };
+		563F6A1C2A44022B006B910C /* RealTimeGame+GKLocalPlayerListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 563F6A1B2A44022B006B910C /* RealTimeGame+GKLocalPlayerListener.swift */; };
+		563F6A1E2A440241006B910C /* RealTimeGame+GKMatchDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 563F6A1D2A440241006B910C /* RealTimeGame+GKMatchDelegate.swift */; };
+		563F6A202A440260006B910C /* RealTimeGame+GKMatchMakerViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 563F6A1F2A440260006B910C /* RealTimeGame+GKMatchMakerViewControllerDelegate.swift */; };
+		563F6A222A440273006B910C /* RealTimeGame+Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 563F6A212A440273006B910C /* RealTimeGame+Messages.swift */; };
+		563F6A242A44028F006B910C /* RealTimeGame+VoiceChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 563F6A232A44028F006B910C /* RealTimeGame+VoiceChat.swift */; };
+		563F6A262A4402A3006B910C /* RealTimeGame+Friends.swift in Sources */ = {isa = PBXBuildFile; fileRef = 563F6A252A4402A3006B910C /* RealTimeGame+Friends.swift */; };
+		563F6A282A4402C2006B910C /* RealTimeGame+MatchData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 563F6A272A4402C2006B910C /* RealTimeGame+MatchData.swift */; };
 		77E3E3042A414BFE00143224 /* Co_SpaceApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77E3E3032A414BFE00143224 /* Co_SpaceApp.swift */; };
 		77E3E3062A414BFE00143224 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77E3E3052A414BFE00143224 /* ContentView.swift */; };
 		77E3E3082A414BFF00143224 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 77E3E3072A414BFF00143224 /* Assets.xcassets */; };
@@ -23,6 +32,15 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		563F6A172A440192006B910C /* RealTimeGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealTimeGame.swift; sourceTree = "<group>"; };
+		563F6A192A440207006B910C /* RealTimeGame+GKGameCenterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RealTimeGame+GKGameCenterViewController.swift"; sourceTree = "<group>"; };
+		563F6A1B2A44022B006B910C /* RealTimeGame+GKLocalPlayerListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RealTimeGame+GKLocalPlayerListener.swift"; sourceTree = "<group>"; };
+		563F6A1D2A440241006B910C /* RealTimeGame+GKMatchDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RealTimeGame+GKMatchDelegate.swift"; sourceTree = "<group>"; };
+		563F6A1F2A440260006B910C /* RealTimeGame+GKMatchMakerViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RealTimeGame+GKMatchMakerViewControllerDelegate.swift"; sourceTree = "<group>"; };
+		563F6A212A440273006B910C /* RealTimeGame+Messages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RealTimeGame+Messages.swift"; sourceTree = "<group>"; };
+		563F6A232A44028F006B910C /* RealTimeGame+VoiceChat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RealTimeGame+VoiceChat.swift"; sourceTree = "<group>"; };
+		563F6A252A4402A3006B910C /* RealTimeGame+Friends.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RealTimeGame+Friends.swift"; sourceTree = "<group>"; };
+		563F6A272A4402C2006B910C /* RealTimeGame+MatchData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RealTimeGame+MatchData.swift"; sourceTree = "<group>"; };
 		77E3E3002A414BFE00143224 /* Co-Space.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Co-Space.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		77E3E3032A414BFE00143224 /* Co_SpaceApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Co_SpaceApp.swift; sourceTree = "<group>"; };
 		77E3E3052A414BFE00143224 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -52,6 +70,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		56A0A7922A4400CA00110908 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				563F6A172A440192006B910C /* RealTimeGame.swift */,
+				563F6A192A440207006B910C /* RealTimeGame+GKGameCenterViewController.swift */,
+				563F6A1B2A44022B006B910C /* RealTimeGame+GKLocalPlayerListener.swift */,
+				563F6A1D2A440241006B910C /* RealTimeGame+GKMatchDelegate.swift */,
+				563F6A1F2A440260006B910C /* RealTimeGame+GKMatchMakerViewControllerDelegate.swift */,
+				563F6A212A440273006B910C /* RealTimeGame+Messages.swift */,
+				563F6A252A4402A3006B910C /* RealTimeGame+Friends.swift */,
+				563F6A232A44028F006B910C /* RealTimeGame+VoiceChat.swift */,
+				563F6A272A4402C2006B910C /* RealTimeGame+MatchData.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		77E3E2F72A414BFE00143224 = {
 			isa = PBXGroup;
 			children = (
@@ -72,6 +106,7 @@
 		77E3E3022A414BFE00143224 /* Co-Space */ = {
 			isa = PBXGroup;
 			children = (
+				56A0A7922A4400CA00110908 /* Utils */,
 				77E3E32F2A43DB2600143224 /* Co-Space.entitlements */,
 				77E3E3292A43D18C00143224 /* Scenes */,
 				77E3E3142A41506200143224 /* Components */,
@@ -219,12 +254,21 @@
 				77E3E3182A415D7900143224 /* InventoryView.swift in Sources */,
 				77E3E3062A414BFE00143224 /* ContentView.swift in Sources */,
 				77E3E31A2A415D8500143224 /* MainmenuView.swift in Sources */,
+				563F6A202A440260006B910C /* RealTimeGame+GKMatchMakerViewControllerDelegate.swift in Sources */,
+				563F6A1E2A440241006B910C /* RealTimeGame+GKMatchDelegate.swift in Sources */,
+				563F6A242A44028F006B910C /* RealTimeGame+VoiceChat.swift in Sources */,
 				77E3E3202A415DA700143224 /* SecurityView.swift in Sources */,
 				77E3E31C2A415D9200143224 /* GuiderView.swift in Sources */,
+				563F6A282A4402C2006B910C /* RealTimeGame+MatchData.swift in Sources */,
 				77E3E32E2A43D78D00143224 /* GuiderGameScene.swift in Sources */,
+				563F6A182A440192006B910C /* RealTimeGame.swift in Sources */,
+				563F6A1C2A44022B006B910C /* RealTimeGame+GKLocalPlayerListener.swift in Sources */,
+				563F6A1A2A440207006B910C /* RealTimeGame+GKGameCenterViewController.swift in Sources */,
 				77E3E3042A414BFE00143224 /* Co_SpaceApp.swift in Sources */,
+				563F6A222A440273006B910C /* RealTimeGame+Messages.swift in Sources */,
 				77E3E31E2A415D9B00143224 /* CleanerView.swift in Sources */,
 				77E3E3222A415DB200143224 /* GameRoomView.swift in Sources */,
+				563F6A262A4402A3006B910C /* RealTimeGame+Friends.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
