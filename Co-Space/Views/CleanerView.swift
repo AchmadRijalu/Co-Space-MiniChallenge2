@@ -1,0 +1,20 @@
+//
+//  CleanerView.swift
+//  Co-Space
+//
+//  Created by Achmad Rijalu on 20/06/23.
+//
+
+import SwiftUI
+
+struct CleanerView: View {
+    var body: some View {
+        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+    }
+}
+
+struct CleanerView_Previews: PreviewProvider {
+    static var previews: some View {
+        CleanerView()
+    }
+}
