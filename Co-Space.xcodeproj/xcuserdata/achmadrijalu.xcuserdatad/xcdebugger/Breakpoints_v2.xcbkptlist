@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "39A3BC9A-2A14-446C-815E-11A7D0C7DD3F"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A2E474DB-7921-4651-9108-83919F1AE4F1"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Co-Space/Scenes/GuiderGameScene.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "54"
+            endingLineNumber = "54"
+            landmarkName = "setupGuestNodesList()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "A2E474DB-7921-4651-9108-83919F1AE4F1 - 4552d34d9405151"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Co_Space.GuiderGameScene.seatTriangle.getter : Swift.Optional&lt;__C.SKShapeNode&gt;"
+                  moduleName = "Co-Space"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/achmadrijalu/Desktop/Apple%20Developer%20Academy%20Challenge/Mini%20Challenge2/Co-Space/Co-Space-MiniChallenge2/Co-Space/Scenes/GuiderGameScene.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "29"
+                  endingLineNumber = "29"
+                  offsetFromSymbolStart = "88">
+               </Location>
+               <Location
+                  uuid = "A2E474DB-7921-4651-9108-83919F1AE4F1 - d46710b8d5008545"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Co_Space.GuiderGameScene.seatTriangle.setter : Swift.Optional&lt;__C.SKShapeNode&gt;"
+                  moduleName = "Co-Space"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/achmadrijalu/Desktop/Apple%20Developer%20Academy%20Challenge/Mini%20Challenge2/Co-Space/Co-Space-MiniChallenge2/Co-Space/Scenes/GuiderGameScene.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "29"
+                  endingLineNumber = "29"
+                  offsetFromSymbolStart = "108">
+               </Location>
+               <Location
+                  uuid = "A2E474DB-7921-4651-9108-83919F1AE4F1 - f8b2f02879febc54"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Co_Space.GuiderGameScene.seatTriangle.modify : Swift.Optional&lt;__C.SKShapeNode&gt;"
+                  moduleName = "Co-Space"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/achmadrijalu/Desktop/Apple%20Developer%20Academy%20Challenge/Mini%20Challenge2/Co-Space/Co-Space-MiniChallenge2/Co-Space/Scenes/GuiderGameScene.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "29"
+                  endingLineNumber = "29"
+                  offsetFromSymbolStart = "0">
+               </Location>
+               <Location
+                  uuid = "A2E474DB-7921-4651-9108-83919F1AE4F1 - b17106241c646d6a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Co_Space.GuiderGameScene.seatTriangle.modify : Swift.Optional&lt;__C.SKShapeNode&gt; with unmangled suffix &quot;.resume.0&quot;"
+                  moduleName = "Co-Space"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/achmadrijalu/Desktop/Apple%20Developer%20Academy%20Challenge/Mini%20Challenge2/Co-Space/Co-Space-MiniChallenge2/Co-Space/Scenes/GuiderGameScene.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "29"
+                  endingLineNumber = "29"
+                  offsetFromSymbolStart = "16">
+               </Location>
+               <Location
+                  uuid = "A2E474DB-7921-4651-9108-83919F1AE4F1 - d5160d99908e9eed"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Co_Space.GuiderGameScene.init(size: __C.CGSize) -&gt; Co_Space.GuiderGameScene"
+                  moduleName = "Co-Space"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/achmadrijalu/Desktop/Apple%20Developer%20Academy%20Challenge/Mini%20Challenge2/Co-Space/Co-Space-MiniChallenge2/Co-Space/Scenes/GuiderGameScene.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "29"
+                  endingLineNumber = "29"
+                  offsetFromSymbolStart = "248">
+               </Location>
+               <Location
+                  uuid = "A2E474DB-7921-4651-9108-83919F1AE4F1 - a9dae239f7de846a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Co_Space.GuiderGameScene.init() -&gt; Co_Space.GuiderGameScene"
+                  moduleName = "Co-Space"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/achmadrijalu/Desktop/Apple%20Developer%20Academy%20Challenge/Mini%20Challenge2/Co-Space/Co-Space-MiniChallenge2/Co-Space/Scenes/GuiderGameScene.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "29"
+                  endingLineNumber = "29"
+                  offsetFromSymbolStart = "224">
+               </Location>
+               <Location
+                  uuid = "A2E474DB-7921-4651-9108-83919F1AE4F1 - c1bc4fc733e638d5"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Co_Space.GuiderGameScene.init(coder: __C.NSCoder) -&gt; Swift.Optional&lt;Co_Space.GuiderGameScene&gt;"
+                  moduleName = "Co-Space"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/achmadrijalu/Desktop/Apple%20Developer%20Academy%20Challenge/Mini%20Challenge2/Co-Space/Co-Space-MiniChallenge2/Co-Space/Scenes/GuiderGameScene.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "29"
+                  endingLineNumber = "29"
+                  offsetFromSymbolStart = "236">
+               </Location>
+               <Location
+                  uuid = "A2E474DB-7921-4651-9108-83919F1AE4F1 - 7e0a4ca891f230e5"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Co_Space.GuiderGameScene.setupGuestNodesList() -&gt; ()"
+                  moduleName = "Co-Space"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/achmadrijalu/Desktop/Apple%20Developer%20Academy%20Challenge/Mini%20Challenge2/Co-Space/Co-Space-MiniChallenge2/Co-Space/Scenes/GuiderGameScene.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "29"
+                  endingLineNumber = "29"
+                  offsetFromSymbolStart = "1012">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>

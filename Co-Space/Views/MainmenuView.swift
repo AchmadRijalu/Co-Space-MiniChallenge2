@@ -73,11 +73,11 @@ struct MainmenuView: View {
                     Spacer()
                 }
                 .frame(width: geo.size.width, height: geo.size.height)
-                .background(Color("BackgroundColor"))
+                .background(Color("DarkPurple"))
                 .navigationBarHidden(true)
                 .background(
                     NavigationLink(
-                        destination: GameRoomView(),
+                        destination: GuiderView(),
                         isActive: $isNextScreenActive,
                         label: EmptyView.init
                     )

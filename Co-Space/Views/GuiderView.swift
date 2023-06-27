@@ -14,17 +14,30 @@ struct GuiderView: View {
     let screenHeight = UIScreen.main.bounds.height
     
     //this section is defining the entire gamescreen
-    var scene:SKScene{
-        let scene = GuiderGameScene()
-        scene.size = CGSize(width: screenWidth, height: screenHeight)
-        scene.scaleMode = .fill
-        scene.backgroundColor = SKColor(named: "BackgroundColor") ?? .blue
-        return scene
-    }
+
+    var scene = SKScene(fileNamed: "GuiderGameScene.sks")
     var body: some View {
-        VStack{
-            SpriteView(scene: scene)
-        }.ignoresSafeArea()
+        
+        ZStack{
+            
+            VStack{
+                
+                SpriteView(scene: scene!).ignoresSafeArea()
+                  
+            }.ignoresSafeArea().onAppear(){
+                scene?.size = CGSize(width: screenWidth, height: screenHeight)
+                scene?.scaleMode = .fill
+                scene?.backgroundColor = SKColor(named: "DarkPurple") ?? .blue
+            }
+//            VStack{
+//                HStack{
+//                    Text("Esc").font(.title3)
+//                    Spacer()
+//                }
+//                Spacer()
+//            }
+        }
+        .navigationBarBackButtonHidden()
     }
 }
 
