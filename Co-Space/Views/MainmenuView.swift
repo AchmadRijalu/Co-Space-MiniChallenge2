@@ -76,11 +76,12 @@ struct MainmenuView: View {
                 .background(Color("BackgroundColor"))
                 .navigationBarHidden(true)
                 .background(
-                    NavigationLink(
-                        destination: GameRoomView(),
-                        isActive: $isNextScreenActive,
-                        label: EmptyView.init
-                    )
+                    NavigationStack {
+                        EmptyView()
+                    }
+                    .navigationDestination(isPresented: $isNextScreenActive, destination: {
+                       GameRoomView()
+                   })
                 )
                 
             }
