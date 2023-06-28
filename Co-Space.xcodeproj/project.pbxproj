@@ -20,6 +20,11 @@
 		77E3E32C2A43D50B00143224 /* SpriteKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77E3E32B2A43D50B00143224 /* SpriteKit.framework */; };
 		77E3E32E2A43D78D00143224 /* GuiderGameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77E3E32D2A43D78D00143224 /* GuiderGameScene.swift */; };
 		77E3E3312A43E5AC00143224 /* GuiderGameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 77E3E3302A43E5AC00143224 /* GuiderGameScene.sks */; };
+		CFC5AD1D2A493A840075CAFF /* CleanerGameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = CFC5AD1A2A493A840075CAFF /* CleanerGameScene.sks */; };
+		CFC5AD1E2A493A840075CAFF /* CleanerGameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFC5AD1B2A493A840075CAFF /* CleanerGameScene.swift */; };
+		CFC5AD1F2A493A840075CAFF /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFC5AD1C2A493A840075CAFF /* GameViewController.swift */; };
+		CFC5AD212A4A95BA0075CAFF /* InventoryGameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = CFC5AD202A4A95BA0075CAFF /* InventoryGameScene.sks */; };
+		CFC5AD232A4A95E30075CAFF /* InventoryGameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFC5AD222A4A95E30075CAFF /* InventoryGameScene.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +43,11 @@
 		77E3E32D2A43D78D00143224 /* GuiderGameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuiderGameScene.swift; sourceTree = "<group>"; };
 		77E3E32F2A43DB2600143224 /* Co-Space.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Co-Space.entitlements"; sourceTree = "<group>"; };
 		77E3E3302A43E5AC00143224 /* GuiderGameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GuiderGameScene.sks; sourceTree = "<group>"; };
+		CFC5AD1A2A493A840075CAFF /* CleanerGameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = CleanerGameScene.sks; path = Cleaner/CleanerGameScene.sks; sourceTree = SOURCE_ROOT; };
+		CFC5AD1B2A493A840075CAFF /* CleanerGameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CleanerGameScene.swift; path = Cleaner/CleanerGameScene.swift; sourceTree = SOURCE_ROOT; };
+		CFC5AD1C2A493A840075CAFF /* GameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameViewController.swift; path = Cleaner/GameViewController.swift; sourceTree = SOURCE_ROOT; };
+		CFC5AD202A4A95BA0075CAFF /* InventoryGameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = InventoryGameScene.sks; sourceTree = "<group>"; };
+		CFC5AD222A4A95E30075CAFF /* InventoryGameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InventoryGameScene.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,6 +141,11 @@
 		77E3E3292A43D18C00143224 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				CFC5AD202A4A95BA0075CAFF /* InventoryGameScene.sks */,
+				CFC5AD222A4A95E30075CAFF /* InventoryGameScene.swift */,
+				CFC5AD1A2A493A840075CAFF /* CleanerGameScene.sks */,
+				CFC5AD1B2A493A840075CAFF /* CleanerGameScene.swift */,
+				CFC5AD1C2A493A840075CAFF /* GameViewController.swift */,
 				77E3E32D2A43D78D00143224 /* GuiderGameScene.swift */,
 				77E3E3302A43E5AC00143224 /* GuiderGameScene.sks */,
 			);
@@ -204,8 +219,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				77E3E3312A43E5AC00143224 /* GuiderGameScene.sks in Resources */,
+				CFC5AD1D2A493A840075CAFF /* CleanerGameScene.sks in Resources */,
 				77E3E30B2A414BFF00143224 /* Preview Assets.xcassets in Resources */,
 				77E3E3082A414BFF00143224 /* Assets.xcassets in Resources */,
+				CFC5AD212A4A95BA0075CAFF /* InventoryGameScene.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -220,9 +237,12 @@
 				77E3E3062A414BFE00143224 /* ContentView.swift in Sources */,
 				77E3E31A2A415D8500143224 /* MainmenuView.swift in Sources */,
 				77E3E3202A415DA700143224 /* SecurityView.swift in Sources */,
+				CFC5AD1F2A493A840075CAFF /* GameViewController.swift in Sources */,
 				77E3E31C2A415D9200143224 /* GuiderView.swift in Sources */,
 				77E3E32E2A43D78D00143224 /* GuiderGameScene.swift in Sources */,
+				CFC5AD1E2A493A840075CAFF /* CleanerGameScene.swift in Sources */,
 				77E3E3042A414BFE00143224 /* Co_SpaceApp.swift in Sources */,
+				CFC5AD232A4A95E30075CAFF /* InventoryGameScene.swift in Sources */,
 				77E3E31E2A415D9B00143224 /* CleanerView.swift in Sources */,
 				77E3E3222A415DB200143224 /* GameRoomView.swift in Sources */,
 			);

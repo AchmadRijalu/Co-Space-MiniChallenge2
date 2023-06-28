@@ -6,15 +6,19 @@
 //
 
 import SwiftUI
+import SpriteKit
 
 struct InventoryView: View {
+    var scene = SKScene(fileNamed: "InventoryGameScene.sks")
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        SpriteView(scene: scene!)
+            .ignoresSafeArea()
     }
 }
 
 struct InventoryView_Previews: PreviewProvider {
     static var previews: some View {
-        InventoryView()
+        InventoryView().previewInterfaceOrientation(.landscapeRight)
+            .ignoresSafeArea()
     }
 }
