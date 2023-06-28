@@ -1,9 +1,12 @@
 //
-//  RealTimeGame.swift
+//  MainGame.swift
 //  Co-Space
 //
-//  Created by Neilson Soeratman on 22/06/23.
+//  Created by Neilson Soeratman on 27/06/23.
 //
+
+import Foundation
+
 
 import Foundation
 import GameKit
@@ -11,51 +14,46 @@ import SwiftUI
 
 /// - Tag:RealTimeGame
 @MainActor
-class RealTimeGame: NSObject, GKGameCenterControllerDelegate, ObservableObject {
-    @Published var playerNumberMin = 3
-    @Published var playerNumberMax = 3
+class MainGame: NSObject, GKGameCenterControllerDelegate, ObservableObject {
+    // =========================== MAIN GAME PROPERTIES ===========================
+    @Published var playerNumberMin = 4
+    @Published var playerNumberMax = 4
     
-    // The local player's friends, if they grant access.
-    @Published var friends: [Friend] = []
-    
-    // The game interface state.
+    /// The game interface state.
     @Published var matchAvailable = false
     @Published var playingGame = false
     @Published var myMatch: GKMatch? = nil
     @Published var automatch = false
+
+    /// Self Profile
+    @Published var isHost = false
+    @Published var myRole: String = ""
     
-    // Outcomes of the game for notifing players.
-    @Published var youForfeit = false
-    @Published var opponentForfeit = false
-    @Published var youWon = false
-    @Published var opponentWon = false
-    
-    // The match information.
-    @Published var myAvatar = Image(systemName: "person.crop.circle")
-    @Published var opponentAvatar = Image(systemName: "person.crop.circle")
-    @Published var opponent: GKPlayer? = nil
+    /// Game communication
     @Published var messages: [Message] = []
-    @Published var myScore = 0
-    @Published var opponentScore = 0
     
-    // The voice chat properties.
+    /// Game Properties
+    @Published var score = 0
+    @Published var coin = 0
+    @Published var health = 0
+    @Published var potionPrice = 10
+    
+    /// The voice chat properties.
     @Published var voiceChat: GKVoiceChat? = nil
     @Published var opponentSpeaking = false
     
-    /// The name of the match.
-    var matchName: String {
-        "\(opponentName) Match"
-    }
+    // =========================== ROLE SECURITY PROPERTIES ===========================
+    @Published var availableIdCard: [String:Int] = ["rectangle": 10, "triangle": 10, "circle": 10]
     
-    /// The local player's name.
-    var myName: String {
-        GKLocalPlayer.local.displayName
-    }
     
-    /// The opponent's name.
-    var opponentName: String {
-        opponent?.displayName ?? "Invitation Pending"
-    }
+    // =========================== ROLE GUIDE PROPERTIES ===========================
+    
+    // =========================== ROLE CLEANER PROPERTIES ===========================
+    @Published var activePoop = ""
+    
+    // =========================== ROLE INVENTORY PROPERTIES ===========================
+    let cleaningItemAndPoop = ["green", "yellow", "brown"]
+    @Published var drawerContent: [String: String] = ["sun": "", "moon": "", "star": ""]
     
     /// The root view controller of the window.
     var rootViewController: UIViewController? {
@@ -64,7 +62,6 @@ class RealTimeGame: NSObject, GKGameCenterControllerDelegate, ObservableObject {
     }
 
     /// Authenticates the local player, initiates a multiplayer game, and adds the access point.
-    /// - Tag:authenticatePlayer
     func authenticatePlayer() {
         // Set the authentication handler that GameKit invokes.
         GKLocalPlayer.local.authenticateHandler = { viewController, error in
@@ -82,17 +79,6 @@ class RealTimeGame: NSObject, GKGameCenterControllerDelegate, ObservableObject {
             
             // A value of nil for viewController indicates successful authentication, and you can access
             // local player properties.
-            
-            // Load the local player's avatar.
-            GKLocalPlayer.local.loadPhoto(for: GKPlayer.PhotoSize.small) { image, error in
-                if let image {
-                    self.myAvatar = Image(uiImage: image)
-                }
-                if let error {
-                    // Handle an error if it occurs.
-                    print("Error: \(error.localizedDescription).")
-                }
-            }
 
             // Register for real-time invitations from other players.
             GKLocalPlayer.local.register(self)
@@ -108,8 +94,7 @@ class RealTimeGame: NSObject, GKGameCenterControllerDelegate, ObservableObject {
         }
     }
     
-    /// Starts the matchmaking process where GameKit finds a player for the match.
-    /// - Tag:findPlayer
+    // Starts the matchmaking process where GameKit finds a player for the match.
     func findPlayer() async {
         let request = GKMatchRequest()
         request.minPlayers = self.playerNumberMin
@@ -126,7 +111,7 @@ class RealTimeGame: NSObject, GKGameCenterControllerDelegate, ObservableObject {
         
         // Start the game, although the automatch player hasn't connected yet.
         if !playingGame {
-            startMyMatchWith(match: match)
+            startGame(match: match)
         }
 
         // Stop automatch.
@@ -134,9 +119,8 @@ class RealTimeGame: NSObject, GKGameCenterControllerDelegate, ObservableObject {
         automatch = false
     }
     
-    /// Presents the matchmaker interface where the local player selects and sends an invitation to another player.
-    /// - Tag:choosePlayer
-    func choosePlayer() {
+    // Presents the matchmaker interface where the local player selects and sends an invitation to another player.
+    func createRoom() {
         // Create a match request.
         let request = GKMatchRequest()
         request.minPlayers = self.playerNumberMin
@@ -150,104 +134,80 @@ class RealTimeGame: NSObject, GKGameCenterControllerDelegate, ObservableObject {
     }
     
     // Starting and stopping the game.
-    
-    /// Starts a match.
-    /// - Parameter match: The object that represents the real-time match.
-    /// - Tag:startMyMatchWith
-    func startMyMatchWith(match: GKMatch) {
+    func startGame(match: GKMatch) {
         GKAccessPoint.shared.isActive = false
         playingGame = true
         myMatch = match
         myMatch?.delegate = self
-        
-        // For automatch, check whether the opponent connected to the match before loading the avatar.
-        if myMatch?.expectedPlayerCount == 0 {
-            opponent = myMatch?.players[0]
-
-            // Load the opponent's avatar.
-            opponent?.loadPhoto(for: GKPlayer.PhotoSize.small) { (image, error) in
-                if let image {
-                    self.opponentAvatar = Image(uiImage: image)
-                }
-                if let error {
-                    print("Error: \(error.localizedDescription).")
-                }
-            }
-        }
             
+        defineHost()
+        shuffleRole()
+        
         // Increment the achievement to play 10 games.
         reportProgress()
     }
     
-    /// Takes the player's turn.
-    /// - Tag:takeAction
-    func takeAction() {
-        // Take your turn by incrementing the counter.
-        myScore += 1
+    private func defineHost(){
+        var nameArray: [String] = []
         
-        // If your score is 10 points higher or reaches the maximum, you win the match.
-        if (myScore - opponentScore == 10) || (myScore == 100) {
-            endMatch()
-            return
+        nameArray.append(GKLocalPlayer.local.displayName)
+        
+        // Masukin semua player selain localplayer
+        let gamePlayers: [GKPlayer] = myMatch?.players ?? []
+        for p in gamePlayers{
+            nameArray.append(p.displayName)
         }
+        nameArray.sort(by: <)
         
-        // Otherwise, send the game data to the other player.
-        do {
-            let data = encode(score: myScore)
-            try myMatch?.sendData(toAllPlayers: data!, with: GKMatch.SendDataMode.unreliable)
-        } catch {
-            print("Error: \(error.localizedDescription).")
-        }
-    }
-    
-    /// Quits a match and saves the game data.
-    /// - Tag:endMatch
-    func endMatch() {
-        let myOutcome = myScore >= opponentScore ? "won" : "lost"
-        let opponentOutcome = opponentScore > myScore ? "won" : "lost"
-        
-        // Notify the opponent that they won or lost, depending on the score.
-        do {
-            let data = encode(outcome: opponentOutcome)
-            try myMatch?.sendData(toAllPlayers: data!, with: GKMatch.SendDataMode.unreliable)
-        } catch {
-            print("Error: \(error.localizedDescription).")
-        }
-        
-        // Notify the local player that they won or lost.
-        if myOutcome == "won" {
-            youWon = true
+        if (nameArray[0] == GKLocalPlayer.local.displayName){
+            isHost = true
         } else {
-            opponentWon = true
+            isHost = false
         }
     }
     
-    /// Forfeits a match without saving the score.
-    /// - Tag:forfeitMatch
-    func forfeitMatch() {
-        // Notify the opponent that you forfeit the game.
-        do {
-            let data = encode(outcome: "forfeit")
-            try myMatch?.sendData(toAllPlayers: data!, with: GKMatch.SendDataMode.unreliable)
-        } catch {
-            print("Error: \(error.localizedDescription).")
+    // Shuffling Role
+    func shuffleRole(){
+        if self.isHost {
+            let role = ["security", "guide", "cleaner", "inventory"]
+//            let role = ["security", "guide"]
+            var shuffledRole = role.shuffled()
+            
+            var assignedRoles: [String: String] = [:]
+            
+            // Assign role ke player local dulu
+            if let chosenRole = shuffledRole.popLast() {
+                self.myRole = chosenRole
+            }
+            // Assign role ke player selain local
+            var gamePlayers: [GKPlayer] = myMatch?.players ?? []
+            for p in gamePlayers{
+                if let chosenRole = shuffledRole.popLast() {
+                    assignedRoles[p.displayName] = chosenRole
+                }
+            }
+            
+            // Kirim role" ke player selain local (yg role local gausa dikirim)
+            do {
+                let data = encode(roles: assignedRoles)
+                try myMatch?.sendData(toAllPlayers: data!, with: GKMatch.SendDataMode.reliable)
+            } catch {
+                print("Error: \(error.localizedDescription).")
+            }
         }
-
-        youForfeit = true
     }
     
-    /// Saves the local player's score.
-    /// - Tag:saveScore
+    // Saves the local player's score.
     func saveScore() {
-        GKLeaderboard.submitScore(myScore, context: 0, player: GKLocalPlayer.local,
-            leaderboardIDs: ["123"]) { error in
+        GKLeaderboard.submitScore(score, context: 0, player: GKLocalPlayer.local,
+            leaderboardIDs: ["123456"]) { error in
             if let error {
                 print("Error: \(error.localizedDescription).")
             }
         }
     }
     
-    /// Resets a match after players reach an outcome or cancel the game.
+    // Resets a match after players reach an outcome or cancel the game.
     func resetMatch() {
         // Reset the game data.
         playingGame = false
@@ -255,18 +215,8 @@ class RealTimeGame: NSObject, GKGameCenterControllerDelegate, ObservableObject {
         myMatch?.delegate = nil
         myMatch = nil
         voiceChat = nil
-        opponent = nil
-        opponentAvatar = Image(systemName: "person.crop.circle")
         messages = []
         GKAccessPoint.shared.isActive = true
-        youForfeit = false
-        opponentForfeit = false
-        youWon = false
-        opponentWon = false
-        
-        // Reset the score.
-        myScore = 0
-        opponentScore = 0
     }
     
     // Rewarding players with achievements.

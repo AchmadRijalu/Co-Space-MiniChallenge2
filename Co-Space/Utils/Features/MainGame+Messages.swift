@@ -1,8 +1,8 @@
 //
-//  RealTimeGame+Messages.swift
+//  MainGame+Messages.swift
 //  Co-Space
 //
-//  Created by Neilson Soeratman on 22/06/23.
+//  Created by Neilson Soeratman on 27/06/23.
 //
 
 import Foundation
@@ -17,7 +17,7 @@ struct Message: Identifiable {
     var isLocalPlayer = false
 }
 
-extension RealTimeGame {
+extension MainGame {
     /// Sends a text message from one player to another.
     /// - Tag:sendMessage
     func sendMessage(content: String) {

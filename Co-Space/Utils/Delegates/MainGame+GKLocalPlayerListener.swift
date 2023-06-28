@@ -1,15 +1,15 @@
 //
-//  RealTimeGame+GKLocalPlayerListener.swift
+//  MainGame+GKLocalPlayerListener.swift
 //  Co-Space
 //
-//  Created by Neilson Soeratman on 22/06/23.
+//  Created by Neilson Soeratman on 27/06/23.
 //
 
 import Foundation
 import GameKit
 import SwiftUI
 
-extension RealTimeGame: GKLocalPlayerListener {
+extension MainGame: GKLocalPlayerListener {
     /// Handles when the local player sends requests to start a match with other players.
     func player(_ player: GKPlayer, didRequestMatchWithRecipients recipientPlayers: [GKPlayer]) {
         print("\n\nSending invites to other players.")

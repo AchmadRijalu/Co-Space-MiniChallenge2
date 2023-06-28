@@ -1,15 +1,15 @@
 //
-//  RealTimeGame+GKMatchMakerViewControllerDelegate.swift
+//  RealTimeGame+GKMatchmakerViewControllerDelegate.swift
 //  Co-Space
 //
-//  Created by Neilson Soeratman on 22/06/23.
+//  Created by Neilson Soeratman on 27/06/23.
 //
 
 import Foundation
 import GameKit
 import SwiftUI
 
-extension RealTimeGame: GKMatchmakerViewControllerDelegate {
+extension MainGame: GKMatchmakerViewControllerDelegate {
     /// Dismisses the matchmaker interface and starts the game when a player accepts an invitation.
     func matchmakerViewController(_ viewController: GKMatchmakerViewController,
                                   didFind match: GKMatch) {
@@ -18,14 +18,7 @@ extension RealTimeGame: GKMatchmakerViewControllerDelegate {
         
         // Start the game with the player.
         if !playingGame && match.expectedPlayerCount == 0 {
-            startMyMatchWith(match: match)
-        }
-    }
-    
-    @objc private func startGameButtonTapped(match: GKMatch) {
-        // Start the game with the matched players
-        if !playingGame {
-            startMyMatchWith(match: match)
+            startGame(match: match)
         }
     }
     

@@ -1,16 +1,15 @@
 //
-//  RealTimeGame+GKGameCenterViewController.swift
+//  MainGame+GKGameCenterViewController.swift
 //  Co-Space
 //
-//  Created by Neilson Soeratman on 22/06/23.
+//  Created by Neilson Soeratman on 27/06/23.
 //
 
 import Foundation
 import GameKit
 import SwiftUI
 
-extension RealTimeGame {
-    
+extension MainGame{
     /// Presents the local player's achievement in the dashboard.
     func showProgress() {
         let viewController = GKGameCenterViewController(achievementID: "1234")

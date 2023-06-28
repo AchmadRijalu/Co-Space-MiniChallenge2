@@ -1,36 +1,21 @@
 //
-//  RealTimeGame+GKMatchDelegate.swift
+//  MainGame+DecodeData.swift
 //  Co-Space
 //
-//  Created by Neilson Soeratman on 22/06/23.
+//  Created by Neilson Soeratman on 27/06/23.
 //
 
 import Foundation
 import GameKit
 import SwiftUI
 
-extension RealTimeGame: GKMatchDelegate {
+extension MainGame: GKMatchDelegate {
     /// Handles a connected, disconnected, or unknown player state.
     /// - Tag:didChange
     func match(_ match: GKMatch, player: GKPlayer, didChange state: GKPlayerConnectionState) {
         switch state {
         case .connected:
             print("\(player.displayName) Connected")
-            
-            // For automatch, set the opponent and load their avatar.
-            if match.expectedPlayerCount == 0 {
-                opponent = match.players[0]
-                
-                // Load the opponent's avatar.
-                opponent?.loadPhoto(for: GKPlayer.PhotoSize.small) { (image, error) in
-                    if let image {
-                        self.opponentAvatar = Image(uiImage: image)
-                    }
-                    if let error {
-                        print("Error: \(error.localizedDescription).")
-                    }
-                }
-            }
         case .disconnected:
             print("\(player.displayName) Disconnected")
         default:
@@ -59,21 +44,23 @@ extension RealTimeGame: GKMatchDelegate {
             // Add the message to the chat view.
             let message = Message(content: text, playerName: player.displayName, isLocalPlayer: false)
             messages.append(message)
-        } else if let score = gameData?.score {
-            // Show the opponent's score.
-            opponentScore = score
-        } else if let outcome = gameData?.outcome {
-            // Show the outcome of the game.
-            switch outcome {
-            case "forfeit":
-                opponentForfeit = true
-            case "won":
-                youWon = true
-            case "lost":
-                opponentWon = true
-            default:
-                return
-            }
+        } else if let coin = gameData?.coin{
+            self.coin = coin
+        } else if let health = gameData?.health{
+            self.health = health
+            checkHealth()
+        } else if let score = gameData?.score{
+            self.score = score
+        } else if let potionPrice = gameData?.potionPrice{
+            self.potionPrice = potionPrice
+        } else if let gameRole = gameData?.roles {
+            self.myRole = gameRole[GKLocalPlayer.local.displayName] ?? ""
+        } else if let idCard = gameData?.identityCard {
+            self.availableIdCard = idCard
+        } else if let poop = gameData?.poop{
+            self.activePoop = poop
+        } else if let drawerContent = gameData?.drawerContent {
+            self.drawerContent = drawerContent
         }
     }
 }

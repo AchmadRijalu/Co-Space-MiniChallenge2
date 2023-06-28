@@ -1,15 +1,15 @@
 //
-//  RealTimeGame+VoiceChat.swift
+//  MainGame+VoiceChat.swift
 //  Co-Space
 //
-//  Created by Neilson Soeratman on 22/06/23.
+//  Created by Neilson Soeratman on 27/06/23.
 //
 
 import Foundation
 import GameKit
 import SwiftUI
 
-extension RealTimeGame {
+extension MainGame {
     
     /// Starts a voice chat between players.
     /// - Tag:startVoiceChat
