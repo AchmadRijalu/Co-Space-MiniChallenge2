@@ -47,7 +47,7 @@ extension MainGame {
                     print("Error: \(error.localizedDescription).")
                 }
             }
-            return "fail"
+            return "success"
         }
         return "fail"
     }
