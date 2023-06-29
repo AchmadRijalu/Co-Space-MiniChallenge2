@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4A862D652A46FE6E00AF4E54 /* SecurityGameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A862D612A46FE6E00AF4E54 /* SecurityGameScene.swift */; };
+		4A862D662A46FE6E00AF4E54 /* GeneratePengunjung.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A862D622A46FE6E00AF4E54 /* GeneratePengunjung.swift */; };
+		4A862D672A46FE6E00AF4E54 /* SecurityGameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 4A862D632A46FE6E00AF4E54 /* SecurityGameScene.sks */; };
+		4A862D682A46FE6E00AF4E54 /* Pengunjung.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A862D642A46FE6E00AF4E54 /* Pengunjung.swift */; };
+		4A862D6B2A4708ED00AF4E54 /* Starfield.sks in Resources */ = {isa = PBXBuildFile; fileRef = 4A862D692A4708ED00AF4E54 /* Starfield.sks */; };
+		4A862D6C2A4708ED00AF4E54 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A862D6A2A4708ED00AF4E54 /* Assets.xcassets */; };
 		77E3E3042A414BFE00143224 /* Co_SpaceApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77E3E3032A414BFE00143224 /* Co_SpaceApp.swift */; };
 		77E3E3062A414BFE00143224 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77E3E3052A414BFE00143224 /* ContentView.swift */; };
 		77E3E3082A414BFF00143224 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 77E3E3072A414BFF00143224 /* Assets.xcassets */; };
@@ -23,6 +29,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4A862D612A46FE6E00AF4E54 /* SecurityGameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SecurityGameScene.swift; path = Security/SecurityGameScene.swift; sourceTree = SOURCE_ROOT; };
+		4A862D622A46FE6E00AF4E54 /* GeneratePengunjung.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GeneratePengunjung.swift; path = Security/GeneratePengunjung.swift; sourceTree = SOURCE_ROOT; };
+		4A862D632A46FE6E00AF4E54 /* SecurityGameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = SecurityGameScene.sks; path = Security/SecurityGameScene.sks; sourceTree = SOURCE_ROOT; };
+		4A862D642A46FE6E00AF4E54 /* Pengunjung.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Pengunjung.swift; path = Security/Pengunjung.swift; sourceTree = SOURCE_ROOT; };
+		4A862D692A4708ED00AF4E54 /* Starfield.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Starfield.sks; sourceTree = "<group>"; };
+		4A862D6A2A4708ED00AF4E54 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		77E3E3002A414BFE00143224 /* Co-Space.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Co-Space.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		77E3E3032A414BFE00143224 /* Co_SpaceApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Co_SpaceApp.swift; sourceTree = "<group>"; };
 		77E3E3052A414BFE00143224 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -131,8 +143,14 @@
 		77E3E3292A43D18C00143224 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				4A862D622A46FE6E00AF4E54 /* GeneratePengunjung.swift */,
+				4A862D642A46FE6E00AF4E54 /* Pengunjung.swift */,
+				4A862D632A46FE6E00AF4E54 /* SecurityGameScene.sks */,
+				4A862D612A46FE6E00AF4E54 /* SecurityGameScene.swift */,
 				77E3E32D2A43D78D00143224 /* GuiderGameScene.swift */,
 				77E3E3302A43E5AC00143224 /* GuiderGameScene.sks */,
+				4A862D692A4708ED00AF4E54 /* Starfield.sks */,
+				4A862D6A2A4708ED00AF4E54 /* Assets.xcassets */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -203,8 +221,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4A862D672A46FE6E00AF4E54 /* SecurityGameScene.sks in Resources */,
 				77E3E3312A43E5AC00143224 /* GuiderGameScene.sks in Resources */,
 				77E3E30B2A414BFF00143224 /* Preview Assets.xcassets in Resources */,
+				4A862D6B2A4708ED00AF4E54 /* Starfield.sks in Resources */,
+				4A862D6C2A4708ED00AF4E54 /* Assets.xcassets in Resources */,
 				77E3E3082A414BFF00143224 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -216,12 +237,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4A862D682A46FE6E00AF4E54 /* Pengunjung.swift in Sources */,
 				77E3E3182A415D7900143224 /* InventoryView.swift in Sources */,
+				4A862D662A46FE6E00AF4E54 /* GeneratePengunjung.swift in Sources */,
 				77E3E3062A414BFE00143224 /* ContentView.swift in Sources */,
 				77E3E31A2A415D8500143224 /* MainmenuView.swift in Sources */,
 				77E3E3202A415DA700143224 /* SecurityView.swift in Sources */,
 				77E3E31C2A415D9200143224 /* GuiderView.swift in Sources */,
 				77E3E32E2A43D78D00143224 /* GuiderGameScene.swift in Sources */,
+				4A862D652A46FE6E00AF4E54 /* SecurityGameScene.swift in Sources */,
 				77E3E3042A414BFE00143224 /* Co_SpaceApp.swift in Sources */,
 				77E3E31E2A415D9B00143224 /* CleanerView.swift in Sources */,
 				77E3E3222A415DB200143224 /* GameRoomView.swift in Sources */,

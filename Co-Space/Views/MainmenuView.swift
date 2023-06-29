@@ -77,7 +77,7 @@ struct MainmenuView: View {
                 .navigationBarHidden(true)
                 .background(
                     NavigationLink(
-                        destination: GameRoomView(),
+                        destination: SecurityView(),
                         isActive: $isNextScreenActive,
                         label: EmptyView.init
                     )
