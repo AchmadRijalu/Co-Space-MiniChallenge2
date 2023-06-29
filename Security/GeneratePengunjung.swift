@@ -34,6 +34,6 @@ class GeneratePengunjung{
         
     }
     init() {
-        listpengunjung = manajerpengunjung().pengunjung
+        listpengunjung = GuestDictionary().guestList
     }
 }

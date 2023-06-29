@@ -8,8 +8,14 @@
 import SpriteKit
 import GameplayKit
 
+struct GuestQueue {
+    var queue: Int
+    var guest: SKNode
+    var currentPosition: CGPoint
+}
+
 class SecurityGameScene: SKScene {
-    
+    let masterScene = SKScene(fileNamed: "SecurityGameScene")
     let securitybackground = SKSpriteNode(imageNamed : "security-background 1")
     let planetbackground = SKSpriteNode(imageNamed : "security-planet")
     let health = SKSpriteNode(imageNamed : "health-bar")
@@ -146,7 +152,17 @@ class SecurityGameScene: SKScene {
                 pengunjung1.size = CGSize(width: 100, height: 100)
                 pengunjung1.position = location1Node.position
                 pengunjung1.zPosition = 1
+                let tags: NSMutableDictionary = [
+                    "nama": "pengunjung1",
+                    "kesabaran": 3,
+                ]
+                pengunjung1.userData = tags
                 self.addChild(pengunjung1)
+                
+                locationList.append(location1Node)
+                queueList.append(GuestQueue(queue: 1, guest: pengunjung1, currentPosition: locationList[0].position))
+                
+                timerRenewal(seconds: 3)
             }
             
             if let location2Node = securityScene.childNode(withName: "location2") {
@@ -154,7 +170,15 @@ class SecurityGameScene: SKScene {
                 pengunjung2.size = CGSize(width: 100, height: 100)
                 pengunjung2.position = location2Node.position
                 pengunjung2.zPosition = 1
+                let tags: NSMutableDictionary = [
+                    "nama": "pengunjung2",
+                    "kesabaran": 4,
+                ]
+                pengunjung2.userData = tags
                 self.addChild(pengunjung2)
+                
+                locationList.append(location2Node)
+                queueList.append(GuestQueue(queue: 2, guest: pengunjung2, currentPosition: locationList[1].position))
             }
             
             if let location3Node = securityScene.childNode(withName: "location3") {
@@ -162,7 +186,15 @@ class SecurityGameScene: SKScene {
                 pengunjung3.size = CGSize(width: 100, height: 100)
                 pengunjung3.position = location3Node.position
                 pengunjung3.zPosition = 1
+                let tags: NSMutableDictionary = [
+                    "nama": "pengunjung3",
+                    "kesabaran": 2,
+                ]
+                pengunjung3.userData = tags
                 self.addChild(pengunjung3)
+                
+                locationList.append(location3Node)
+                queueList.append(GuestQueue(queue: 3, guest: pengunjung3, currentPosition: locationList[2].position))
             }
             
             if let location4Node = securityScene.childNode(withName: "location4") {
@@ -170,7 +202,15 @@ class SecurityGameScene: SKScene {
                 pengunjung4.size = CGSize(width: 100, height: 100)
                 pengunjung4.position = location4Node.position
                 pengunjung4.zPosition = 1
+                let tags: NSMutableDictionary = [
+                    "nama": "pengunjung4",
+                    "kesabaran": 4,
+                ]
+                pengunjung4.userData = tags
                 self.addChild(pengunjung4)
+                
+                locationList.append(location4Node)
+                queueList.append(GuestQueue(queue: 4, guest: pengunjung4, currentPosition: locationList[3].position))
             }
             
             if let location5Node = securityScene.childNode(withName: "location5") {
@@ -178,8 +218,18 @@ class SecurityGameScene: SKScene {
                 pengunjung5.size = CGSize(width: 100, height: 100)
                 pengunjung5.position = location5Node.position
                 pengunjung5.zPosition = 1
+                let tags: NSMutableDictionary = [
+                    "nama": "pengunjung5",
+                    "kesabaran": 3,
+                ]
+                pengunjung5.userData = tags
                 self.addChild(pengunjung5)
+                
+                locationList.append(location5Node)
+                queueList.append(GuestQueue(queue: 5, guest: pengunjung5, currentPosition: locationList[4].position))
             }
+            
+            dissapearNode = securityScene.childNode(withName: "disappearLocation") ?? SKNode()
         }
     }
     
@@ -249,33 +299,124 @@ class SecurityGameScene: SKScene {
         guard let touch = touches.first else { return }
         let touchLocation = touch.location(in: self)
         
-        if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "rectangle1buttonNode" {
-            FunctionJalan()
-            counterrectangle -= 1
+        if (idCardClickable){
+            if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "rectangle1buttonNode" {
+                guestTimer?.invalidate()
+                guestTimer = nil
+                
+                moveGuest()
+                counterrectangle -= 1
+                
+                // update di Node Label nya
+                updateCounterUI(counterrectangle)
+            }
             
-            // update di Node Label nya
-            updateCounterUI(counterrectangle)
-        }
-        
-        else if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "circle1buttonNode" {
-            FunctionJalan()
-            countercircle -= 1
+            else if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "circle1buttonNode" {
+                guestTimer?.invalidate()
+                guestTimer = nil
+                
+                moveGuest()
+                countercircle -= 1
+                
+                // update di Node Label nya
+                updateCounterUI2(countercircle)
+            }
             
-            // update di Node Label nya
-            updateCounterUI2(countercircle)
-        }
-        
-        else if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "triangle1buttonNode" {
-            FunctionJalan()
-            countertriangle -= 1
-            
-            // update di Node Label nya
-            updateCounterUI1(countertriangle)
+            else if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "triangle1buttonNode" {
+                guestTimer?.invalidate()
+                guestTimer = nil
+                
+                moveGuest()
+                countertriangle -= 1
+                
+                // update di Node Label nya
+                updateCounterUI1(countertriangle)
+            }
         }
     }
     
-    func FunctionJalan() {
+    var locationList: [SKNode] = []
+    var dissapearNode: SKNode = SKNode()
+    var queueList: [GuestQueue] = []
+    var guestTimer: Timer?
+    var guestLeave: Bool = false
+    
+    func moveGuest() {
+        self.idCardClickable = false
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            self.idCardClickable = true
+        }
         
+        for i in 0...(queueList.count-1) {
+            if (queueList[i].queue > 1){
+                let nextQueue = queueList[i].queue - 1
+                
+                // Animation jalannya
+                let moveAction = SKAction.move(to: locationList[nextQueue - 1].position, duration: 1.0)
+                queueList[i].guest.run(moveAction)
+                
+                // Perbarui queuenya yang sekarang
+                queueList[i].queue = nextQueue
+            }
+            else {
+                // Kalo guestnya udah dikasih tanda
+                if (!guestLeave){
+                    // Udah masuk ke guide
+                    let moveAction = SKAction.move(to: dissapearNode.position, duration: 1.0)
+                    queueList[i].guest.run(moveAction)
+                }
+                else { // kalo misalnya kesabarannya udah habis
+                    let moveAction = SKAction.moveBy(x: 0, y: -175, duration: 1.0)
+                    queueList[i].guest.run(moveAction)
+                    guestLeave = false
+                }
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                    self.queueList[i].guest.removeFromParent()
+                    self.queueList.removeFirst()
+                    
+                    let newGuest = self.generateNewGuest()
+                    self.addChild(newGuest)
+                    self.queueList.append(GuestQueue(queue: (self.queueList.count + 1), guest: newGuest, currentPosition: self.locationList[4].position))
+                }
+            }
+        }
+        
+        let firstQueueGuestTime = queueList[0].guest.userData?.value(forKey: "kesabaran") as? Int
+        timerRenewal(seconds: firstQueueGuestTime ?? 0)
+    }
+    
+    private func timerRenewal(seconds: Int){
+        self.guestTimer = Timer.scheduledTimer(withTimeInterval: TimeInterval(seconds), repeats: false) { timer in
+            self.guestLeave = true
+            self.moveGuest()
+            
+            // kurangin health
+        }
+    }
+    
+    let guestListTemplate = GuestDictionary().guestList
+    var guestCounter = 5
+    var idCardClickable = true
+    
+    func generateNewGuest() -> SKNode {
+        guestCounter += 1
+        
+        let guestTemplate = guestListTemplate.randomElement()
+        let newNode = SKSpriteNode(texture: SKTexture(imageNamed: (guestTemplate?.ImageName!)!))
+        newNode.position = locationList[4].position
+        newNode.name = "pengunjung\(guestCounter)"
+        newNode.size = CGSize(width: 100, height: 100)
+        let tags: NSMutableDictionary = [
+            "nama": guestTemplate?.nama ?? "no-name",
+            "kesabaran": guestTemplate?.kesabaranSecurity ?? 0,
+        ]
+        newNode.userData = tags
+        
+        return newNode
+    }
+    
+    func FunctionJalan() {
         if let securityScene = SKScene(fileNamed: "SecurityGameScene"),
            let location1Node = securityScene.childNode(withName: "location1"),
            let disappearNode = securityScene.childNode(withName: "disappearLocation"),
