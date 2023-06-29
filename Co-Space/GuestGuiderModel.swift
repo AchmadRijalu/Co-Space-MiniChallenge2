@@ -10,9 +10,12 @@ import SpriteKit
 
 
 struct GuestGuiderModel {
-    let name: String
-    let texture: SKTexture
-    let size: CGSize
-    let position: CGPoint
-    let duration: TimeInterval
+    var name: String
+    var texture: SKTexture
+    var size: CGSize
+    var position: CGPoint
+    var duration: TimeInterval
+    var timer:TimeInterval
+    var queue :Int
+    
 }

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		77D6B4902A49DD8B00BB551F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 77D6B48E2A49DD8B00BB551F /* Assets.xcassets */; };
 		77D6B4922A49DDBE00BB551F /* starfield.sks in Resources */ = {isa = PBXBuildFile; fileRef = 77D6B4912A49DDBE00BB551F /* starfield.sks */; };
+		77D6B4942A4BC57F00BB551F /* GuiderGameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D6B4932A4BC57F00BB551F /* GuiderGameViewModel.swift */; };
 		77E3E3042A414BFE00143224 /* Co_SpaceApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77E3E3032A414BFE00143224 /* Co_SpaceApp.swift */; };
 		77E3E3062A414BFE00143224 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77E3E3052A414BFE00143224 /* ContentView.swift */; };
 		77E3E3082A414BFF00143224 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 77E3E3072A414BFF00143224 /* Assets.xcassets */; };
@@ -28,6 +29,7 @@
 /* Begin PBXFileReference section */
 		77D6B48E2A49DD8B00BB551F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		77D6B4912A49DDBE00BB551F /* starfield.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = starfield.sks; sourceTree = "<group>"; };
+		77D6B4932A4BC57F00BB551F /* GuiderGameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuiderGameViewModel.swift; sourceTree = "<group>"; };
 		77E3E3002A414BFE00143224 /* Co-Space.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Co-Space.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		77E3E3032A414BFE00143224 /* Co_SpaceApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Co_SpaceApp.swift; sourceTree = "<group>"; };
 		77E3E3052A414BFE00143224 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -113,6 +115,7 @@
 		77E3E3122A41504500143224 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				77D6B4932A4BC57F00BB551F /* GuiderGameViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -235,6 +238,7 @@
 				77E3E32E2A43D78D00143224 /* GuiderGameScene.swift in Sources */,
 				77E3E3042A414BFE00143224 /* Co_SpaceApp.swift in Sources */,
 				77E3E31E2A415D9B00143224 /* CleanerView.swift in Sources */,
+				77D6B4942A4BC57F00BB551F /* GuiderGameViewModel.swift in Sources */,
 				77E3E3352A44021900143224 /* GuestGuiderModel.swift in Sources */,
 				77E3E3222A415DB200143224 /* GameRoomView.swift in Sources */,
 			);
