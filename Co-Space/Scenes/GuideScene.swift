@@ -13,7 +13,7 @@ struct GuestQueue {
     var guest: SKNode
 }
 
-class GuiderGameScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
+class GuideScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
     var planetGuide: SKNode?
     
     //Spawn Location
