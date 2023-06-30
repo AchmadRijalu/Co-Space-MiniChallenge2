@@ -87,18 +87,16 @@ class InventoryGameScene: SKScene {
         let touchLocation = touch.location(in: self)
         
         resetItemShop()
+        resetStorageDoor()
         
         if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "inventory-button-open-1" {
-            inventoryStorageDoorLeft[0].isHidden = true
-            inventoryStorageDoorRight[0].isHidden = true
+            storageDoorHide(index: 0)
         }
         if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "inventory-button-open-2" {
-            inventoryStorageDoorLeft[1].isHidden = true
-            inventoryStorageDoorRight[1].isHidden = true
+            storageDoorHide(index: 1)
         }
         if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "inventory-button-open-3" {
-            inventoryStorageDoorLeft[2].isHidden = true
-            inventoryStorageDoorRight[2].isHidden = true
+            storageDoorHide(index: 2)
         }
         if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "inventory-potion-card-off" {
             changeImage(node: inventoryPotionCard!, imageName: "inventory-potion-card-on")
@@ -120,11 +118,23 @@ class InventoryGameScene: SKScene {
         }
     }
     
+    func storageDoorHide(index: Int) {
+        inventoryStorageDoorLeft[index].isHidden = true
+        inventoryStorageDoorRight[index].isHidden = true
+    }
+    
     func resetItemShop() {
         changeImage(node: inventoryPotionCard!, imageName: "inventory-potion-card-off")
         changeImage(node: inventoryTriangleCard!, imageName: "inventory-triangle-card-off")
         changeImage(node: inventoryCircleCard!, imageName: "inventory-circle-card-off")
         changeImage(node: inventoryRectangleCard!, imageName: "inventory-rectangle-card-off")
+    }
+    
+    func resetStorageDoor() {
+        for i in 0...2 {
+            inventoryStorageDoorLeft[i].isHidden = false
+            inventoryStorageDoorRight[i].isHidden = false
+        }
     }
     
 //    func openDoor() {
