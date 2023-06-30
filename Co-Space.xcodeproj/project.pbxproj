@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		568F30672A4E6CC500FC5477 /* GuideScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568F30662A4E6CC500FC5477 /* GuideScene.swift */; };
 		77D6B4902A49DD8B00BB551F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 77D6B48E2A49DD8B00BB551F /* Assets.xcassets */; };
 		77D6B4922A49DDBE00BB551F /* starfield.sks in Resources */ = {isa = PBXBuildFile; fileRef = 77D6B4912A49DDBE00BB551F /* starfield.sks */; };
 		77D6B4942A4BC57F00BB551F /* GuiderGameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D6B4932A4BC57F00BB551F /* GuiderGameViewModel.swift */; };
@@ -27,6 +28,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		568F30662A4E6CC500FC5477 /* GuideScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideScene.swift; sourceTree = "<group>"; };
 		77D6B48E2A49DD8B00BB551F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		77D6B4912A49DDBE00BB551F /* starfield.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = starfield.sks; sourceTree = "<group>"; };
 		77D6B4932A4BC57F00BB551F /* GuiderGameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuiderGameViewModel.swift; sourceTree = "<group>"; };
@@ -145,6 +147,7 @@
 			children = (
 				77E3E32D2A43D78D00143224 /* GuiderGameScene.swift */,
 				77E3E3302A43E5AC00143224 /* GuiderGameScene.sks */,
+				568F30662A4E6CC500FC5477 /* GuideScene.swift */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -237,6 +240,7 @@
 				77E3E31C2A415D9200143224 /* GuiderView.swift in Sources */,
 				77E3E32E2A43D78D00143224 /* GuiderGameScene.swift in Sources */,
 				77E3E3042A414BFE00143224 /* Co_SpaceApp.swift in Sources */,
+				568F30672A4E6CC500FC5477 /* GuideScene.swift in Sources */,
 				77E3E31E2A415D9B00143224 /* CleanerView.swift in Sources */,
 				77D6B4942A4BC57F00BB551F /* GuiderGameViewModel.swift in Sources */,
 				77E3E3352A44021900143224 /* GuestGuiderModel.swift in Sources */,
@@ -378,6 +382,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -408,6 +413,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
