@@ -29,6 +29,17 @@ class GuideScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
     var locationList: [SKNode] = []
     var moveLocationList: [SKNode] = []
     var queueList: [GuestQueue] = []
+    var newGuest: SKNode?
+    
+    
+    
+    var seatClickable: Bool = true
+    var guestLeave: Bool = false
+    var timerCount: Double = 0
+    let timerBarWidth: CGFloat = 130.0 // Width of the timer bar
+    let timerBarHeight: CGFloat = 15.0 // Height of the timer bar
+    var timerBarNode: SKSpriteNode!
+    var timerBarDuration: TimeInterval = 10
     
     //SET UP THE SEAT NODE
     func setupGuestSeatNodesList() {
@@ -50,7 +61,7 @@ class GuideScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
     override func sceneDidLoad() {
         planetGuide = scene?.childNode(withName: "planetGuide")
         setupGuestSeatNodesList()
-    
+        
         // Masukin location
         for i in 1...3 {
             if let locationNode = self.scene?.childNode(withName: "locationQueue\(i)") {
@@ -88,17 +99,40 @@ class GuideScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
         let newGuest = SKSpriteNode(texture: SKTexture(imageNamed: "guest-3"))
         newGuest.position = locationSpawn?.position ?? CGPoint(x: 0.0, y: 0.0)
         newGuest.name = "newGuest"
-        newGuest.size = CGSize(width: 100, height: 100)
+        newGuest.size = CGSize(width: 70, height: 70)
         let tags: NSMutableDictionary = [
-            "kesabaran": 10,
+            "kesabaran": 5,
         ]
         newGuest.userData = tags
         
         return newGuest
     }
     
-    var seatClickable: Bool = true
-    var guestLeave: Bool = false
+    //Mark: - Guest Movement
+    private func updateNewGuest() {
+        // Move the last queue to position 3 from spawn
+        let moveAction1 = SKAction.move(to: moveLocationList[0].position, duration: 0.5)
+        self.newGuest?.run(moveAction1)
+        //        let scaleAction = SKAction.
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+            let moveAction2 = SKAction.move(to: self.moveLocationList[1].position, duration: 0.5)
+            self.newGuest?.run(moveAction2)
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+            let moveAction3 = SKAction.move(to: self.moveLocationList[2].position, duration: 0.5)
+            self.newGuest?.run(moveAction3)
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            let moveAction4 = SKAction.move(to: self.locationList[self.queueList.count].position, duration: 0.5)
+            self.newGuest?.run(moveAction4)
+            
+            self.queueList.append(GuestQueue(queue: (self.queueList.count + 1), guest: self.newGuest!))
+            self.newGuest = nil
+        }
+    }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first else { return }
@@ -123,11 +157,10 @@ class GuideScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
             for i in 0...(queueList.count-1) {
                 if (queueList[i].queue > 1){
                     let nextQueue = queueList[i].queue - 1
-                    
+                    print("Hasil nextqueue: \(nextQueue)")
                     // Animation jalannya
                     let moveAction = SKAction.move(to: locationList[nextQueue - 1].position, duration: 1.0)
                     queueList[i].guest.run(moveAction)
-                    
                     // Perbarui queuenya yang sekarang
                     queueList[i].queue = nextQueue
                 }
@@ -157,7 +190,15 @@ class GuideScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
     }
     
     private func timerRenewal(seconds: Int){
-        self.guestTimer = Timer.scheduledTimer(withTimeInterval: TimeInterval(seconds), repeats: false) { timer in
+        self.guestTimer = Timer.scheduledTimer(withTimeInterval: TimeInterval(0.05), repeats: false) { timer in
+            
+            self.updateTimerBar(progress: CGFloat(self.timerCount), full: CGFloat(seconds))
+            if (self.timerCount >= Double(seconds)){
+                self.guestLeave = true
+                self.moveGuest()
+                
+                // kurangin health
+            }
             self.guestLeave = true
             self.moveGuest()
             
@@ -166,29 +207,59 @@ class GuideScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
         }
     }
     
-    var newGuest: SKNode?
-    private func updateNewGuest() {
-        // Move the last queue to position 3 from spawn
-        let moveAction1 = SKAction.move(to: moveLocationList[0].position, duration: 1.0)
-        self.newGuest?.run(moveAction1)
-//        let scaleAction = SKAction.
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            let moveAction2 = SKAction.move(to: self.moveLocationList[1].position, duration: 1.0)
-            self.newGuest?.run(moveAction2)
-        }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-            let moveAction3 = SKAction.move(to: self.moveLocationList[2].position, duration: 1.0)
-            self.newGuest?.run(moveAction3)
-        }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-            let moveAction4 = SKAction.move(to: self.locationList[self.queueList.count].position, duration: 1.0)
-            self.newGuest?.run(moveAction4)
+    
+    
+    func createTimerBar() {
+        if let timeleftNode = planetGuide?.childNode(withName: "timeleft"),
+           let timebarNode = planetGuide?.childNode(withName: "timeBarNode"){
+            // Create the timer bar background
+            let timerBarBackground = SKSpriteNode(imageNamed: "timeBackgroundNode")
+            timerBarBackground.size = CGSize(width: 170, height: 38)
+            timerBarBackground.position = CGPoint(x: timebarNode.position.x, y: timebarNode.position.y)
+            addChild(timerBarBackground)
             
-            self.queueList.append(GuestQueue(queue: (self.queueList.count + 1), guest: self.newGuest!))
-            self.newGuest = nil
+            // Create the timer bar node
+            timerBarNode = SKSpriteNode(imageNamed: "time-bar-fill")
+            timerBarNode.size = CGSize(width: timerBarWidth, height: timerBarHeight)
+            timerBarNode.position = CGPoint(x: timeleftNode.position.x, y: timeleftNode.position.y)
+            timerBarNode.anchorPoint = CGPoint(x: 0, y: 0.5)
+            timerBarNode.zPosition = timerBarNode.zPosition + 1
+            addChild(timerBarNode)
         }
     }
+    
+    func updateTimerBar(progress: CGFloat, full: CGFloat) {
+        let newWidth = (1.0 - (Double(progress) / Double(full))) * 130
+        timerBarNode.size.width = newWidth
+    }
+    
+    
+    
 }
+
+
+//if self.queueList.count == 0{
+//
+//    DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
+//        print("1")
+//            let moveAction4 = SKAction.move(to: self.locationList[2].position, duration: 0.7)
+//            self.newGuest?.run(moveAction4)
+//    }
+//
+//    DispatchQueue.main.asyncAfter(deadline: .now() + 1.6) {
+//        print("2")
+//            let moveAction5 = SKAction.move(to: self.locationList[ 1].position, duration: 0.7)
+//            self.newGuest?.run(moveAction5)
+//
+//    }
+//    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+//        print("3")
+//            let moveAction6 = SKAction.move(to: self.locationList[0].position, duration: 0.7)
+//            self.newGuest?.run(moveAction6)
+//
+//        self.queueList.append(GuestQueue(queue: (self.queueList.count + 1), guest: self.newGuest!))
+//        self.newGuest = nil
+//    }
+//
+//
+//}
