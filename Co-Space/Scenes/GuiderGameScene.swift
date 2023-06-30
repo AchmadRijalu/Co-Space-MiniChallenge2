@@ -36,6 +36,9 @@ class GuiderGameScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
     var guestSprite = SKSpriteNode()
     var timerSprite: SKSpriteNode?
     
+    // setup system
+    //    var globalVaribale = GlobalVariable()
+    
     //SET UP THE SEAT NODE
     func setupGuestSeatNodesList() {
         let planetGuide = scene?.childNode(withName: "planetGuide")
@@ -59,13 +62,14 @@ class GuiderGameScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
     
     //SET up the timer
     
-    //    func setupGuestTimer(){
+    //    func setupGuestTimer() {
     //        if  let planetGuide = scene?.childNode(withName: "planetGuide"){
     //
     //        }
     //    }
     
-    func setupGuestList(){
+    // MARK: - didMove
+    func setupGuestList() {
         let planetGuide = scene?.childNode(withName: "planetGuide")
         if let roadNode = planetGuide?.childNode(withName: "roadNode") {
             spawnGuest.name = "behind-guest-4"
@@ -91,7 +95,7 @@ class GuiderGameScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
         }
     }
     
-    
+    // MARK: - spawnGuestFromSecurity
     func spawnGuestFromSecurity() {
         
         if let planetGuide = self.scene?.childNode(withName: "planetGuide") {
@@ -104,11 +108,8 @@ class GuiderGameScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
             moveLocation2 = self.scene?.childNode(withName: "moveLocation2")
             moveLocation3 = self.scene?.childNode(withName: "moveLocation3")
             guestSpawned.firstGuestSpawned = true
-            print(guestSpawned.firstGuestSpawned)
             guestSpawned.secondGuestSpawned = true
-            print(guestSpawned.secondGuestSpawned)
             guestSpawned.thirdGuestSpawned = true
-            print(guestSpawned.thirdGuestSpawned)
             
             
             
@@ -188,15 +189,14 @@ class GuiderGameScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
             //            let completeAction = SKAction.sequence([sequenceAction, checkAction])
             //            guestDraggable?.run(completeAction)
             
-            
-            
-            
-            
-            
         }
     }
     
-    //TAP ACTION FUNCTION
+    func spawnRandom(){
+        
+    }
+    
+    //MARK: - TAP ACTION FUNCTION
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first else {
             return
@@ -212,7 +212,6 @@ class GuiderGameScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
             //Do Something
         }
         if node.name == "triangleseat2"{
-            
             if guestNodeList.count == 0{
                 let guestData = GuestGuiderModel(name: "guest-\(1)", texture: SKTexture(imageNamed: "guest-\(1)"), size: CGSize(width: 100, height: 100), position: CGPoint(x: locationSpawn!.position.x, y: locationSpawn!.position.y + 10), duration: 0.4, timer: 5, queue: 1)
                 
@@ -240,9 +239,8 @@ class GuiderGameScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
                 guestNodeList.append(guestData)
             }
             else if guestNodeList.count == 2{
-                print("Ini muncul ketiga")
-                let guestData = GuestGuiderModel(name: "guest-\(3)", texture: SKTexture(imageNamed: "guest-\(3)"), size: CGSize(width: 100, height: 100), position: CGPoint(x: locationSpawn!.position.x, y: locationSpawn!.position.y + 10), duration: 0.4, timer: 5, queue: 3)
                 
+                let guestData = GuestGuiderModel(name: "guest-\(3)", texture: SKTexture(imageNamed: "guest-\(3)"), size: CGSize(width: 100, height: 100), position: CGPoint(x: locationSpawn!.position.x, y: locationSpawn!.position.y + 10), duration: 0.4, timer: 5, queue: 3)
                 var spawnGuestSprite = SKSpriteNode()
                 guestSprite = spawnGuestSprite
                 guestSprite.size = CGSize(width: 50, height: 50)
@@ -256,8 +254,9 @@ class GuiderGameScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
             else{
                 print("Maks is 3 , health reduced")
             }
+            movingGuideNode(node: guestSprite)
             
-            //Do Something
+            
             
         }
         if node.name == "triangleseat3"{
@@ -278,18 +277,172 @@ class GuiderGameScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
         
         
     }
+    
+    func movingGuideNode(node: SKSpriteNode) {
+        // Perform actions on the sprite node
+        if guestNodeList.count == 1 && guestNodeList[0].queue == 1{
+            if let nextMovingSprite = scene?.childNode(withName: guestNodeList[0].name) {
+                guestNodeList[0].position = locationQueue1!.position
+                let firstMove = SKAction.move(to: moveLocation1!.position, duration: guestNodeList[0].duration)
+                
+                let secondMove = SKAction.move(to: moveLocation2!.position, duration: guestNodeList[0].duration)
+                let guestNodeFinalSize: CGFloat = 1.4
+                let scaleAction = SKAction.scale(to: guestNodeFinalSize, duration: guestNodeList[0].duration)
+                
+                let thirdMove = SKAction.move(to: moveLocation3!.position, duration: guestNodeList[0].duration)
+                let fourthMove = SKAction.move(to: locationQueue3!.position, duration: guestNodeList[0].duration)
+                
+                
+                let fifthMove = SKAction.move(to: locationQueue2!.position, duration: guestNodeList[0].duration)
+                let sixthMove = SKAction.move(to: locationQueue1!.position, duration: guestNodeList[0].duration)
+                let sequenceMove = SKAction.sequence([firstMove, secondMove, thirdMove, fourthMove,fifthMove, sixthMove ])
+                let groupAction = SKAction.group([sequenceMove, scaleAction])
+                
+                nextMovingSprite.run(groupAction)
+                
+            }
+            
+            
+        }
+        if guestNodeList.count == 2{
+            if guestNodeList[1].position.x != locationQueue2!.position.x{
+                guestNodeList[1].position = locationQueue2!.position
+                var nextMovingSecondSprite = scene?.childNode(withName: guestNodeList[1].name)
+                let firstMove = SKAction.move(to: moveLocation1!.position, duration: guestNodeList[1].duration)
+                let secondMove = SKAction.move(to: moveLocation2!.position, duration: guestNodeList[1].duration)
+                let thirdMove = SKAction.move(to: moveLocation3!.position, duration: guestNodeList[1].duration)
+                let fourthMove = SKAction.move(to: locationQueue3!.position, duration: guestNodeList[1].duration)
+                let fifthMove = SKAction.move(to: locationQueue2!.position, duration: guestNodeList[1].duration)
+                let guestNodeFinalSize: CGFloat = 1.4
+                let scaleAction = SKAction.scale(to: guestNodeFinalSize, duration: guestNodeList[1].duration)
+                let sequenceMove = SKAction.sequence([firstMove, secondMove, thirdMove, fourthMove, fifthMove ])
+                let groupAction = SKAction.group([sequenceMove, scaleAction])
+                nextMovingSecondSprite!.run(groupAction)
+            }
+            if guestNodeList[0].queue == 0{
+                guestNodeList[0].position = locationQueue1!.position
+                
+                let movingSprite = scene?.childNode(withName: guestNodeList[0].name)
+                let sixthMove = SKAction.move(to: locationQueue1!.position, duration: guestNodeList[0].duration)
+                let sequenceMove = SKAction.sequence([ sixthMove ])
+                let groupAction = SKAction.group([sequenceMove])
+                
+                movingSprite!.run(groupAction)
+            }
+            
+            if guestNodeList[1].queue == 2{
+                
+                if guestNodeList[1].position.x != locationQueue2!.position.x{
+                    print("masuk")
+                    guestNodeList[1].position = locationQueue2!.position
+                    var nextMovingSecondSprite = scene?.childNode(withName: guestNodeList[1].name)
+                    
+                    let firstMove = SKAction.move(to: moveLocation1!.position, duration: guestNodeList[1].duration)
+                    let secondMove = SKAction.move(to: moveLocation2!.position, duration: guestNodeList[1].duration)
+                    let thirdMove = SKAction.move(to: moveLocation3!.position, duration: guestNodeList[1].duration)
+                    let fourthMove = SKAction.move(to: locationQueue3!.position, duration: guestNodeList[1].duration)
+                    let fifthMove = SKAction.move(to: locationQueue2!.position, duration: guestNodeList[1].duration)
+                    let guestNodeFinalSize: CGFloat = 1.4
+                    let scaleAction = SKAction.scale(to: guestNodeFinalSize, duration: guestNodeList[1].duration)
+                    let sequenceMove = SKAction.sequence([ firstMove, secondMove , thirdMove, fourthMove,fifthMove ])
+                    let groupAction = SKAction.group([sequenceMove, scaleAction])
+                    nextMovingSecondSprite!.run(groupAction)
+                }
+            }
+            if guestNodeList[1].queue == 1{
+                
+                guestNodeList[1].position = locationQueue2!.position
+                var nextMovingSecondSprite = scene?.childNode(withName: guestNodeList[1].name)
+                let fifthMove = SKAction.move(to: locationQueue2!.position, duration: guestNodeList[1].duration)
+                let guestNodeFinalSize: CGFloat = 1.4
+                let scaleAction = SKAction.scale(to: guestNodeFinalSize, duration: guestNodeList[1].duration)
+                let sequenceMove = SKAction.sequence([ fifthMove ])
+                let groupAction = SKAction.group([sequenceMove, scaleAction])
+                nextMovingSecondSprite!.run(groupAction)
+                
+                
+            }
+        }
+        if guestNodeList.count == 3{
+            
+//            guestNodeList[2].position = locationQueue3!.position
+            var nextMovingSecondSprite = scene?.childNode(withName: guestNodeList[2].name)
+            let firstMove = SKAction.move(to: moveLocation1!.position, duration: guestNodeList[2].duration)
+            let secondMove = SKAction.move(to: moveLocation2!.position, duration: guestNodeList[2].duration)
+            let thirdMove = SKAction.move(to: moveLocation3!.position, duration: guestNodeList[2].duration)
+            let fourthMove = SKAction.move(to: locationQueue3!.position, duration: guestNodeList[2].duration)
+            let fifthMove = SKAction.move(to: locationQueue2!.position, duration: guestNodeList[2].duration)
+            let guestNodeFinalSize: CGFloat = 1.4
+            let sequenceMove = SKAction.sequence([firstMove, secondMove, thirdMove, fourthMove, fifthMove ])
+            let groupAction = SKAction.group([sequenceMove])
+            nextMovingSecondSprite!.run(groupAction)
+            
+//            if guestNodeList[0].queue == 0{
+//                guestNodeList[0].position = locationQueue1!.position
+//
+//                let movingSprite = scene?.childNode(withName: guestNodeList[0].name)
+//                let sixthMove = SKAction.move(to: locationQueue1!.position, duration: guestNodeList[0].duration)
+//                let sequenceMove = SKAction.sequence([ sixthMove ])
+//                let groupAction = SKAction.group([sequenceMove])
+//
+//                movingSprite!.run(groupAction)
+//            }
+            
+//            if guestNodeList[1].queue == 2{
+//
+//                if guestNodeList[1].position.x != locationQueue2!.position.x{
+//                    print("masuk")
+//                    guestNodeList[1].position = locationQueue2!.position
+//                    var nextMovingSecondSprite = scene?.childNode(withName: guestNodeList[1].name)
+//
+//                    let firstMove = SKAction.move(to: moveLocation1!.position, duration: guestNodeList[1].duration)
+//                    let secondMove = SKAction.move(to: moveLocation2!.position, duration: guestNodeList[1].duration)
+//                    let thirdMove = SKAction.move(to: moveLocation3!.position, duration: guestNodeList[1].duration)
+//                    let fourthMove = SKAction.move(to: locationQueue3!.position, duration: guestNodeList[1].duration)
+//                    let fifthMove = SKAction.move(to: locationQueue2!.position, duration: guestNodeList[1].duration)
+//                    let guestNodeFinalSize: CGFloat = 1.4
+//                    let scaleAction = SKAction.scale(to: guestNodeFinalSize, duration: guestNodeList[1].duration)
+//                    let sequenceMove = SKAction.sequence([ firstMove, secondMove , thirdMove, fourthMove,fifthMove ])
+//                    let groupAction = SKAction.group([sequenceMove, scaleAction])
+//                    nextMovingSecondSprite!.run(groupAction)
+//                }
+//            }
+//            if guestNodeList[1].queue == 1{
+//
+//                guestNodeList[1].position = locationQueue2!.position
+//                var nextMovingSecondSprite = scene?.childNode(withName: guestNodeList[1].name)
+//                let fifthMove = SKAction.move(to: locationQueue2!.position, duration: guestNodeList[1].duration)
+//                let guestNodeFinalSize: CGFloat = 1.4
+//                let scaleAction = SKAction.scale(to: guestNodeFinalSize, duration: guestNodeList[1].duration)
+//                let sequenceMove = SKAction.sequence([ fifthMove ])
+//                let groupAction = SKAction.group([sequenceMove, scaleAction])
+//                nextMovingSecondSprite!.run(groupAction)
+//
+//
+//            }
+        }
+        
+        // ...
+    }
+    
+    // MARK: - didMove
     override func didMove(to view: SKView) {
         
         setupGuestSeatNodesList()
-        
-        
         spawnGuestFromSecurity()
     }
     
     
     
+    
+    // MARK: - update
     override func update(_ currentTime: TimeInterval) {
         
+        
+        // cek perubahan data
+        /* if ada perubahan perubahan dari global variable {
+         spawnGuest() }
+         */
         
         if guestSpawned.timerState == false && guestSpawned.firstGuestSpawned == true && guestSpawned.secondGuestSpawned == true && guestSpawned.thirdGuestSpawned == true{
             
@@ -298,155 +451,6 @@ class GuiderGameScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
             }
             //THE CODE START HERE
             else{
-               
-                if guestNodeList.count == 1 && guestNodeList[0].queue == 1{
-                    if guestNodeList[0].position.x != locationQueue1?.position.x {
-                        if let nextMovingSprite = scene?.childNode(withName: guestNodeList[0].name) {
-                            if guestNodeList[0].position.x != locationQueue2?.position.x{
-                                guestNodeList[0].position = locationQueue1!.position
-                                let firstMove = SKAction.move(to: moveLocation1!.position, duration: guestNodeList[0].duration)
-                                
-                                let secondMove = SKAction.move(to: moveLocation2!.position, duration: guestNodeList[0].duration)
-                                let guestNodeFinalSize: CGFloat = 1.4
-                                let scaleAction = SKAction.scale(to: guestNodeFinalSize, duration: guestNodeList[0].duration)
-                                
-                                let thirdMove = SKAction.move(to: moveLocation3!.position, duration: guestNodeList[0].duration)
-                                let fourthMove = SKAction.move(to: locationQueue3!.position, duration: guestNodeList[0].duration)
-                                
-                                
-                                let fifthMove = SKAction.move(to: locationQueue2!.position, duration: guestNodeList[0].duration)
-                                let sixthMove = SKAction.move(to: locationQueue1!.position, duration: guestNodeList[0].duration)
-                                let sequenceMove = SKAction.sequence([firstMove, secondMove, thirdMove, fourthMove,fifthMove, sixthMove ])
-                                let groupAction = SKAction.group([sequenceMove, scaleAction])
-                                
-                                nextMovingSprite.run(groupAction)
-                                
-                            }
-                            else{
-                                let sixthMove = SKAction.move(to: locationQueue1!.position, duration: guestNodeList[0].duration)
-                                let sequenceMove = SKAction.sequence([sixthMove ])
-                                let groupAction = SKAction.group([sequenceMove])
-                                
-                                nextMovingSprite.run(groupAction)
-                            }
-                            
-                        }
-                        
-                    }
-                }
-              else  if guestNodeList.count == 1 && guestNodeList[0].queue == 0{
-                    guestNodeList[0].position = locationQueue1!.position
-                    let movingSprite = scene?.childNode(withName: guestNodeList[0].name)
-                    let sixthMove = SKAction.move(to: locationQueue1!.position, duration: guestNodeList[0].duration)
-                    let sequenceMove = SKAction.sequence([ sixthMove ])
-                    let groupAction = SKAction.group([sequenceMove])
-                    
-                    movingSprite!.run(groupAction)
-                }
-               else if guestNodeList.count == 2{
-//                   print(guestNodeList[0].queue)
-//                   print(guestNodeList[1].queue)
-                   
-                   
-                    if guestNodeList[1].position.x != locationQueue2!.position.x{
-                       
-                        guestNodeList[1].position = locationQueue2!.position
-                        var nextMovingSecondSprite = scene?.childNode(withName: guestNodeList[1].name)
-                        let firstMove = SKAction.move(to: moveLocation1!.position, duration: guestNodeList[1].duration)
-                        let secondMove = SKAction.move(to: moveLocation2!.position, duration: guestNodeList[1].duration)
-                        let thirdMove = SKAction.move(to: moveLocation3!.position, duration: guestNodeList[1].duration)
-                        let fourthMove = SKAction.move(to: locationQueue3!.position, duration: guestNodeList[1].duration)
-                        let fifthMove = SKAction.move(to: locationQueue2!.position, duration: guestNodeList[1].duration)
-                        let guestNodeFinalSize: CGFloat = 1.4
-                        let scaleAction = SKAction.scale(to: guestNodeFinalSize, duration: guestNodeList[1].duration)
-                        let sequenceMove = SKAction.sequence([firstMove, secondMove, thirdMove, fourthMove, fifthMove ])
-                        let groupAction = SKAction.group([sequenceMove, scaleAction])
-                        nextMovingSecondSprite!.run(groupAction)
-                    }
-                    if guestNodeList[0].queue == 0{
-                        guestNodeList[0].position = locationQueue1!.position
-                        
-                        var movingSprite = scene?.childNode(withName: guestNodeList[0].name)
-                        let sixthMove = SKAction.move(to: locationQueue1!.position, duration: guestNodeList[0].duration)
-                        let sequenceMove = SKAction.sequence([ sixthMove ])
-                        let groupAction = SKAction.group([sequenceMove])
-                        
-                        movingSprite!.run(groupAction)
-                    }
-                    
-                    if guestNodeList[1].queue == 2{
-                        if guestNodeList[1].position.x != locationQueue2!.position.x{
-                            
-                            guestNodeList[1].position = locationQueue2!.position
-                            var nextMovingSecondSprite = scene?.childNode(withName: guestNodeList[1].name)
-                            
-                            let firstMove = SKAction.move(to: moveLocation1!.position, duration: guestNodeList[1].duration)
-                            let secondMove = SKAction.move(to: moveLocation2!.position, duration: guestNodeList[1].duration)
-                            let thirdMove = SKAction.move(to: moveLocation3!.position, duration: guestNodeList[1].duration)
-                            let fourthMove = SKAction.move(to: locationQueue3!.position, duration: guestNodeList[1].duration)
-                            let fifthMove = SKAction.move(to: locationQueue2!.position, duration: guestNodeList[1].duration)
-                            let guestNodeFinalSize: CGFloat = 1.4
-                            let scaleAction = SKAction.scale(to: guestNodeFinalSize, duration: guestNodeList[1].duration)
-                            let sequenceMove = SKAction.sequence([ firstMove, secondMove , thirdMove, fourthMove,fifthMove ])
-                            let groupAction = SKAction.group([sequenceMove, scaleAction])
-                            nextMovingSecondSprite!.run(groupAction)
-                        }
-                    }
-                    if guestNodeList[1].queue == 1{
-                        guestNodeList[1].position = locationQueue2!.position
-                        var nextMovingSecondSprite = scene?.childNode(withName: guestNodeList[1].name)
-                        let fifthMove = SKAction.move(to: locationQueue2!.position, duration: guestNodeList[1].duration)
-                        let guestNodeFinalSize: CGFloat = 1.4
-                        let scaleAction = SKAction.scale(to: guestNodeFinalSize, duration: guestNodeList[1].duration)
-                        let sequenceMove = SKAction.sequence([ fifthMove ])
-                        let groupAction = SKAction.group([sequenceMove, scaleAction])
-                        nextMovingSecondSprite!.run(groupAction)
-                    }
-                }
-                
-                else  if guestNodeList.count == 3{
-                    if guestNodeList[2].queue == 3{
-                       
-                        if guestNodeList[2].position.x != locationQueue3?.position.x{
-                            guestNodeList[2].position = locationQueue3!.position
-                            var nextMovingThirdSprite = scene?.childNode(withName: guestNodeList[2].name)
-                            let firstMove = SKAction.move(to: moveLocation1!.position, duration: guestNodeList[2].duration)
-                            let secondMove = SKAction.move(to: moveLocation2!.position, duration: guestNodeList[2].duration)
-                            let thirdMove = SKAction.move(to: moveLocation3!.position, duration: guestNodeList[2].duration)
-                            let fourthMove = SKAction.move(to: locationQueue3!.position, duration: guestNodeList[2].duration)
-                            let guestNodeFinalSize: CGFloat = 1.4
-                            let scaleAction = SKAction.scale(to: guestNodeFinalSize, duration: guestNodeList[2].duration)
-                            
-                            let sequenceMove = SKAction.sequence([firstMove, secondMove, fourthMove ])
-                            
-                            let groupAction = SKAction.group([sequenceMove, scaleAction])
-                            
-                            nextMovingThirdSprite!.run(groupAction)
-                        }
-                    }
-                    else if guestNodeList[2].queue == 2{
-                        if guestNodeList[2].position.x != locationQueue2!.position.x{
-                            
-                            guestNodeList[2].position = locationQueue3!.position
-                            var nextMovingThirdSprite = scene?.childNode(withName: guestNodeList[2].name)
-                            
-                            let firstMove = SKAction.move(to: moveLocation1!.position, duration: guestNodeList[2].duration)
-                            let secondMove = SKAction.move(to: moveLocation2!.position, duration: guestNodeList[2].duration)
-                            let thirdMove = SKAction.move(to: moveLocation3!.position, duration: guestNodeList[2].duration)
-                            let fourthMove = SKAction.move(to: locationQueue3!.position, duration: guestNodeList[2].duration)
-                            
-                            let guestNodeFinalSize: CGFloat = 1.4
-                            let scaleAction = SKAction.scale(to: guestNodeFinalSize, duration: guestNodeList[2].duration)
-                            
-                            let sequenceMove = SKAction.sequence([ fourthMove ])
-                            
-                            let groupAction = SKAction.group([sequenceMove, scaleAction])
-                            
-                            nextMovingThirdSprite!.run(groupAction)
-                        }
-                    }
-                }
-                
                 let guestDraggable = self.scene?.childNode(withName: guestNodeList.first!.name)
                 let randomDuration = 5.0
                 let removeAction = SKAction.removeFromParent()
@@ -458,21 +462,8 @@ class GuiderGameScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
                         if self.guestNodeList.count != 0{
                             
                             self.guestNodeList.removeFirst()
-                            print("terdelete")
-                            if self.guestNodeList.count == 1{
-                                self.guestNodeList[0].queue = 0
-                                
-                            }
-                            if self.guestNodeList.count == 2{
-                                print("masuk pak eko")
-                                self.guestNodeList[0].queue = 0
-                                self.guestNodeList[1].queue = 1
-                            }
-                           
-                            
                             
                         }
-                        
                     } else {
                         print("The sprite node is still attached")
                     }

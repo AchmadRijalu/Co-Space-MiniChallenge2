@@ -14,8 +14,8 @@
             filePath = "Co-Space/Scenes/GuiderGameScene.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "58"
-            endingLineNumber = "58"
+            startingLineNumber = "61"
+            endingLineNumber = "61"
             landmarkName = "setupGuestSeatNodesList()"
             landmarkType = "7">
             <Locations>
@@ -138,54 +138,6 @@
                   startingLineNumber = "29"
                   endingLineNumber = "29"
                   offsetFromSymbolStart = "1012">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "23968F3A-EA44-413C-91E6-2B548196BF5C"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Co-Space/Scenes/GuiderGameScene.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "340"
-            endingLineNumber = "340"
-            landmarkName = "update(_:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "23968F3A-EA44-413C-91E6-2B548196BF5C - 63104b671647c234"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Co_Space.GuiderGameScene.update(Swift.Double) -&gt; ()"
-                  moduleName = "Co-Space"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/achmadrijalu/Desktop/Apple%20Developer%20Academy%20Challenge/Mini%20Challenge2/Co-Space/Co-Space-MiniChallenge2/Co-Space/Scenes/GuiderGameScene.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "340"
-                  endingLineNumber = "340"
-                  offsetFromSymbolStart = "7560">
-               </Location>
-               <Location
-                  uuid = "23968F3A-EA44-413C-91E6-2B548196BF5C - 63104b671647c234"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Co_Space.GuiderGameScene.update(Swift.Double) -&gt; ()"
-                  moduleName = "Co-Space"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/achmadrijalu/Desktop/Apple%20Developer%20Academy%20Challenge/Mini%20Challenge2/Co-Space/Co-Space-MiniChallenge2/Co-Space/Scenes/GuiderGameScene.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "340"
-                  endingLineNumber = "340"
-                  offsetFromSymbolStart = "7652">
                </Location>
             </Locations>
          </BreakpointContent>
