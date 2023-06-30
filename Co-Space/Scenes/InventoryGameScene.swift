@@ -74,11 +74,14 @@ class InventoryGameScene: SKScene {
         }
     }
     
-//    override func didMove(to view: SKView) {
-//        if inventoryButtonOpen{
-//            
-//        }
-//     }
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+            guard let touch = touches.first else { return }
+            let touchLocation = touch.location(in: self)
+            
+            if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "inventory-button-open-1" {
+                changeImage(node: inventoryStorageDoorLeft!, imageName: "inventory-label")
+            }
+        }
     
     func changeImage(node: SKNode, imageName: String) {
         if let nodeToChange = node as? SKSpriteNode {
