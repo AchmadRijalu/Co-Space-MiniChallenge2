@@ -2,9 +2,9 @@ import SwiftUI
 import SpriteKit
 
 struct InventoryView: View {
-    var scene = SKScene(fileNamed: "InventoryGameScene.sks")
+    var scene = SKScene(fileNamed: "InventoryGameScene.sks")!
     var body: some View {
-        SpriteView(scene: scene!)
+        SpriteView(scene: scene)
             .ignoresSafeArea()
     }
 }
