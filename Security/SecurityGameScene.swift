@@ -19,7 +19,7 @@ class SecurityGameScene: SKScene {
     let securitybackground = SKSpriteNode(imageNamed : "security-background 1")
     let planetbackground = SKSpriteNode(imageNamed : "security-planet")
     let health = SKSpriteNode(imageNamed : "health-bar")
-    let healthleft = SKSpriteNode(imageNamed : "life-bar-fill")
+    var healthleft = SKSpriteNode(imageNamed : "life-bar-fill")
     let timer = SKSpriteNode(imageNamed: "time-bar")
     let timeleft = SKSpriteNode(imageNamed: "time-bar-fill")
     let rectangle = SKSpriteNode(imageNamed : "button-rectangle")
@@ -34,8 +34,6 @@ class SecurityGameScene: SKScene {
     var pengunjung4 = SKSpriteNode(imageNamed : "guest-4")
     var pengunjung5 = SKSpriteNode(imageNamed : "guest-5")
     let generatepengunjung = SKSpriteNode(imageNamed : "guest-6")
-    
-    // MARK: - Object UI Prep
     var rectangle1textNode = SKNode()
     var rectangle1TextLabelNode = SKLabelNode()
     var triangle1textNode = SKNode()
@@ -45,8 +43,20 @@ class SecurityGameScene: SKScene {
     var counterrectangle = 10
     var countertriangle = 10
     var countercircle = 10
-    var counterspawn = 0
-    var uniqueID = 1
+    
+    var locationList: [SKNode] = []
+    var dissapearNode: SKNode = SKNode()
+    var queueList: [GuestQueue] = []
+    var guestTimer: Timer?
+    var guestLeave: Bool = false
+    let guestListTemplate = GuestDictionary().guestList
+    var guestCounter = 5
+    var idCardClickable = true
+    
+    let timerBarWidth: CGFloat = 130.0 // Width of the timer bar
+    let timerBarHeight: CGFloat = 15.0 // Height of the timer bar
+    var timerBarNode: SKSpriteNode!
+    var timerBarDuration: TimeInterval = 10
     
     override func sceneDidLoad() {
         if let securityScene = SKScene(fileNamed: "SecurityGameScene") {
@@ -67,21 +77,17 @@ class SecurityGameScene: SKScene {
                 self.addChild(planetbackground)
             }
             
-            if let timebarNode = securityScene.childNode(withName: "timebar") {
-                timer.name = "timerbarNode"
-                timer.size = CGSize(width: 170, height: 38)
-                timer.position = timebarNode.position
-                timer.zPosition = 1
-                self.addChild(timer)
-            }
-            
-            if let timeleftNode = securityScene.childNode(withName: "timeleft") {
-                timeleft.name = "timerleftNode"
-                timeleft.size = CGSize(width: 130, height: 15)
-                timeleft.position = timeleftNode.position
-                timeleft.zPosition = 2
-                self.addChild(timeleft)
-            }
+//            if let timebarNode = securityScene.childNode(withName: "timebar") {
+//                timer.name = "timerbarNode"
+//                timer.size = CGSize(width: 170, height: 38)
+//                timer.position = timebarNode.position
+//                timer.zPosition = 1
+//                self.addChild(timer)
+//            }
+//
+//            if let timeleftNode = securityScene.childNode(withName: "timeleft") {
+//                self.addChild(timeleft)
+//            }
             
             if let healthbarNode = securityScene.childNode(withName: "healthbar") {
                 health.name = "healthleftNode"
@@ -233,27 +239,6 @@ class SecurityGameScene: SKScene {
         }
     }
     
-    func addGuest(_amount:Int){
-        if let securityScene = SKScene(fileNamed: "SecurityGameScene"),
-           let spawn1Node = securityScene.childNode(withName: "spawnLocation")
-        {
-            let generate = SKAction.run {
-                let giveGuest = GeneratePengunjung().generatePengunjung()
-                spawn1Node.addChild(giveGuest)
-            }
-            let sequence = SKAction.sequence([generate])
-            let repeatAction = SKAction.repeat(sequence, count: 1)
-            self.run(repeatAction)
-            if spawn1Node.children.isEmpty {
-                // The parent node does not have any child nodes
-                print("No child nodes present.")
-            } else {
-                // The parent node has child nodes
-                print("Child nodes present.")
-            }
-        }
-    }
-    
     override func didMove(to view: SKView) {
         if let particles = SKEmitterNode(fileNamed: "Starfield"){
             particles.position = CGPoint (x: 1000, y: 0)
@@ -291,9 +276,12 @@ class SecurityGameScene: SKScene {
             circletext.zPosition = 2
             circle1TextLabelNode = circletext
             self.addChild(circletext)
+            
+            createTimerBar()
+//            updateTimerBar(progress: 10, full: 10) // Example: Set the timer bar progress to 0.5
+//            startTimer()
         }
     }
-    
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first else { return }
@@ -334,12 +322,6 @@ class SecurityGameScene: SKScene {
             }
         }
     }
-    
-    var locationList: [SKNode] = []
-    var dissapearNode: SKNode = SKNode()
-    var queueList: [GuestQueue] = []
-    var guestTimer: Timer?
-    var guestLeave: Bool = false
     
     func moveGuest() {
         self.idCardClickable = false
@@ -383,21 +365,61 @@ class SecurityGameScene: SKScene {
         }
         
         let firstQueueGuestTime = queueList[0].guest.userData?.value(forKey: "kesabaran") as? Int
-        timerRenewal(seconds: firstQueueGuestTime ?? 0)
+        timerCount = 0
+        self.guestTimer?.invalidate()
+        self.guestTimer = nil
+        updateTimerBar(progress: 100, full: 100)
+        print("Timer Reset")
+        timerRenewal(seconds: Int(firstQueueGuestTime!))
+        
     }
     
+    var timerCount: Double = 0
     private func timerRenewal(seconds: Int){
-        self.guestTimer = Timer.scheduledTimer(withTimeInterval: TimeInterval(seconds), repeats: false) { timer in
-            self.guestLeave = true
-            self.moveGuest()
+        self.guestTimer = Timer.scheduledTimer(withTimeInterval: TimeInterval(0.05), repeats: true) { timer in
+            self.timerCount += 0.05
             
-            // kurangin health
+            self.updateTimerBar(progress: CGFloat(self.timerCount), full: CGFloat(seconds))
+            if (self.timerCount >= Double(seconds)){
+                self.guestLeave = true
+                self.moveGuest()
+                
+                // kurangin health
+            }
         }
     }
     
-    let guestListTemplate = GuestDictionary().guestList
-    var guestCounter = 5
-    var idCardClickable = true
+    func createTimerBar() {
+        if let timeleftNode = masterScene?.childNode(withName: "timeleft"),
+           let timebarNode = masterScene?.childNode(withName: "timebar"){
+            // Create the timer bar background
+            let timerBarBackground = SKSpriteNode(imageNamed: "time-bar")
+            timerBarBackground.size = CGSize(width: 170, height: 38)
+            timerBarBackground.position = CGPoint(x: timebarNode.position.x, y: timebarNode.position.y)
+            addChild(timerBarBackground)
+            
+            // Create the timer bar node
+            timerBarNode = SKSpriteNode(imageNamed: "time-bar-fill")
+            timerBarNode.size = CGSize(width: timerBarWidth, height: timerBarHeight)
+            timerBarNode.position = CGPoint(x: timeleftNode.position.x, y: timeleftNode.position.y)
+            timerBarNode.anchorPoint = CGPoint(x: 0, y: 0.5)
+            timerBarNode.zPosition = timerBarNode.zPosition + 1
+            addChild(timerBarNode)
+        }
+    }
+
+    func updateTimerBar(progress: CGFloat, full: CGFloat) {
+        let newWidth = (1.0 - (Double(progress) / Double(full))) * 130
+        timerBarNode.size.width = newWidth
+    }
+//
+//    func startTimer() {
+//        let decreaseAction = SKAction.customAction(withDuration: timerBarDuration) { (node, elapsedTime) in
+//            self.updateTimerBar(progress: elapsedTime, full: self.timerBarDuration)
+//        }
+//
+//        timerBarNode.run(decreaseAction, withKey: "timerAction")
+//    }
     
     func generateNewGuest() -> SKNode {
         guestCounter += 1
@@ -415,63 +437,6 @@ class SecurityGameScene: SKScene {
         
         return newNode
     }
-    
-    func FunctionJalan() {
-        if let securityScene = SKScene(fileNamed: "SecurityGameScene"),
-           let location1Node = securityScene.childNode(withName: "location1"),
-           let disappearNode = securityScene.childNode(withName: "disappearLocation"),
-           let location2Node = securityScene.childNode(withName: "location2"),
-           let location3Node = securityScene.childNode(withName: "location3"),
-           let location4Node = securityScene.childNode(withName: "location4"),
-           let location5Node = securityScene.childNode(withName: "location5"),
-           let pengunjung1 = self.childNode(withName: "pengunjung1"),
-           case let position1 = pengunjung1.position, position1 == location1Node.position {
-            let destinationPositions = [disappearNode.position, location1Node.position, location2Node.position, location3Node.position, location4Node.position, location5Node.position]
-            let moveActions = destinationPositions.map { SKAction.move(to: $0, duration: 1.0) }
-            let childNodeCompletionAction = SKAction.run {
-                pengunjung1.removeFromParent()
-                let nodesToMove = [self.pengunjung2, self.pengunjung3, self.pengunjung4, self.pengunjung5, self.pengunjung1]
-                for (index, node) in nodesToMove.enumerated() {
-                    node.run(moveActions[index + 1])
-                }
-                let spawnLocationNodes = [self.pengunjung1]
-                for node in spawnLocationNodes {
-                    node.run(moveActions.last!)
-                }
-                
-                // Remove the node from all of its ancestors
-                var parentNode = pengunjung1.parent
-                while parentNode != nil {
-                    parentNode?.removeChildren(in: [pengunjung1])
-                    parentNode = parentNode?.parent
-                    
-                }
-            }
-            let childNodeSequence = SKAction.sequence([moveActions[0], childNodeCompletionAction])
-            pengunjung1.run(childNodeSequence)
-        }
-        
-        else if let securityScene = SKScene(fileNamed: "SecurityGameScene"),
-                let location1Node = securityScene.childNode(withName: "location1"),
-                let disappearNode = securityScene.childNode(withName: "disappearLocation"),
-                let location2Node = securityScene.childNode(withName: "location2"),
-                let location3Node = securityScene.childNode(withName: "location3"),
-                let location4Node = securityScene.childNode(withName: "location4"),
-                let location5Node = securityScene.childNode(withName: "location5"),
-                let spawn1Node = securityScene.childNode(withName: "spawnLocation"),
-                let pengunjung2 = self.childNode(withName: "pengunjung2"),
-                case let position1 = pengunjung2.position, position1 == location1Node.position {
-            addGuest(_amount: 1)
-            if spawn1Node.children.isEmpty {
-                // The parent node does not have any child nodes
-                print("No child nodes present.")
-            } else {
-                // The parent node has child nodes
-                print("Child nodes present.")
-            }
-        }
-    }
-    
     
     func updateCounterUI(_ counter: Int) {
         rectangle1TextLabelNode.text = "x \(counter)"
