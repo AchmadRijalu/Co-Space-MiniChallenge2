@@ -18,10 +18,6 @@ class SecurityGameScene: SKScene {
     let masterScene = SKScene(fileNamed: "SecurityGameScene")
     let securitybackground = SKSpriteNode(imageNamed : "security-background 1")
     let planetbackground = SKSpriteNode(imageNamed : "security-planet")
-    let health = SKSpriteNode(imageNamed : "health-bar")
-    var healthleft = SKSpriteNode(imageNamed : "life-bar-fill")
-    let timer = SKSpriteNode(imageNamed: "time-bar")
-    let timeleft = SKSpriteNode(imageNamed: "time-bar-fill")
     let rectangle = SKSpriteNode(imageNamed : "button-rectangle")
     let rectangleidentitycardquantity = SKSpriteNode(imageNamed: "identity-card-qty")
     let circle = SKSpriteNode(imageNamed : "button-circle")
@@ -43,7 +39,7 @@ class SecurityGameScene: SKScene {
     var counterrectangle = 10
     var countertriangle = 10
     var countercircle = 10
-    
+    var securitylabel = SKSpriteNode(imageNamed: "security-label")
     var locationList: [SKNode] = []
     var dissapearNode: SKNode = SKNode()
     var queueList: [GuestQueue] = []
@@ -51,12 +47,16 @@ class SecurityGameScene: SKScene {
     var guestLeave: Bool = false
     let guestListTemplate = GuestDictionary().guestList
     var guestCounter = 5
+    var healthCounter = 5
     var idCardClickable = true
     
     let timerBarWidth: CGFloat = 130.0 // Width of the timer bar
     let timerBarHeight: CGFloat = 15.0 // Height of the timer bar
     var timerBarNode: SKSpriteNode!
     var timerBarDuration: TimeInterval = 10
+    let healthBarWidth: CGFloat = 130.0 // Width of the health bar
+    let healthBarHeight: CGFloat = 15.0 // Height of the health bar
+    var healthBarNode: SKSpriteNode!
     
     override func sceneDidLoad() {
         if let securityScene = SKScene(fileNamed: "SecurityGameScene") {
@@ -77,32 +77,12 @@ class SecurityGameScene: SKScene {
                 self.addChild(planetbackground)
             }
             
-//            if let timebarNode = securityScene.childNode(withName: "timebar") {
-//                timer.name = "timerbarNode"
-//                timer.size = CGSize(width: 170, height: 38)
-//                timer.position = timebarNode.position
-//                timer.zPosition = 1
-//                self.addChild(timer)
-//            }
-//
-//            if let timeleftNode = securityScene.childNode(withName: "timeleft") {
-//                self.addChild(timeleft)
-//            }
-            
-            if let healthbarNode = securityScene.childNode(withName: "healthbar") {
-                health.name = "healthleftNode"
-                health.size = CGSize(width: 170, height: 38)
-                health.position = healthbarNode.position
-                health.zPosition = 1
-                self.addChild(health)
-            }
-            
-            if let healthleftNode = securityScene.childNode(withName: "healthleft") {
-                healthleft.name = "timerbarNode"
-                healthleft.size = CGSize(width: 130, height: 15)
-                healthleft.position = healthleftNode.position
-                healthleft.zPosition = 2
-                self.addChild(healthleft)
+            if let security1labelNode = securityScene.childNode(withName: "securitylabel") {
+                securitylabel.name = "planetbackgroundNode"
+                securitylabel.size = CGSize(width:150, height: 50)
+                securitylabel.position = security1labelNode.position
+                securitylabel.zPosition = -1
+                self.addChild(securitylabel)
             }
             
             if let rectangle1buttonNode = securityScene.childNode(withName: "rectanglebutton") {
@@ -278,8 +258,8 @@ class SecurityGameScene: SKScene {
             self.addChild(circletext)
             
             createTimerBar()
-//            updateTimerBar(progress: 10, full: 10) // Example: Set the timer bar progress to 0.5
-//            startTimer()
+            createHealthBar()
+            updateHealthBar()
         }
     }
     
@@ -351,6 +331,9 @@ class SecurityGameScene: SKScene {
                     let moveAction = SKAction.moveBy(x: 0, y: -175, duration: 1.0)
                     queueList[i].guest.run(moveAction)
                     guestLeave = false
+                    if healthCounter > 0 {
+                        healthCounter -= 1
+                    }
                 }
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
@@ -371,8 +354,34 @@ class SecurityGameScene: SKScene {
         updateTimerBar(progress: 100, full: 100)
         print("Timer Reset")
         timerRenewal(seconds: Int(firstQueueGuestTime!))
-        
+        updateHealthBar()
     }
+    
+    var healthCount: Int = 5
+    func createHealthBar(){
+        if let healthleftNode = masterScene?.childNode(withName: "healthleft"),
+           let healthbarNode = masterScene?.childNode(withName: "healthbar"){
+            // Create the health bar background
+            let healthBarBackground = SKSpriteNode(imageNamed: "health-bar")
+            healthBarBackground.size = CGSize(width: 170, height: 38)
+            healthBarBackground.position = CGPoint(x: healthbarNode.position.x, y: healthbarNode.position.y)
+            addChild(healthBarBackground)
+            
+            // Create the health bar node
+            healthBarNode = SKSpriteNode(imageNamed: "life-bar-fill")
+            healthBarNode.size = CGSize(width: healthBarWidth, height: healthBarHeight)
+            healthBarNode.position = CGPoint(x: healthleftNode.position.x, y: healthleftNode.position.y)
+            healthBarNode.anchorPoint = CGPoint(x: 0, y: 0.5)
+            healthBarNode.zPosition = healthBarNode.zPosition + 1
+            addChild(healthBarNode)
+        }
+    }
+    
+    func updateHealthBar() {
+            let healthRatio = CGFloat(healthCounter) / 5.0
+            let newWidth = healthBarWidth * healthRatio
+            healthBarNode.size.width = newWidth
+        }
     
     var timerCount: Double = 0
     private func timerRenewal(seconds: Int){
@@ -383,8 +392,6 @@ class SecurityGameScene: SKScene {
             if (self.timerCount >= Double(seconds)){
                 self.guestLeave = true
                 self.moveGuest()
-                
-                // kurangin health
             }
         }
     }
@@ -412,14 +419,6 @@ class SecurityGameScene: SKScene {
         let newWidth = (1.0 - (Double(progress) / Double(full))) * 130
         timerBarNode.size.width = newWidth
     }
-//
-//    func startTimer() {
-//        let decreaseAction = SKAction.customAction(withDuration: timerBarDuration) { (node, elapsedTime) in
-//            self.updateTimerBar(progress: elapsedTime, full: self.timerBarDuration)
-//        }
-//
-//        timerBarNode.run(decreaseAction, withKey: "timerAction")
-//    }
     
     func generateNewGuest() -> SKNode {
         guestCounter += 1

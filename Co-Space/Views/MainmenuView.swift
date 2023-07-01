@@ -81,6 +81,7 @@ struct MainmenuView: View {
                         isActive: $isNextScreenActive,
                         label: EmptyView.init
                     )
+                    .navigationBarBackButtonHidden(true)
                 )
                 
             }
