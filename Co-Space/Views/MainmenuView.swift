@@ -51,8 +51,6 @@ struct MainmenuView: View {
                                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2){
                                             showSliderText = true
                                         }
-
-
                                     }
                                     else{
                                         withAnimation(.spring()){

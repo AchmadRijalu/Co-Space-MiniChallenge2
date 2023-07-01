@@ -1,3 +1,4 @@
+
 //
 //  GuideScene.swift
 //  Co-Space
@@ -29,10 +30,12 @@ class GuideScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
     var locationList: [SKNode] = []
     var moveLocationList: [SKNode] = []
     var queueList: [GuestQueue] = []
+    
+    var seatTriangleNodeDict: [String: SKNode] = [:]
+    var seatCircleNodeDict: [String: SKNode] = [:]
+    var seatSquareNodeDict: [String: SKNode] = [:]
+    
     var newGuest: SKNode?
-    
-    
-    
     var seatClickable: Bool = true
     var guestLeave: Bool = false
     var timerCount: Double = 0
@@ -40,6 +43,10 @@ class GuideScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
     let timerBarHeight: CGFloat = 15.0 // Height of the timer bar
     var timerBarNode: SKSpriteNode!
     var timerBarDuration: TimeInterval = 10
+    
+    var triangleTrigger:Bool = false
+    var circleTrigger:Bool = false
+    var squareTrigger:Bool = false
     
     //SET UP THE SEAT NODE
     func setupGuestSeatNodesList() {
@@ -54,6 +61,7 @@ class GuideScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
                 seatSquareNodeList.append(guestSeatNodeSquare)
             }
         }
+
         
     }
     
@@ -64,6 +72,7 @@ class GuideScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
         
         // Masukin location
         for i in 1...3 {
+            
             if let locationNode = self.scene?.childNode(withName: "locationQueue\(i)") {
                 locationList.append(locationNode)
             }
@@ -72,81 +81,172 @@ class GuideScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
                 moveLocationList.append(moveLocationNode)
             }
         }
+        
         if let locationSpawnNode = self.scene?.childNode(withName: "locationSpawn") {
             locationSpawn = locationSpawnNode
         }
     }
     
+    var addNewGuestTimerCount:Int = 0
     override func didMove(to view: SKView) {
-        continuousTimer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true) { timer in
-            self.addGuest()
+        createTimerBar()
+        continuousTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
+            self.addNewGuestTimerCount += 1
+            self.checkQueue()
+            if (self.addNewGuestTimerCount >= 4){
+                self.addGuest()
+                self.addNewGuestTimerCount = 0
+            }
         }
     }
     
     private func addGuest(){
         if (self.queueList.count >= 3){
             // fail
-            print("nyawa berkurang")
+            print("Health Reduce")
         }
         else {
             self.newGuest = generateGuest()
             self.updateNewGuest()
+           
             self.scene?.addChild(self.newGuest!)
         }
     }
     
     private func generateGuest() -> SKNode {
-        let newGuest = SKSpriteNode(texture: SKTexture(imageNamed: "guest-3"))
+        let randomNum = Int(arc4random_uniform(8)) + 1
+        let newGuest = SKSpriteNode(texture: SKTexture(imageNamed: "guest-\(randomNum)"))
         newGuest.position = locationSpawn?.position ?? CGPoint(x: 0.0, y: 0.0)
         newGuest.name = "newGuest"
         newGuest.size = CGSize(width: 70, height: 70)
         let tags: NSMutableDictionary = [
-            "kesabaran": 5,
+            "kesabaran": 10,
         ]
         newGuest.userData = tags
         
         return newGuest
     }
     
-    //Mark: - Guest Movement
-    private func updateNewGuest() {
-        // Move the last queue to position 3 from spawn
-        let moveAction1 = SKAction.move(to: moveLocationList[0].position, duration: 0.5)
-        self.newGuest?.run(moveAction1)
-        //        let scaleAction = SKAction.
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-            let moveAction2 = SKAction.move(to: self.moveLocationList[1].position, duration: 0.5)
-            self.newGuest?.run(moveAction2)
-        }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-            let moveAction3 = SKAction.move(to: self.moveLocationList[2].position, duration: 0.5)
-            self.newGuest?.run(moveAction3)
-        }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            let moveAction4 = SKAction.move(to: self.locationList[self.queueList.count].position, duration: 0.5)
-            self.newGuest?.run(moveAction4)
-            
-            self.queueList.append(GuestQueue(queue: (self.queueList.count + 1), guest: self.newGuest!))
-            self.newGuest = nil
-        }
-    }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first else { return }
         let touchLocation = touch.location(in: self)
-        
+        print(self.queueList)
         if (seatClickable){
-            if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "triangleseat2" {
+            if let node = self.atPoint(touchLocation) as? SKSpriteNode, ((node.name?.contains("seat")) != nil){
+                let splitNameNode = node.name?.split(separator:"-")
                 guestTimer?.invalidate()
                 guestTimer = nil
                 
                 moveGuest()
+                
+//                moveGuestToSeat(numberSeat: 1-1, signSeat: "triangleseat")
+            }
+//            if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "triangleseat2" {
+//                guestTimer?.invalidate()
+//                guestTimer = nil
+//
+//                moveGuestToSeat(numberSeat: 2-1, signSeat: "triangleseat")
+//            }
+//            if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "triangleseat3" {
+//                guestTimer?.invalidate()
+//                guestTimer = nil
+//                moveGuestToSeat(numberSeat: 3-1, signSeat: "triangleseat")
+//            }
+//            if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "triangleseat4" {
+//                guestTimer?.invalidate()
+//                guestTimer = nil
+//                moveGuestToSeat(numberSeat: 4-1, signSeat: "triangleseat")
+//            }
+//            if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "triangleseat5" {
+//                guestTimer?.invalidate()
+//                guestTimer = nil
+//                moveGuestToSeat(numberSeat: 5-1, signSeat: "triangleseat")
+//            }
+//            if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "circleseat1" {
+//                guestTimer?.invalidate()
+//                guestTimer = nil
+//
+//                moveGuestToSeat(numberSeat: 1-1, signSeat: "circleseat")
+//            }
+//            if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "circleseat2" {
+//                guestTimer?.invalidate()
+//                guestTimer = nil
+//
+//                moveGuestToSeat(numberSeat: 2-1, signSeat: "circleseat")
+//            }
+//            if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "circleseat3" {
+//                guestTimer?.invalidate()
+//                guestTimer = nil
+//
+//                moveGuestToSeat(numberSeat: 3-1, signSeat: "circleseat")
+//            }
+//            if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "circleseat4" {
+//                guestTimer?.invalidate()
+//                guestTimer = nil
+//                print("halo")
+//                moveGuestToSeat(numberSeat: 4-1, signSeat: "circleseat")
+//            }
+//            if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "circleseat5" {
+//                guestTimer?.invalidate()
+//                guestTimer = nil
+//
+//                moveGuestToSeat(numberSeat: 5-1, signSeat: "circleseat")
+//            }
+//            if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "squareseat1" {
+//                guestTimer?.invalidate()
+//                guestTimer = nil
+//
+//                moveGuestToSeat(numberSeat: 1-1, signSeat: "squareseat")
+//            }
+//            if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "squareseat2" {
+//                guestTimer?.invalidate()
+//                guestTimer = nil
+//
+//                moveGuestToSeat(numberSeat: 2-1, signSeat: "squareseat")
+//            }
+//
+//            if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "squareseat3" {
+//                guestTimer?.invalidate()
+//                guestTimer = nil
+//
+//                moveGuestToSeat(numberSeat: 3-1, signSeat: "squareseat")
+//            }
+//            if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "squareseat4" {
+//                guestTimer?.invalidate()
+//                guestTimer = nil
+//
+//                moveGuestToSeat(numberSeat: 4-1, signSeat: "squareseat")
+//            }
+//            if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "squareseat5" {
+//                guestTimer?.invalidate()
+//                guestTimer = nil
+//
+//                moveGuestToSeat(numberSeat: 5-1, signSeat: "squareseat")
+//            }
+            
+
+
+
+        }
+    }
+    
+    func checkQueue() {
+        if (self.queueList.count > 0){
+            for i in 0...(self.queueList.count - 1) {
+                print(i)
+                let newQueue = i + 1
+                if (queueList[i].queue != newQueue){
+                    print ("ga sama")
+                    self.queueList[i].queue = newQueue
+                }
+                
+                let moveAction = SKAction.move(to: locationList[newQueue - 1].position, duration: 1.0)
+                queueList[i].guest.run(moveAction)
             }
         }
     }
+    
     func moveGuest() {
         self.seatClickable = false
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
@@ -157,40 +257,128 @@ class GuideScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
             for i in 0...(queueList.count-1) {
                 if (queueList[i].queue > 1){
                     let nextQueue = queueList[i].queue - 1
-                    print("Hasil nextqueue: \(nextQueue)")
                     // Animation jalannya
                     let moveAction = SKAction.move(to: locationList[nextQueue - 1].position, duration: 1.0)
                     queueList[i].guest.run(moveAction)
+                    
                     // Perbarui queuenya yang sekarang
                     queueList[i].queue = nextQueue
                 }
                 else {
                     // Kalo guestnya udah dikasih tanda
                     if (!guestLeave){
+                        print("duduk")
                         // Udah masuk ke guide
-                        let moveAction = SKAction.moveBy(x: 100, y: 100, duration: 1.0)
+                        let moveAction = SKAction.moveBy(x: 100, y: 100, duration: 0.4)
                         queueList[i].guest.run(moveAction)
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            self.queueList[i].guest.removeFromParent()
+                            self.queueList.removeFirst()
+                        }
                     }
                     else { // kalo misalnya kesabarannya udah habis
-                        let moveAction = SKAction.moveBy(x: 0, y: -175, duration: 1.0)
-                        queueList[i].guest.run(moveAction)
-                        guestLeave = false
+//                        let newNode = queueList[i].guest.copy() as! SKSpriteNode
+                        var newNode:SKSpriteNode = SKSpriteNode(imageNamed: "logo")
+                        newNode.texture = SKTexture(imageNamed: "logo")
+                        newNode.size = CGSize(width: 70, height: 70)
+                        newNode.position = queueList[0].guest.position
+                        print(newNode)
+                        print(queueList)
+                        
+                        self.queueList[i].guest.removeFromParent()
+
+                        self.scene?.addChild(newNode)
+                        
+                        runBounceAndDisappearAnimation(sprite: newNode)
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            self.queueList.removeFirst()
+                            self.guestLeave = false
+//                            newNode.removeFromParent()
+                        }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                            newNode.removeFromParent()
+                        }
                     }
                     
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                        self.queueList[i].guest.removeFromParent()
+                    
+                }
+            }
+            
+            let firstQueueGuestTime = queueList[0].guest.userData?.value(forKey: "kesabaran") as? Int
+            timerRenewal(seconds: Int(firstQueueGuestTime!))
+        }
+    }
+    
+    
+    func moveGuestToSeat(numberSeat:Int, signSeat:String) {
+        self.seatClickable = false
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            self.seatClickable = true
+        }
+        
+        if (queueList.count > 0){
+            for i in 0...(queueList.count-1) {
+                if (queueList[i].queue > 1){
+                    let nextQueue = queueList[i].queue - 1
+                    // Animation jalannya
+                    let moveAction = SKAction.move(to: locationList[nextQueue - 1].position, duration: 1.0)
+                    queueList[i].guest.run(moveAction)
+                    
+                    // Perbarui queuenya yang sekarang
+                    queueList[i].queue = nextQueue
+                }
+                else {
+                    // Kalo guestnya udah dikasih tanda
+                    if (!guestLeave){
+                        if signSeat == "circleseat"{
+                            print("duduk ke kursi \(signSeat) number \(numberSeat)")
+                            //pergi ke tempat duduk
+                            let moveToSeat = SKAction.move(to: seatCircleNodeList[numberSeat].position, duration: 0.4)
+                            queueList[i].guest.run(moveToSeat)
+                            
+                            //CHANGE THE TEXTURE
+                            
+                            seatCircleNodeDict["seatcircle\(numberSeat)"] = queueList[i].guest
+                            startTimerGuestSeat(for: "seatcircle\(numberSeat)", duration: 2.0, sprite: queueList[i].guest as! SKSpriteNode)
+                        }
+                        else if signSeat == "squareseat"{
+                            print("duduk ke kursi \(signSeat) number \(numberSeat)")
+                            //pergi ke tempat duduk
+                            let moveToSeat = SKAction.move(to: seatSquareNodeList[numberSeat].position, duration: 0.4)
+                            queueList[i].guest.run(moveToSeat)
+                            seatSquareNodeDict["seatsquare\(numberSeat)"] = queueList[i].guest
+                        }
+                        else if signSeat == "triangleseat"{
+                            print("duduk ke kursi \(signSeat) number \(numberSeat)")
+                            //pergi ke tempat duduk
+                            let moveToSeat = SKAction.move(to: seatTriangleNodeList[numberSeat].position, duration: 0.4)
+                            queueList[i].guest.run(moveToSeat)
+                            seatTriangleNodeDict["seattriangle\(numberSeat)"] = queueList[i].guest
+                        }
+                    }
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+//                        self.queueList[i].guest.removeFromParent()
                         self.queueList.removeFirst()
                     }
                 }
             }
             
             let firstQueueGuestTime = queueList[0].guest.userData?.value(forKey: "kesabaran") as? Int
-            timerRenewal(seconds: firstQueueGuestTime ?? 0)
+            timerRenewal(seconds: Int(firstQueueGuestTime!))
         }
     }
     
     private func timerRenewal(seconds: Int){
-        self.guestTimer = Timer.scheduledTimer(withTimeInterval: TimeInterval(0.05), repeats: false) { timer in
+        timerCount = 0
+        self.guestTimer?.invalidate()
+        self.guestTimer = nil
+        updateTimerBar(progress: 100, full: 100)
+        print("Timer Reset")
+        
+        self.guestTimer = Timer.scheduledTimer(withTimeInterval: TimeInterval(0.05), repeats: true) { timer in
+            self.timerCount += 0.05
             
             self.updateTimerBar(progress: CGFloat(self.timerCount), full: CGFloat(seconds))
             if (self.timerCount >= Double(seconds)){
@@ -199,27 +387,72 @@ class GuideScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
                 
                 // kurangin health
             }
-            self.guestLeave = true
-            self.moveGuest()
+        }
+    }
+    private func updateNewGuest() {
+        var delayAddQueue = 0.0
+        // Move the last queue to position 3 from spawn
+        let moveAction1 = SKAction.move(to: moveLocationList[0].position, duration: 0.4)
+        self.newGuest?.run(moveAction1)
+        //        let scaleAction = SKAction.
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            let moveAction2 = SKAction.move(to: self.moveLocationList[1].position, duration: 0.5)
+            self.newGuest?.run(moveAction2)
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            let moveAction3 = SKAction.move(to: self.moveLocationList[2].position, duration: 0.5)
+            self.newGuest?.run(moveAction3)
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
             
-            // kurangin health
-            print("Waktu kesabaran habis")
+            let moveAction4 = SKAction.move(to: self.locationList[2].position, duration: 0.6)
+            self.newGuest?.run(moveAction4)
+            
+        }
+        delayAddQueue = 2.2
+        if self.queueList.count <= 1 {
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.1) {
+                
+                let moveAction4 = SKAction.move(to: self.locationList[1].position, duration: 0.6)
+                self.newGuest?.run(moveAction4)
+                
+            }
+            delayAddQueue = 2.7
+            if self.queueList.count == 0 {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.7) {
+                    
+                    let moveAction5 = SKAction.move(to: self.locationList[0].position, duration: 0.6)
+                    self.newGuest?.run(moveAction5)
+                    
+                    let newGuestTime = self.newGuest?.userData?.value(forKey: "kesabaran") as? Int
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                        self.timerRenewal(seconds: newGuestTime!)
+                    }
+                }
+                
+                delayAddQueue = 3.3
+            }
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + delayAddQueue) {
+            self.queueList.append(GuestQueue(queue: (self.queueList.count + 1), guest: self.newGuest!))
+            self.newGuest = nil
         }
     }
     
-    
-    
     func createTimerBar() {
-        if let timeleftNode = planetGuide?.childNode(withName: "timeleft"),
-           let timebarNode = planetGuide?.childNode(withName: "timeBarNode"){
+        if let timeleftNode = scene?.childNode(withName: "timeLeft"),
+           let timebarNode = scene?.childNode(withName: "timebar"){
             // Create the timer bar background
-            let timerBarBackground = SKSpriteNode(imageNamed: "timeBackgroundNode")
+            let timerBarBackground = SKSpriteNode(imageNamed: "timebar")
             timerBarBackground.size = CGSize(width: 170, height: 38)
             timerBarBackground.position = CGPoint(x: timebarNode.position.x, y: timebarNode.position.y)
             addChild(timerBarBackground)
-            
-            // Create the timer bar node
-            timerBarNode = SKSpriteNode(imageNamed: "time-bar-fill")
+            timerBarNode = SKSpriteNode(imageNamed: "timebar-fill")
             timerBarNode.size = CGSize(width: timerBarWidth, height: timerBarHeight)
             timerBarNode.position = CGPoint(x: timeleftNode.position.x, y: timeleftNode.position.y)
             timerBarNode.anchorPoint = CGPoint(x: 0, y: 0.5)
@@ -234,32 +467,39 @@ class GuideScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
     }
     
     
+    func runBounceAndDisappearAnimation(sprite: SKNode) {
+        // Bounce action
+        let moveLeftAction = SKAction.moveBy(x: -100, y: 0, duration: 1.0)
+        let moveRightAction = SKAction.moveBy(x: 100, y: 0, duration: 1.0)
+        let bounceAction = SKAction.sequence([moveLeftAction, moveRightAction])
+        let repeatBounceAction = SKAction.repeatForever(bounceAction)
+        
+        // Run the animation on the sprite node
+        sprite.run(repeatBounceAction)
+    }
     
+    func startTimerGuestSeat(for key: String, duration: TimeInterval, sprite: SKSpriteNode) {
+            // Check if the sprite exists in the dictionary
+            guard let sprite = seatCircleNodeDict[key] else {
+                return
+            }
+            // Create an SKAction to fade out the sprite
+            let fadeOutAction = SKAction.fadeOut(withDuration: 0.5)
+            
+            // Create a timer using DispatchQueue
+            DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
+                // Check if the sprite is still in the scene
+                if self.children.contains(sprite) {
+                    // Remove the sprite from the scene
+//                    let newTextureGuest = SKSpriteNode(texture: SKTexture(imageNamed: "behind-guest-\(sprite.)"))
+                    sprite.name = "dirtysign"
+//                    sprite.texture = SKTexture(imageNamed: "NewTexture")
+                    
+                    print("Sprite with key '\(key)' is removed from the scene")
+                }
+            }
+            
+            // Run the fade out action on the sprite
+            sprite.run(fadeOutAction)
+        }
 }
-
-
-//if self.queueList.count == 0{
-//
-//    DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
-//        print("1")
-//            let moveAction4 = SKAction.move(to: self.locationList[2].position, duration: 0.7)
-//            self.newGuest?.run(moveAction4)
-//    }
-//
-//    DispatchQueue.main.asyncAfter(deadline: .now() + 1.6) {
-//        print("2")
-//            let moveAction5 = SKAction.move(to: self.locationList[ 1].position, duration: 0.7)
-//            self.newGuest?.run(moveAction5)
-//
-//    }
-//    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-//        print("3")
-//            let moveAction6 = SKAction.move(to: self.locationList[0].position, duration: 0.7)
-//            self.newGuest?.run(moveAction6)
-//
-//        self.queueList.append(GuestQueue(queue: (self.queueList.count + 1), guest: self.newGuest!))
-//        self.newGuest = nil
-//    }
-//
-//
-//}
