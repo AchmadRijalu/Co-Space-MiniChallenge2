@@ -142,5 +142,158 @@
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "596BEACE-0946-42D1-AEA8-A070323A770A"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Co-Space/Scenes/GuideScene.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "126"
+            endingLineNumber = "126"
+            landmarkName = "touchesBegan(_:with:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "596BEACE-0946-42D1-AEA8-A070323A770A - d1bee4e1fd13957e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Co_Space.GuideScene.touchesBegan(_: Swift.Set&lt;__C.UITouch&gt;, with: Swift.Optional&lt;__C.UIEvent&gt;) -&gt; ()"
+                  moduleName = "Co-Space"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/achmadrijalu/Desktop/Apple%20Developer%20Academy%20Challenge/Mini%20Challenge2/Co-Space/Co-Space-MiniChallenge2/Co-Space/Scenes/GuideScene.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "138"
+                  endingLineNumber = "138"
+                  offsetFromSymbolStart = "1500">
+               </Location>
+               <Location
+                  uuid = "596BEACE-0946-42D1-AEA8-A070323A770A - d1bee4e1fd13957e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Co_Space.GuideScene.touchesBegan(_: Swift.Set&lt;__C.UITouch&gt;, with: Swift.Optional&lt;__C.UIEvent&gt;) -&gt; ()"
+                  moduleName = "Co-Space"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/achmadrijalu/Desktop/Apple%20Developer%20Academy%20Challenge/Mini%20Challenge2/Co-Space/Co-Space-MiniChallenge2/Co-Space/Scenes/GuideScene.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "138"
+                  endingLineNumber = "138"
+                  offsetFromSymbolStart = "1564">
+               </Location>
+               <Location
+                  uuid = "596BEACE-0946-42D1-AEA8-A070323A770A - d1bee4e1fd13957e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Co_Space.GuideScene.touchesBegan(_: Swift.Set&lt;__C.UITouch&gt;, with: Swift.Optional&lt;__C.UIEvent&gt;) -&gt; ()"
+                  moduleName = "Co-Space"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/achmadrijalu/Desktop/Apple%20Developer%20Academy%20Challenge/Mini%20Challenge2/Co-Space/Co-Space-MiniChallenge2/Co-Space/Scenes/GuideScene.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "138"
+                  endingLineNumber = "138"
+                  offsetFromSymbolStart = "1860">
+               </Location>
+               <Location
+                  uuid = "596BEACE-0946-42D1-AEA8-A070323A770A - d1bee4e1fd13957e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Co_Space.GuideScene.touchesBegan(_: Swift.Set&lt;__C.UITouch&gt;, with: Swift.Optional&lt;__C.UIEvent&gt;) -&gt; ()"
+                  moduleName = "Co-Space"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/achmadrijalu/Desktop/Apple%20Developer%20Academy%20Challenge/Mini%20Challenge2/Co-Space/Co-Space-MiniChallenge2/Co-Space/Scenes/GuideScene.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "138"
+                  endingLineNumber = "138"
+                  offsetFromSymbolStart = "1516">
+               </Location>
+               <Location
+                  uuid = "596BEACE-0946-42D1-AEA8-A070323A770A - d1bee4e1fd13957e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Co_Space.GuideScene.touchesBegan(_: Swift.Set&lt;__C.UITouch&gt;, with: Swift.Optional&lt;__C.UIEvent&gt;) -&gt; ()"
+                  moduleName = "Co-Space"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/achmadrijalu/Desktop/Apple%20Developer%20Academy%20Challenge/Mini%20Challenge2/Co-Space/Co-Space-MiniChallenge2/Co-Space/Scenes/GuideScene.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "138"
+                  endingLineNumber = "138"
+                  offsetFromSymbolStart = "1584">
+               </Location>
+               <Location
+                  uuid = "596BEACE-0946-42D1-AEA8-A070323A770A - d1bee4e1fd13957e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Co_Space.GuideScene.touchesBegan(_: Swift.Set&lt;__C.UITouch&gt;, with: Swift.Optional&lt;__C.UIEvent&gt;) -&gt; ()"
+                  moduleName = "Co-Space"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/achmadrijalu/Desktop/Apple%20Developer%20Academy%20Challenge/Mini%20Challenge2/Co-Space/Co-Space-MiniChallenge2/Co-Space/Scenes/GuideScene.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "138"
+                  endingLineNumber = "138"
+                  offsetFromSymbolStart = "2296">
+               </Location>
+               <Location
+                  uuid = "596BEACE-0946-42D1-AEA8-A070323A770A - d1bee4e1fd13957e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Co_Space.GuideScene.touchesBegan(_: Swift.Set&lt;__C.UITouch&gt;, with: Swift.Optional&lt;__C.UIEvent&gt;) -&gt; ()"
+                  moduleName = "Co-Space"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/achmadrijalu/Desktop/Apple%20Developer%20Academy%20Challenge/Mini%20Challenge2/Co-Space/Co-Space-MiniChallenge2/Co-Space/Scenes/GuideScene.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "138"
+                  endingLineNumber = "138"
+                  offsetFromSymbolStart = "1656">
+               </Location>
+               <Location
+                  uuid = "596BEACE-0946-42D1-AEA8-A070323A770A - d1bee4e1fd13957e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Co_Space.GuideScene.touchesBegan(_: Swift.Set&lt;__C.UITouch&gt;, with: Swift.Optional&lt;__C.UIEvent&gt;) -&gt; ()"
+                  moduleName = "Co-Space"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/achmadrijalu/Desktop/Apple%20Developer%20Academy%20Challenge/Mini%20Challenge2/Co-Space/Co-Space-MiniChallenge2/Co-Space/Scenes/GuideScene.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "138"
+                  endingLineNumber = "138"
+                  offsetFromSymbolStart = "1724">
+               </Location>
+               <Location
+                  uuid = "596BEACE-0946-42D1-AEA8-A070323A770A - d1bee4e1fd13957e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Co_Space.GuideScene.touchesBegan(_: Swift.Set&lt;__C.UITouch&gt;, with: Swift.Optional&lt;__C.UIEvent&gt;) -&gt; ()"
+                  moduleName = "Co-Space"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/achmadrijalu/Desktop/Apple%20Developer%20Academy%20Challenge/Mini%20Challenge2/Co-Space/Co-Space-MiniChallenge2/Co-Space/Scenes/GuideScene.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "138"
+                  endingLineNumber = "138"
+                  offsetFromSymbolStart = "2432">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

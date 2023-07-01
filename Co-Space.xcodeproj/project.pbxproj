@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		568F30672A4E6CC500FC5477 /* GuideScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568F30662A4E6CC500FC5477 /* GuideScene.swift */; };
+		77937DE72A50277B009770F4 /* DumpCodeTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77937DE62A50277B009770F4 /* DumpCodeTest.swift */; };
 		77D6B4902A49DD8B00BB551F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 77D6B48E2A49DD8B00BB551F /* Assets.xcassets */; };
 		77D6B4922A49DDBE00BB551F /* starfield.sks in Resources */ = {isa = PBXBuildFile; fileRef = 77D6B4912A49DDBE00BB551F /* starfield.sks */; };
 		77D6B4942A4BC57F00BB551F /* GuiderGameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D6B4932A4BC57F00BB551F /* GuiderGameViewModel.swift */; };
@@ -31,6 +32,7 @@
 
 /* Begin PBXFileReference section */
 		568F30662A4E6CC500FC5477 /* GuideScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideScene.swift; sourceTree = "<group>"; };
+		77937DE62A50277B009770F4 /* DumpCodeTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DumpCodeTest.swift; sourceTree = "<group>"; };
 		77D6B48E2A49DD8B00BB551F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		77D6B4912A49DDBE00BB551F /* starfield.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = starfield.sks; sourceTree = "<group>"; };
 		77D6B4932A4BC57F00BB551F /* GuiderGameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuiderGameViewModel.swift; sourceTree = "<group>"; };
@@ -154,6 +156,7 @@
 				77D6B4952A4DEA0A00BB551F /* MainMenuGameScene.swift */,
 				77D6B4972A4DEA2200BB551F /* MainMenuGameScene.sks */,
 				568F30662A4E6CC500FC5477 /* GuideScene.swift */,
+				77937DE62A50277B009770F4 /* DumpCodeTest.swift */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -250,6 +253,7 @@
 				568F30672A4E6CC500FC5477 /* GuideScene.swift in Sources */,
 				77E3E31E2A415D9B00143224 /* CleanerView.swift in Sources */,
 				77D6B4962A4DEA0A00BB551F /* MainMenuGameScene.swift in Sources */,
+				77937DE72A50277B009770F4 /* DumpCodeTest.swift in Sources */,
 				77D6B4942A4BC57F00BB551F /* GuiderGameViewModel.swift in Sources */,
 				77E3E3352A44021900143224 /* GuestGuiderModel.swift in Sources */,
 				77E3E3222A415DB200143224 /* GameRoomView.swift in Sources */,
