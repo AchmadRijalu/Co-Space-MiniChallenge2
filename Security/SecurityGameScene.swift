@@ -398,13 +398,13 @@ class SecurityGameScene: SKScene {
         if let timeleftNode = masterScene?.childNode(withName: "timeleft"),
            let timebarNode = masterScene?.childNode(withName: "timebar"){
             // Create the timer bar background
-            let timerBarBackground = SKSpriteNode(imageNamed: "time-bar")
+            let timerBarBackground = SKSpriteNode(imageNamed: "timebar")
             timerBarBackground.size = CGSize(width: 170, height: 38)
             timerBarBackground.position = CGPoint(x: timebarNode.position.x, y: timebarNode.position.y)
             addChild(timerBarBackground)
             
             // Create the timer bar node
-            timerBarNode = SKSpriteNode(imageNamed: "time-bar-fill")
+            timerBarNode = SKSpriteNode(imageNamed: "timebar-fill")
             timerBarNode.size = CGSize(width: timerBarWidth, height: timerBarHeight)
             timerBarNode.position = CGPoint(x: timeleftNode.position.x, y: timeleftNode.position.y)
             timerBarNode.anchorPoint = CGPoint(x: 0, y: 0.5)
