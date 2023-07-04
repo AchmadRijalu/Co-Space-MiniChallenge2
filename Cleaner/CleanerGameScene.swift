@@ -9,6 +9,9 @@ import SpriteKit
 import GameplayKit
     
 class CleanerGameScene: SKScene {
+    // setup MainGame
+    var game: MainGame?
+    
     // Setup Scene
     var activePoop: SKSpriteNode? = nil
     var activeSeatWithPoop = ""
@@ -147,6 +150,8 @@ class CleanerGameScene: SKScene {
         guard let touch = touches.first else { return }
         let touchLocation = touch.location(in: self)
         
+        game?.health += 1
+        print(game!.health)
         if let node = self.atPoint(touchLocation) as? SKSpriteNode {
             if (node.name != nil){
                 if (node.name!.contains("seat")){

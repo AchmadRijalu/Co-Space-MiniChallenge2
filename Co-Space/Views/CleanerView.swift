@@ -17,12 +17,15 @@ struct CleanerView: View {
 //          return scene
 //      }
     
-    var scene = SKScene(fileNamed: "CleanerGameScene.sks")
+    var scene = SKScene(fileNamed: "CleanerGameScene.sks") as! CleanerGameScene
     
       
       var body: some View {
-          SpriteView(scene: scene!)
+          SpriteView(scene: scene)
               .ignoresSafeArea()
+              .onAppear {
+                  scene.game = game
+              }
       }
 }
 
