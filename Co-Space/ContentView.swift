@@ -11,7 +11,7 @@ struct ContentView: View {
     
     
     var body: some View {
-       MainmenuView()
+       InventoryView()
         
     }
 }

@@ -27,6 +27,8 @@
 		77E3E32C2A43D50B00143224 /* SpriteKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77E3E32B2A43D50B00143224 /* SpriteKit.framework */; };
 		77E3E3312A43E5AC00143224 /* GuiderGameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 77E3E3302A43E5AC00143224 /* GuiderGameScene.sks */; };
 		77E3E3352A44021900143224 /* GuestGuiderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77E3E3342A44021900143224 /* GuestGuiderModel.swift */; };
+		CF0DBABD2A4EE0000018BDD6 /* InventoryGameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = CF0DBABC2A4EE0000018BDD6 /* InventoryGameScene.sks */; };
+		CF78F2612A4BD19900409E06 /* InventoryGameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78F2602A4BD19900409E06 /* InventoryGameScene.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +54,8 @@
 		77E3E32F2A43DB2600143224 /* Co-Space.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Co-Space.entitlements"; sourceTree = "<group>"; };
 		77E3E3302A43E5AC00143224 /* GuiderGameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GuiderGameScene.sks; sourceTree = "<group>"; };
 		77E3E3342A44021900143224 /* GuestGuiderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GuestGuiderModel.swift; path = "Co-Space/GuestGuiderModel.swift"; sourceTree = SOURCE_ROOT; };
+		CF0DBABC2A4EE0000018BDD6 /* InventoryGameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = InventoryGameScene.sks; sourceTree = "<group>"; };
+		CF78F2602A4BD19900409E06 /* InventoryGameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InventoryGameScene.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,6 +158,8 @@
 				77D6B4972A4DEA2200BB551F /* MainMenuGameScene.sks */,
 				568F30662A4E6CC500FC5477 /* GuideScene.swift */,
 				77937DE62A50277B009770F4 /* DumpCodeTest.swift */,
+				CF0DBABC2A4EE0000018BDD6 /* InventoryGameScene.sks */,
+				CF78F2602A4BD19900409E06 /* InventoryGameScene.swift */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -230,6 +236,7 @@
 				77E3E3082A414BFF00143224 /* Assets.xcassets in Resources */,
 				77D6B4922A49DDBE00BB551F /* starfield.sks in Resources */,
 				77D6B4902A49DD8B00BB551F /* Assets.xcassets in Resources */,
+				CF0DBABD2A4EE0000018BDD6 /* InventoryGameScene.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -241,6 +248,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				77E3E3182A415D7900143224 /* InventoryView.swift in Sources */,
+				CF78F2612A4BD19900409E06 /* InventoryGameScene.swift in Sources */,
 				77E3E3062A414BFE00143224 /* ContentView.swift in Sources */,
 				77E3E31A2A415D8500143224 /* MainmenuView.swift in Sources */,
 				77E3E3202A415DA700143224 /* SecurityView.swift in Sources */,
@@ -382,7 +390,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Co-Space/Preview Content\"";
-				DEVELOPMENT_TEAM = DYXBWDG6F4;
+				DEVELOPMENT_TEAM = 3Y46Y6N99L;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -413,7 +421,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Co-Space/Preview Content\"";
-				DEVELOPMENT_TEAM = DYXBWDG6F4;
+				DEVELOPMENT_TEAM = 3Y46Y6N99L;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
