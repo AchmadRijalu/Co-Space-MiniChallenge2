@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "role-reveal-security-1.png",
+      "filename" : "role-reveal-cleaner.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "role-reveal-security@2x-1.png",
+      "filename" : "role-reveal-cleaner@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "role-reveal-security@3x-1.png",
+      "filename" : "role-reveal-cleaner@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
