@@ -8,7 +8,7 @@
 import SpriteKit
 import GameplayKit
 
-struct GuestQueue {
+struct GuestQueueSecurity {
     var queue: Int
     var guest: SKNode
     var currentPosition: CGPoint
@@ -42,7 +42,7 @@ class SecurityGameScene: SKScene {
     var securitylabel = SKSpriteNode(imageNamed: "security-label")
     var locationList: [SKNode] = []
     var dissapearNode: SKNode = SKNode()
-    var queueList: [GuestQueue] = []
+    var queueList: [GuestQueueSecurity] = []
     var guestTimer: Timer?
     var guestLeave: Bool = false
     let guestListTemplate = GuestDictionary().guestList
@@ -145,7 +145,7 @@ class SecurityGameScene: SKScene {
                 self.addChild(pengunjung1)
                 
                 locationList.append(location1Node)
-                queueList.append(GuestQueue(queue: 1, guest: pengunjung1, currentPosition: locationList[0].position))
+                queueList.append(GuestQueueSecurity(queue: 1, guest: pengunjung1, currentPosition: locationList[0].position))
                 
                 timerRenewal(seconds: 3)
             }
@@ -163,7 +163,7 @@ class SecurityGameScene: SKScene {
                 self.addChild(pengunjung2)
                 
                 locationList.append(location2Node)
-                queueList.append(GuestQueue(queue: 2, guest: pengunjung2, currentPosition: locationList[1].position))
+                queueList.append(GuestQueueSecurity(queue: 2, guest: pengunjung2, currentPosition: locationList[1].position))
             }
             
             if let location3Node = masterScene?.childNode(withName: "location3") {
@@ -179,7 +179,7 @@ class SecurityGameScene: SKScene {
                 self.addChild(pengunjung3)
                 
                 locationList.append(location3Node)
-                queueList.append(GuestQueue(queue: 3, guest: pengunjung3, currentPosition: locationList[2].position))
+                queueList.append(GuestQueueSecurity(queue: 3, guest: pengunjung3, currentPosition: locationList[2].position))
             }
             
             if let location4Node = masterScene?.childNode(withName: "location4") {
@@ -195,7 +195,7 @@ class SecurityGameScene: SKScene {
                 self.addChild(pengunjung4)
                 
                 locationList.append(location4Node)
-                queueList.append(GuestQueue(queue: 4, guest: pengunjung4, currentPosition: locationList[3].position))
+                queueList.append(GuestQueueSecurity(queue: 4, guest: pengunjung4, currentPosition: locationList[3].position))
             }
             
             if let location5Node = masterScene?.childNode(withName: "location5") {
@@ -211,7 +211,7 @@ class SecurityGameScene: SKScene {
                 self.addChild(pengunjung5)
                 
                 locationList.append(location5Node)
-                queueList.append(GuestQueue(queue: 5, guest: pengunjung5, currentPosition: locationList[4].position))
+                queueList.append(GuestQueueSecurity(queue: 5, guest: pengunjung5, currentPosition: locationList[4].position))
             }
             
             dissapearNode = masterScene?.childNode(withName: "disappearLocation") ?? SKNode()
@@ -340,7 +340,7 @@ class SecurityGameScene: SKScene {
                     
                     let newGuest = self.generateNewGuest()
                     self.addChild(newGuest)
-                    self.queueList.append(GuestQueue(queue: (self.queueList.count + 1), guest: newGuest, currentPosition: self.locationList[4].position))
+                    self.queueList.append(GuestQueueSecurity(queue: (self.queueList.count + 1), guest: newGuest, currentPosition: self.locationList[4].position))
                 }
             }
         }
