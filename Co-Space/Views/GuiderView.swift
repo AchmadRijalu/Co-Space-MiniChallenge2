@@ -11,8 +11,7 @@ import SpriteKit
 struct GuiderView: View {
     let screenWidth = UIScreen.main.bounds.width
     let screenHeight = UIScreen.main.bounds.height
-    var scene = SKScene(fileNamed: "GuiderGameScene.sks") as! GuideScene
-    
+    var scene = SKScene(fileNamed: "GuiderGameScene.sks") as! GuiderGameScene
     var body: some View {
         ZStack{
             VStack{

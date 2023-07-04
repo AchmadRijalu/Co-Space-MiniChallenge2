@@ -1,12 +1,11 @@
 //
-//  Pengunjung.swift
-//  Security
+//  SecurityGuestModel.swift
+//  Co-Space
 //
-//  Created by Billy Agustian Dharmawan on 22/06/23.
+//  Created by Achmad Rijalu on 04/07/23.
 //
 
 import Foundation
-
 struct Pengunjung {
     var nama: String?
     var kesabaranSecurity: Int?

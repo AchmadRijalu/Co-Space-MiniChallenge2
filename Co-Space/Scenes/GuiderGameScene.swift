@@ -10,11 +10,11 @@ import Foundation
 import SpriteKit
 import AVFoundation
 
-struct GuestQueue {
+struct GuestQueueGuide {
     var queue: Int
     var guest: SKSpriteNode
 }
-class GuideScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
+class GuiderGameScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
     var planetGuide: SKNode?
     //Spawn Location
     var locationSpawn : SKNode?
@@ -30,7 +30,7 @@ class GuideScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
     var continuousTimer: Timer?
     var locationList: [SKNode] = []
     var moveLocationList: [SKNode] = []
-    var queueList: [GuestQueue] = []
+    var queueList: [GuestQueueGuide] = []
     var newGuest: SKSpriteNode?
     var seatClickable: Bool = true
     var guestLeave: Bool = false
@@ -81,6 +81,12 @@ class GuideScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
     
     var addNewGuestTimerCount:Int = 0
     override func didMove(to view: SKView) {
+        if let particles = SKEmitterNode(fileNamed: "Starfield"){
+            particles.position = CGPoint (x: 1000, y: 0)
+            particles.advanceSimulationTime(60)
+            particles.zPosition = -2
+            addChild(particles)
+        }
         createTimerBar()
         continuousTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
             self.addNewGuestTimerCount += 1
@@ -385,7 +391,7 @@ class GuideScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + delayAddQueue) {
-            self.queueList.append(GuestQueue(queue: (self.queueList.count + 1), guest: self.newGuest!))
+            self.queueList.append(GuestQueueGuide(queue: (self.queueList.count + 1), guest: self.newGuest!))
             
             self.newGuest = nil
         }

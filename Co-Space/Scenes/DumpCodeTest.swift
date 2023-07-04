@@ -554,3 +554,52 @@ import Foundation
 //
 //}
 
+
+//MARK: - Slider from Main Menu swiftui
+
+//                        ZStack(alignment: .leading){
+//                            RoundedRectangle(cornerRadius: 50, style: .continuous).frame(width: geo.size.width/2 ).foregroundColor(Color.white).foregroundStyle(.ultraThickMaterial).blendMode(.plusLighter)
+//                            HStack{
+//                                Image(systemName: "arrow.right.circle").font(.system(size: geo.size.width/12)).offset(x: self.dragAmount ).simultaneousGesture(DragGesture().onChanged({ value in
+//
+//                                    if value.translation.width > 0 && value.translation.width < geo.size.width / 2.6{
+//                                        self.dragAmount = value.translation.width
+//                                    }
+//                                }
+//                                                                                                                                                                                      ).onEnded{ value in
+//                                    if dragAmount >= geo.size.width/2.9{
+//                                        //do some action
+//                                        print("Navigate to the game room")
+//                                        isNextScreenActive = true
+//                                        withAnimation(.spring()){
+//                                            dragAmount = 0
+//                                            showSliderText = false
+//                                        }
+//                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2){
+//                                            showSliderText = true
+//                                        }
+//                                    }
+//                                    else{
+//                                        withAnimation(.spring()){
+//                                            dragAmount = 0
+//                                            showSliderText = false
+//                                        }
+//                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2){
+//                                            showSliderText = true
+//                                        }
+//
+//                                    }
+//                                })
+//                                if showSliderText && dragAmount <= geo.size.width / 13 {
+//                                    withAnimation(.easeIn(duration: 2)){
+//                                        Text("Slide to Create Game Room").foregroundColor(.black)
+//
+//                                    }
+//
+//                                }
+//
+//
+//                            }
+//                            //                        Text("Slide to Create Room").foregroundColor(.black)
+//                        }.frame(width: 10, height: 62).background(.red)
+
