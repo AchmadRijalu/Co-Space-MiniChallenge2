@@ -82,10 +82,11 @@ struct MainmenuView: View {
                 .navigationBarHidden(true)
                 .background(
                     NavigationLink(
-                        destination: GuiderView(),
+                        destination: SecurityView(),
                         isActive: $isNextScreenActive,
                         label: EmptyView.init
                     )
+                    .navigationBarBackButtonHidden(true)
                 )
                 
             }
