@@ -6,9 +6,6 @@
 //
 
 import Foundation
-
-
-import Foundation
 import GameKit
 import SwiftUI
 
@@ -52,7 +49,7 @@ class MainGame: NSObject, GKGameCenterControllerDelegate, ObservableObject {
     @Published var activePoop = ""
     
     // =========================== ROLE INVENTORY PROPERTIES ===========================
-    let cleaningItemAndPoop = ["green", "yellow", "brown"]
+    let cleaningItemAndPoop = ["green", "orange", "brown"]
     @Published var drawerContent: [String: String] = ["sun": "", "moon": "", "star": ""]
     
     /// The root view controller of the window.
