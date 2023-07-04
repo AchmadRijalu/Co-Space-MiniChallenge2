@@ -94,7 +94,6 @@
 			children = (
 				77E3E32F2A43DB2600143224 /* Co-Space.entitlements */,
 				77E3E3292A43D18C00143224 /* Scenes */,
-				77E3E3142A41506200143224 /* Components */,
 				77E3E3132A41504F00143224 /* Views */,
 				77E3E3122A41504500143224 /* ViewModels */,
 				77E3E3112A41503D00143224 /* Models */,
@@ -141,13 +140,6 @@
 				77E3E3212A415DB200143224 /* GameRoomView.swift */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		77E3E3142A41506200143224 /* Components */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Components;
 			sourceTree = "<group>";
 		};
 		77E3E3292A43D18C00143224 /* Scenes */ = {

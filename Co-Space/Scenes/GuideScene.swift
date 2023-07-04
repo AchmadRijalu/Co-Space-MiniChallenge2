@@ -131,7 +131,6 @@ class GuideScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first else { return }
         let touchLocation = touch.location(in: self)
-        //        print(self.queueList)
         if (seatClickable){
             if let node = self.atPoint(touchLocation) as? SKSpriteNode {
                 if (node.name != nil){
