@@ -6,15 +6,29 @@
 //
 
 import SwiftUI
+import SpriteKit
 
 struct CleanerView: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
+    @StateObject var game = MainGame()
+//    var scene: SKScene {
+//          let scene = CleanerGameScene()
+//          scene.size = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+//          scene.scaleMode = .aspectFill
+//          return scene
+//      }
+    
+    var scene = SKScene(fileNamed: "CleanerGameScene.sks")
+    
+      
+      var body: some View {
+          SpriteView(scene: scene!)
+              .ignoresSafeArea()
+      }
 }
 
 struct CleanerView_Previews: PreviewProvider {
     static var previews: some View {
-        CleanerView()
+        CleanerView().previewInterfaceOrientation(.landscapeRight)
+            .ignoresSafeArea()
     }
 }
