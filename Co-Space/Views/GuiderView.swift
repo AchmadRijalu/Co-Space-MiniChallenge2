@@ -9,18 +9,20 @@ import SwiftUI
 import SpriteKit
 
 struct GuiderView: View {
-    let screenWidth = UIScreen.main.bounds.width
-    let screenHeight = UIScreen.main.bounds.height
+    @ObservedObject var game: MainGame
     var scene = SKScene(fileNamed: "GuiderGameScene.sks") as! GuiderGameScene
     var body: some View {
         ZStack{
             VStack{
                 SpriteView(scene: scene).ignoresSafeArea()
-            }.ignoresSafeArea().onAppear(){
-                scene.size = CGSize(width: screenWidth, height: screenHeight)
+            }
+            .onAppear{
+                scene.game = self.game
+                scene.size = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
                 scene.scaleMode = .fill
                 scene.backgroundColor = SKColor(named: "DarkPurple") ?? .blue
             }
+            .ignoresSafeArea()
         }
         .navigationBarBackButtonHidden()
     }
@@ -28,7 +30,7 @@ struct GuiderView: View {
 
 struct GuiderView_Previews: PreviewProvider {
     static var previews: some View {
-        GuiderView().previewInterfaceOrientation(.landscapeRight)
+        GuiderView(game: MainGame()).previewInterfaceOrientation(.landscapeRight)
     }
 }
 

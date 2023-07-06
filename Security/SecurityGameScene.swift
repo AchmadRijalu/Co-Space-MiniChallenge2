@@ -15,7 +15,9 @@ struct GuestQueueSecurity {
 }
 
 class SecurityGameScene: SKScene {
-    let masterScene = SKScene(fileNamed: "SecurityGameScene")
+    var game: MainGame?
+    
+//    let scene = SKScene(fileNamed: "SecurityGameScene")
     let securitybackground = SKSpriteNode(imageNamed : "security-background")
     let planetbackground = SKSpriteNode(imageNamed : "security-planet")
     let rectangle = SKSpriteNode(imageNamed : "button-rectangle")
@@ -60,7 +62,7 @@ class SecurityGameScene: SKScene {
     
     override func sceneDidLoad() {
             
-            if let security1backgroundNode = masterScene?.childNode(withName: "securitybackground") {
+            if let security1backgroundNode = scene?.childNode(withName: "securitybackground") {
                 securitybackground.name = "securitybackgroundNode"
                 securitybackground.size = CGSize(width: UIScreen.main.bounds.width + 0.5 * UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
                 securitybackground.position = security1backgroundNode.position
@@ -68,7 +70,7 @@ class SecurityGameScene: SKScene {
                 self.addChild(securitybackground)
             }
             
-            if let planet1backgroundNode = masterScene?.childNode(withName: "planetbackground") {
+            if let planet1backgroundNode = scene?.childNode(withName: "planetbackground") {
                 planetbackground.name = "planetbackgroundNode"
                 planetbackground.size = CGSize(width:700, height: 350)
                 planetbackground.position = planet1backgroundNode.position
@@ -76,7 +78,7 @@ class SecurityGameScene: SKScene {
                 self.addChild(planetbackground)
             }
             
-            if let security1labelNode = masterScene?.childNode(withName: "securitylabel") {
+            if let security1labelNode = scene?.childNode(withName: "securitylabel") {
                 securitylabel.name = "planetbackgroundNode"
                 securitylabel.size = CGSize(width:150, height: 50)
                 securitylabel.position = security1labelNode.position
@@ -84,7 +86,7 @@ class SecurityGameScene: SKScene {
                 self.addChild(securitylabel)
             }
             
-            if let rectangle1buttonNode = masterScene?.childNode(withName: "rectanglebutton") {
+            if let rectangle1buttonNode = scene?.childNode(withName: "rectanglebutton") {
                 rectangle.name = "rectangle1buttonNode"
                 rectangle.size = CGSize(width: 65, height: 80)
                 rectangle.position = rectangle1buttonNode.position
@@ -92,7 +94,7 @@ class SecurityGameScene: SKScene {
                 self.addChild(rectangle)
             }
             
-            if let rectangle1quantityNode = masterScene?.childNode(withName: "rectangleleft") {
+            if let rectangle1quantityNode = scene?.childNode(withName: "rectangleleft") {
                 rectangleidentitycardquantity.name = "rectangle1quantityNode"
                 rectangleidentitycardquantity.size = CGSize(width: 50, height: 30)
                 rectangleidentitycardquantity.position = rectangle1quantityNode.position
@@ -100,7 +102,7 @@ class SecurityGameScene: SKScene {
                 self.addChild(rectangleidentitycardquantity)
             }
             
-            if let triangle1buttonNode = masterScene?.childNode(withName: "trianglebutton") {
+            if let triangle1buttonNode = scene?.childNode(withName: "trianglebutton") {
                 triangle.name = "triangle1buttonNode"
                 triangle.size = CGSize(width: 65, height: 80)
                 triangle.position = triangle1buttonNode.position
@@ -108,7 +110,7 @@ class SecurityGameScene: SKScene {
                 self.addChild(triangle)
             }
             
-            if let triangle1quantityNode = masterScene?.childNode(withName: "triangleleft") {
+            if let triangle1quantityNode = scene?.childNode(withName: "triangleleft") {
                 triangleidentitycardquantity.name = "triangle1quantityNode"
                 triangleidentitycardquantity.size = CGSize(width: 50, height: 30)
                 triangleidentitycardquantity.position = triangle1quantityNode.position
@@ -116,7 +118,7 @@ class SecurityGameScene: SKScene {
                 self.addChild(triangleidentitycardquantity)
             }
             
-            if let circle1buttonNode = masterScene?.childNode(withName: "circlebutton") {
+            if let circle1buttonNode = scene?.childNode(withName: "circlebutton") {
                 circle.name = "circle1buttonNode"
                 circle.size = CGSize(width: 65, height: 80)
                 circle.position = circle1buttonNode.position
@@ -124,7 +126,7 @@ class SecurityGameScene: SKScene {
                 self.addChild(circle)
             }
             
-            if let circle1quantityNode = masterScene?.childNode(withName: "circleleft") {
+            if let circle1quantityNode = scene?.childNode(withName: "circleleft") {
                 circleidentitycardquantity.name = "circle1quantityNode"
                 circleidentitycardquantity.size = CGSize(width: 50, height: 30)
                 circleidentitycardquantity.position = circle1quantityNode.position
@@ -132,7 +134,7 @@ class SecurityGameScene: SKScene {
                 self.addChild(circleidentitycardquantity)
             }
             
-            if let location1Node = masterScene?.childNode(withName: "location1") {
+            if let location1Node = scene?.childNode(withName: "location1") {
                 pengunjung1.name = "pengunjung1"
                 pengunjung1.size = CGSize(width: 100, height: 100)
                 pengunjung1.position = location1Node.position
@@ -150,7 +152,7 @@ class SecurityGameScene: SKScene {
                 timerRenewal(seconds: 3)
             }
             
-            if let location2Node = masterScene?.childNode(withName: "location2") {
+            if let location2Node = scene?.childNode(withName: "location2") {
                 pengunjung2.name = "pengunjung2"
                 pengunjung2.size = CGSize(width: 100, height: 100)
                 pengunjung2.position = location2Node.position
@@ -166,7 +168,7 @@ class SecurityGameScene: SKScene {
                 queueList.append(GuestQueueSecurity(queue: 2, guest: pengunjung2, currentPosition: locationList[1].position))
             }
             
-            if let location3Node = masterScene?.childNode(withName: "location3") {
+            if let location3Node = scene?.childNode(withName: "location3") {
                 pengunjung3.name = "pengunjung3"
                 pengunjung3.size = CGSize(width: 100, height: 100)
                 pengunjung3.position = location3Node.position
@@ -182,7 +184,7 @@ class SecurityGameScene: SKScene {
                 queueList.append(GuestQueueSecurity(queue: 3, guest: pengunjung3, currentPosition: locationList[2].position))
             }
             
-            if let location4Node = masterScene?.childNode(withName: "location4") {
+            if let location4Node = scene?.childNode(withName: "location4") {
                 pengunjung4.name = "pengunjung4"
                 pengunjung4.size = CGSize(width: 100, height: 100)
                 pengunjung4.position = location4Node.position
@@ -198,7 +200,7 @@ class SecurityGameScene: SKScene {
                 queueList.append(GuestQueueSecurity(queue: 4, guest: pengunjung4, currentPosition: locationList[3].position))
             }
             
-            if let location5Node = masterScene?.childNode(withName: "location5") {
+            if let location5Node = scene?.childNode(withName: "location5") {
                 pengunjung5.name = "pengunjung5"
                 pengunjung5.size = CGSize(width: 100, height: 100)
                 pengunjung5.position = location5Node.position
@@ -214,7 +216,9 @@ class SecurityGameScene: SKScene {
                 queueList.append(GuestQueueSecurity(queue: 5, guest: pengunjung5, currentPosition: locationList[4].position))
             }
             
-            dissapearNode = masterScene?.childNode(withName: "disappearLocation") ?? SKNode()
+            dissapearNode = scene?.childNode(withName: "disappearLocation") ?? SKNode()
+            createHealthBar()
+            createTimerBar()
         }
     
     override func didMove(to view: SKView) {
@@ -255,8 +259,6 @@ class SecurityGameScene: SKScene {
             circle1TextLabelNode = circletext
             self.addChild(circletext)
             
-            createTimerBar()
-            createHealthBar()
             updateHealthBar()
         }
     }
@@ -357,8 +359,8 @@ class SecurityGameScene: SKScene {
     
     var healthCount: Int = 5
     func createHealthBar(){
-        if let healthleftNode = masterScene?.childNode(withName: "healthleft"),
-           let healthbarNode = masterScene?.childNode(withName: "healthbar"){
+        if let healthleftNode = scene?.childNode(withName: "healthleft"),
+           let healthbarNode = scene?.childNode(withName: "healthbar"){
             // Create the health bar background
             let healthBarBackground = SKSpriteNode(imageNamed: "health-bar")
             healthBarBackground.size = CGSize(width: 170, height: 38)
@@ -395,8 +397,8 @@ class SecurityGameScene: SKScene {
     }
     
     func createTimerBar() {
-        if let timeleftNode = masterScene?.childNode(withName: "timeleft"),
-           let timebarNode = masterScene?.childNode(withName: "timebar"){
+        if let timeleftNode = scene?.childNode(withName: "timeleft"),
+           let timebarNode = scene?.childNode(withName: "timebar"){
             // Create the timer bar background
             let timerBarBackground = SKSpriteNode(imageNamed: "timebar")
             timerBarBackground.size = CGSize(width: 170, height: 38)
@@ -404,12 +406,12 @@ class SecurityGameScene: SKScene {
             addChild(timerBarBackground)
             
             // Create the timer bar node
-            timerBarNode = SKSpriteNode(imageNamed: "timebar-fill")
-            timerBarNode.size = CGSize(width: timerBarWidth, height: timerBarHeight)
-            timerBarNode.position = CGPoint(x: timeleftNode.position.x, y: timeleftNode.position.y)
-            timerBarNode.anchorPoint = CGPoint(x: 0, y: 0.5)
-            timerBarNode.zPosition = timerBarNode.zPosition + 1
-            addChild(timerBarNode)
+            self.timerBarNode = SKSpriteNode(imageNamed: "timebar-fill")
+            self.timerBarNode.size = CGSize(width: timerBarWidth, height: timerBarHeight)
+            self.timerBarNode.position = CGPoint(x: timeleftNode.position.x, y: timeleftNode.position.y)
+            self.timerBarNode.anchorPoint = CGPoint(x: 0, y: 0.5)
+            self.timerBarNode.zPosition = self.timerBarNode.zPosition + 1
+            addChild(self.timerBarNode)
         }
     }
 

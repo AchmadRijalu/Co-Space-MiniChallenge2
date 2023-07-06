@@ -9,23 +9,31 @@ import Foundation
 import SpriteKit
 
 class RoleRevealScene: SKScene {
+    var game: MainGame?
+    
     var counterNext = 0
-    var counterRole = 0
-    var instructionArrays: [[String]] = [
-        ["instruction-security-1", "instruction-security-2"],
-        ["instruction-guide-1", "instruction-guide-2"],
-        ["instruction-cleaner-1", "instruction-cleaner-2"],
-        ["instruction-inventory-1", "instruction-inventory-2", "instruction-inventory-3"]
+    var instructionArrays: [String: [String]] = [
+        "security": ["instruction-security-1", "instruction-security-2"],
+        "guide": ["instruction-guide-1", "instruction-guide-2"],
+        "cleaner": ["instruction-cleaner-1", "instruction-cleaner-2"],
+        "inventory": ["instruction-inventory-1", "instruction-inventory-2", "instruction-inventory-3"]
     ]
-    lazy var currentInstruction: SKTexture = {
-        return SKTexture(imageNamed: instructionArrays[counterRole][counterNext])
-    }()
+    var currentInstruction: SKTexture = SKTexture()
     let buttonNextEnableTexture = SKTexture(imageNamed: "role-reveal-button-next-unfilled")
     let buttonNextDisableTexture = SKTexture(imageNamed: "role-reveal-button-next-disabled")
     let buttonPreviousEnableTexture = SKTexture(imageNamed: "role-reveal-button-back-unfilled")
     let buttonPreviousDisableTexture = SKTexture(imageNamed: "role-reveal-button-back-disabled")
     
     override func sceneDidLoad() {
+        refreshInstruction()
+    }
+    
+    override func didMove(to view: SKView) {
+        currentInstruction = SKTexture(imageNamed: instructionArrays[game!.myRole]![counterNext])
+        if let roleRevealNode = self.childNode(withName: "role-reveal") as? SKSpriteNode {
+            roleRevealNode.texture = SKTexture(imageNamed: "role-reveal-\(game!.myRole)")
+        }
+        
         refreshInstruction()
     }
     
@@ -51,7 +59,7 @@ class RoleRevealScene: SKScene {
     
     func refreshButtonNext() {
         if let buttonNextNode = self.childNode(withName: "Next") as? SKSpriteNode {
-            let newTexture = counterNext < instructionArrays[counterRole].count - 1 ? buttonNextEnableTexture : buttonNextDisableTexture
+            let newTexture = counterNext < instructionArrays[game!.myRole]!.count - 1 ? buttonNextEnableTexture : buttonNextDisableTexture
             buttonNextNode.texture = newTexture
         }
     }
@@ -64,9 +72,9 @@ class RoleRevealScene: SKScene {
     }
     
     func buttonNextClicked() {
-        if counterNext < instructionArrays[counterRole].count - 1 {
+        if counterNext < instructionArrays[game!.myRole]!.count - 1 {
             counterNext += 1
-            currentInstruction = SKTexture(imageNamed: instructionArrays[counterRole][counterNext])
+            currentInstruction = SKTexture(imageNamed: instructionArrays[game!.myRole]![counterNext])
             refreshInstruction()
         }
         refreshButtonNext()
@@ -76,7 +84,7 @@ class RoleRevealScene: SKScene {
     func buttonPreviousClicked() {
         if counterNext > 0 {
             counterNext -= 1
-            currentInstruction = SKTexture(imageNamed: instructionArrays[counterRole][counterNext])
+            currentInstruction = SKTexture(imageNamed: instructionArrays[game!.myRole]![counterNext])
             refreshInstruction()
         }
         refreshButtonNext()

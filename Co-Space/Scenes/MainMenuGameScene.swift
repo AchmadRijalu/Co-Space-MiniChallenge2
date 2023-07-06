@@ -9,7 +9,7 @@ import Foundation
 import SpriteKit
 
 class MainMenuGameScene: SKScene, SKPhysicsContactDelegate {
-    
+    var game: MainGame?
     
     override func didMove(to view: SKView) {
         
@@ -30,9 +30,10 @@ class MainMenuGameScene: SKScene, SKPhysicsContactDelegate {
             
             if let touch = touches.first, destinationSpriteNode.frame.contains(touch.location(in: self)) {
                 // Perform scene transition or any other actions
-                let newScene = SecurityGameScene(size: self.size) // Initialize your new scene
-                let transition = SKTransition.doorsOpenHorizontal(withDuration: 0.5) // Set the transition effect
-                self.scene?.view?.presentScene(newScene, transition: transition) // Change the scene
+//                let newScene = SecurityGameScene(size: self.size) // Initialize your new scene
+//                let transition = SKTransition.doorsOpenHorizontal(withDuration: 0.5) // Set the transition effect
+//                self.scene?.view?.presentScene(newScene, transition: transition) // Change the scene
+                game?.createRoom()
             }
         }
         

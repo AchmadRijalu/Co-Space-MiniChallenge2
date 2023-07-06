@@ -9,6 +9,8 @@ import SpriteKit
 import GameplayKit
 
 class InventoryGameScene: SKScene {
+    var game: MainGame?
+    
     var inventoryBackground: SKNode?
     var inventoryLabel: SKNode?
     var inventoryShop: SKNode?
@@ -21,6 +23,8 @@ class InventoryGameScene: SKScene {
     var inventoryRectangleCard: SKNode?
     var inventoryStorageDoorLeft: [SKNode] = []
     var inventoryStorageDoorRight: [SKNode] = []
+    var potionPriceNode: SKLabelNode?
+    var totalCoinNode: SKLabelNode?
 //    var inventoryStorageDoorLeft: SKNode?
     
     var isDoorOpen: Bool = false
@@ -80,11 +84,33 @@ class InventoryGameScene: SKScene {
                 inventoryButtonOpen.append(inventoryButtonOpenNode)
             }
         }
+        
+        if let potionPriceBuyNode = scene?.childNode(withName: "inventory-label-potion-price") {
+            potionPriceNode = potionPriceBuyNode as! SKLabelNode
+        }
+        
+        if let totalCoinAvailableNode = scene?.childNode(withName: "inventory-label-coins") {
+            totalCoinNode = scene.childNode(withName: "triangletext")!
+            let triangletext = SKLabelNode(fontNamed: "Arial")
+            triangletext.text = "x\(countertriangle)"
+            triangletext.fontColor = .black
+            triangletext.fontSize = 12
+            triangletext.position = triangle1textNode.position
+            triangletext.zPosition = 2
+            triangle1TextLabelNode = triangletext
+            self.addChild(triangletext)
+            totalCoinNode = totalCoinAvailableNode as! SKLabelNode
+            
+        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first else { return }
         let touchLocation = touch.location(in: self)
+        
+        if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "inventory-label-coins" {
+            print("HALO")
+        }
         
         resetItemShop()
         resetStorageDoor()
@@ -110,6 +136,8 @@ class InventoryGameScene: SKScene {
         if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "inventory-rectangle-card-off" {
             changeImage(node: inventoryRectangleCard!, imageName: "inventory-rectangle-card-on")
         }
+        
+        
     }
     
     func changeImage(node: SKNode, imageName: String) {

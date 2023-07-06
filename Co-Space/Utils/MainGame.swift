@@ -24,7 +24,7 @@ class MainGame: NSObject, GKGameCenterControllerDelegate, ObservableObject {
 
     /// Self Profile
     @Published var isHost = false
-    @Published var myRole: String = ""
+    @Published var myRole: String = "inventory"
     
     /// Game communication
     @Published var messages: [Message] = []
@@ -125,7 +125,9 @@ class MainGame: NSObject, GKGameCenterControllerDelegate, ObservableObject {
         
         // Present the interface where the player selects opponents and starts the game.
         if let viewController = GKMatchmakerViewController(matchRequest: request) {
+            viewController.matchmakingMode = GKMatchmakingMode.inviteOnly
             viewController.matchmakerDelegate = self
+            viewController.canStartWithMinimumPlayers = true
             rootViewController?.present(viewController, animated: true) { }
         }
     }

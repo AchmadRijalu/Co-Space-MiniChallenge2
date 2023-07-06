@@ -9,22 +9,28 @@ import SwiftUI
 import SpriteKit
 
 struct SecurityView: View {
-    var scene: SKScene {
-        let scene = SecurityGameScene()
-        scene.size = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-        scene.scaleMode = .aspectFill
-        return scene
-    }
-    
+    @ObservedObject var game: MainGame
+    var scene = SKScene(fileNamed: "SecurityGameScene.sks") as! SecurityGameScene
     var body: some View {
-        SpriteView(scene: scene)
+        ZStack{
+            VStack{
+                SpriteView(scene: scene).ignoresSafeArea()
+            }
+            .onAppear{
+                scene.game = self.game
+                scene.size = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+                scene.scaleMode = .fill
+                scene.backgroundColor = SKColor(named: "DarkPurple") ?? .blue
+            }
             .ignoresSafeArea()
+        }
+        .navigationBarBackButtonHidden()
     }
 }
 
 struct SecurityView_Previews: PreviewProvider {
     static var previews: some View {
-        SecurityView().previewInterfaceOrientation(.landscapeRight)
+        SecurityView(game: MainGame()).previewInterfaceOrientation(.landscapeRight)
             .ignoresSafeArea()
     }
 }

@@ -15,7 +15,10 @@ struct MainmenuView: View {
     @State var showSliderText = true
     @State private var isNextScreenActive = false
     @State private var isDragging = false
-    var scene = SKScene(fileNamed: "MainMenuGameScene.sks")
+    var scene = SKScene(fileNamed: "MainMenuGameScene.sks") as! MainMenuGameScene
+    
+    @StateObject private var game = MainGame()
+    
     var body: some View {
         NavigationStack{
             GeometryReader { geo in
@@ -23,12 +26,12 @@ struct MainmenuView: View {
                     ZStack{
                         VStack{
                             
-                            SpriteView(scene: scene!).ignoresSafeArea()
+                            SpriteView(scene: scene).ignoresSafeArea()
                             
                         }.ignoresSafeArea().onAppear(){
-                            scene?.size = CGSize(width: screenWidth, height: screenHeight)
-                            scene?.scaleMode = .fill
-                            scene?.backgroundColor = SKColor(named: "DarkPurple") ?? .blue
+                            scene.size = CGSize(width: screenWidth, height: screenHeight)
+                            scene.scaleMode = .fill
+                            scene.backgroundColor = SKColor(named: "DarkPurple") ?? .blue
                         }
 
                     }
@@ -38,8 +41,8 @@ struct MainmenuView: View {
                 .navigationBarHidden(true)
                 .background(
                     NavigationLink(
-                        destination: SecurityView(),
-                        isActive: $isNextScreenActive,
+                        destination: RoleRevealView(game: game),
+                        isActive: $game.playingGame,
                         label: EmptyView.init
                     )
                     .navigationBarBackButtonHidden(true)
@@ -48,10 +51,15 @@ struct MainmenuView: View {
             }
         }.onAppear(){
             self.dragAmount = 0
+            scene.game = self.game
+            if !game.playingGame {
+                game.authenticatePlayer()
+            }
         }.onDisappear {
             dragAmount = 0
             isDragging = false
         }
+        .navigationBarBackButtonHidden(true)
     }
 }
 

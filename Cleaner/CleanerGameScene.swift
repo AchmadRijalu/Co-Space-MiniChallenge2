@@ -9,6 +9,8 @@ import SpriteKit
 import GameplayKit
     
 class CleanerGameScene: SKScene {
+    var game: MainGame?
+    
     // Setup Scene
     var activePoop: SKSpriteNode? = nil
     var activeSeatWithPoop = ""
