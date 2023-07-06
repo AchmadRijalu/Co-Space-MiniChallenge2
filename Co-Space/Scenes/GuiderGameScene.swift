@@ -20,7 +20,6 @@ class GuiderGameScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
     var planetGuide: SKNode?
     //Spawn Location
     var locationSpawn : SKNode?
-    
     //List of Seat
     var seatNodeList: [String:[SKNode]] = ["triangle": [], "circle": [], "square": []]
     var seatNodeStatusList: [String:[Int]] = ["triangle": [0, 0, 0 , 0 ,0], "circle": [0,0,0,0,0], "square": [0,0,0,0,0]]
@@ -115,8 +114,9 @@ class GuiderGameScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
     //MARK: - Generate new guest node
     private func generateGuest() -> SKSpriteNode {
         let randomNum = Int(arc4random_uniform(8)) + 1
+        let randomSign = arc4random_uniform(3) + 1
         let newGuest = SKSpriteNode(texture: SKTexture(imageNamed: "guest-\(randomNum)"))
-        let signNewGuest = SKSpriteNode(imageNamed: "circlesign")
+        var signNewGuest = SKSpriteNode()
         signNewGuest.position.x = newGuest.position.x + 16
         signNewGuest.position.y = newGuest.position.y - 25
         signNewGuest.size = CGSize(width: 30, height: 30)
@@ -128,13 +128,29 @@ class GuiderGameScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
         newGuest.zPosition = 2
         let tags: NSMutableDictionary = [
             "patience": 5,
-            "alienType": randomNum
+            "alienType": randomNum,
+            
         ]
+        if randomSign == 1 {
+            print("1")
+            tags["sign"] = "square"
+            signNewGuest.texture = SKTexture(imageNamed: "squaresign")
+            
+        } else if randomSign == 2 {
+            print("2")
+            tags["sign"] = "circle"
+            signNewGuest.texture = SKTexture(imageNamed: "circlesign")
+        }
+        else if randomSign == 3 {
+            print("3")
+            tags["sign"] = "triangle"
+            signNewGuest.texture = SKTexture(imageNamed: "trianglesign")
+        }
         newGuest.userData = tags
+        
         
         return newGuest
     }
-    
     //MARK: - Trigger
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first else { return }
@@ -145,8 +161,6 @@ class GuiderGameScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
                     if (node.name!.contains("seat")){
                         let signSeatArr: String = String((node.name?.split(separator: "-")[0])!) as String
                         let numberSeatArr: String = String((node.name?.split(separator: "-")[2])!) as String
-//                        guestTimer?.invalidate()
-//                        guestTimer = nil
                         
                         moveGuest(numberSeat: Int(numberSeatArr), signSeat: signSeatArr)
                     }
@@ -189,13 +203,18 @@ class GuiderGameScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
                     if !guestLeave {
                         if let numberSeat = numberSeat, let signSeat = signSeat {
                             if let list = seatNodeStatusList[signSeat] {
+                                
                                 let value = list[numberSeat - 1]
                                 if value == 1 || value == 2 {
                                     print("Cannot insert into the seat.")
                                     self.isFilled = true
-                                } else {
+                                }
+                                else if signSeat != self.queueList[i].guest.userData!.value(forKey: "sign" ) as! String{
+                                    print("salah")
+                                    self.isFilled = true
+                                }
+                                else {
                                     let newSpriteNode = SKSpriteNode()
-                                    
                                     let seatSprite:CGPoint = CGPoint(x: (seatNodeList[signSeat]?[numberSeat - 1].position.x ?? .zero) + 8, y: (seatNodeList[signSeat]?[numberSeat - 1].position.y ?? .zero) - 10)
                                     
                                     

@@ -31,6 +31,7 @@
 		563EFB732A5652AE005EEA26 /* SpaceGrotesk-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 563EFB722A5652AE005EEA26 /* SpaceGrotesk-Bold.ttf */; };
 		567593CA2A4BBD2A00CCE935 /* MainGame+GlobalFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567593C92A4BBD2A00CCE935 /* MainGame+GlobalFunction.swift */; };
 		56F837A72A550D2C00F8615F /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56F837A62A550D2C00F8615F /* GameView.swift */; };
+		770E3A192A5531B8001EE3AA /* GameStart.gif in Resources */ = {isa = PBXBuildFile; fileRef = 770E3A182A5531B8001EE3AA /* GameStart.gif */; };
 		77937DE72A50277B009770F4 /* DumpCodeTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77937DE62A50277B009770F4 /* DumpCodeTest.swift */; };
 		77937DF72A544481009770F4 /* GuiderGameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77937DF62A544481009770F4 /* GuiderGameScene.swift */; };
 		77937DF92A54465E009770F4 /* SecurityGuestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77937DF82A54465E009770F4 /* SecurityGuestModel.swift */; };
@@ -87,6 +88,7 @@
 		563EFB742A565351005EEA26 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		567593C92A4BBD2A00CCE935 /* MainGame+GlobalFunction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainGame+GlobalFunction.swift"; sourceTree = "<group>"; };
 		56F837A62A550D2C00F8615F /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
+		770E3A182A5531B8001EE3AA /* GameStart.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = GameStart.gif; path = ../../../../../../Downloads/GameStart.gif; sourceTree = "<group>"; };
 		77937DE62A50277B009770F4 /* DumpCodeTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DumpCodeTest.swift; sourceTree = "<group>"; };
 		77937DF62A544481009770F4 /* GuiderGameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuiderGameScene.swift; sourceTree = "<group>"; };
 		77937DF82A54465E009770F4 /* SecurityGuestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SecurityGuestModel.swift; path = "Co-Space/Scenes/SecurityGuestModel.swift"; sourceTree = SOURCE_ROOT; };
@@ -216,6 +218,7 @@
 				77E3E3112A41503D00143224 /* Models */,
 				77E3E3032A414BFE00143224 /* Co_SpaceApp.swift */,
 				77E3E3052A414BFE00143224 /* ContentView.swift */,
+				770E3A182A5531B8001EE3AA /* GameStart.gif */,
 				77E3E3072A414BFF00143224 /* Assets.xcassets */,
 				77E3E3092A414BFF00143224 /* Preview Content */,
 			);
@@ -354,6 +357,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				770E3A192A5531B8001EE3AA /* GameStart.gif in Resources */,
 				4A862D672A46FE6E00AF4E54 /* SecurityGameScene.sks in Resources */,
 				77E3E3312A43E5AC00143224 /* GuiderGameScene.sks in Resources */,
 				CFC5AD1D2A493A840075CAFF /* CleanerGameScene.sks in Resources */,
@@ -544,7 +548,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Co-Space/Preview Content\"";
-				DEVELOPMENT_TEAM = 3Y46Y6N99L;
+				DEVELOPMENT_TEAM = DYXBWDG6F4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Co-Space/Info.plist";
@@ -576,7 +580,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Co-Space/Preview Content\"";
-				DEVELOPMENT_TEAM = 3Y46Y6N99L;
+				DEVELOPMENT_TEAM = DYXBWDG6F4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Co-Space/Info.plist";
