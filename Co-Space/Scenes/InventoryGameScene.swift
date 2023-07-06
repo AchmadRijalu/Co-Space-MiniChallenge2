@@ -90,15 +90,15 @@ class InventoryGameScene: SKScene {
         }
         
         if let totalCoinAvailableNode = scene?.childNode(withName: "inventory-label-coins") {
-            totalCoinNode = scene.childNode(withName: "triangletext")!
-            let triangletext = SKLabelNode(fontNamed: "Arial")
-            triangletext.text = "x\(countertriangle)"
-            triangletext.fontColor = .black
-            triangletext.fontSize = 12
-            triangletext.position = triangle1textNode.position
-            triangletext.zPosition = 2
-            triangle1TextLabelNode = triangletext
-            self.addChild(triangletext)
+//            totalCoinNode = scene.childNode(withName: "triangletext")!
+//            let triangletext = SKLabelNode(fontNamed: "Arial")
+//            triangletext.text = "x\(countertriangle)"
+//            triangletext.fontColor = .black
+//            triangletext.fontSize = 12
+//            triangletext.position = triangle1textNode.position
+//            triangletext.zPosition = 2
+//            triangle1TextLabelNode = triangletext
+//            self.addChild(triangletext)
             totalCoinNode = totalCoinAvailableNode as! SKLabelNode
             
         }

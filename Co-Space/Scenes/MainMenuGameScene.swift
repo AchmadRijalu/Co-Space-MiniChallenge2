@@ -1,10 +1,3 @@
-//
-//  MainMenuGameScene.swift
-//  Co-Space
-//
-//  Created by Achmad Rijalu on 29/06/23.
-//
-
 import Foundation
 import SpriteKit
 
@@ -38,41 +31,47 @@ class MainMenuGameScene: SKScene, SKPhysicsContactDelegate {
             let scaleDownAction = SKAction.scale(to: 0.5, duration: 1.0)
             let fadeOutAction = SKAction.fadeAlpha(to: 0.3, duration: 1.0)
             let fadeInAction = SKAction.fadeAlpha(to: 1.0, duration: 1.0)
-
+            
             let pulseAction = SKAction.repeatForever(SKAction.sequence([scaleUpAction, scaleDownAction]))
             let fadeAction = SKAction.repeatForever(SKAction.sequence([fadeOutAction, fadeInAction]))
-
+            
             self.mainMenuLabelNode.run(pulseAction)
             self.mainMenuLabelNode.run(fadeAction)
         }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        // Handle other touch events in the scene, if needed
+        if let draggableSpriteNode = self.childNode(withName: "planeSliderNode") {
+            
+        }
         
-        if let touch = touches.first {
-            let location = touch.location(in: self)
+        if let destinationSpriteNode = self.childNode(withName: "planeSlider2Node") {
             
-            
-            if let touch = touches.first, destinationSpriteNode.frame.contains(touch.location(in: self)) {
-                // Perform scene transition or any other actions
-//                let newScene = SecurityGameScene(size: self.size) // Initialize your new scene
-//                let transition = SKTransition.doorsOpenHorizontal(withDuration: 0.5) // Set the transition effect
-//                self.scene?.view?.presentScene(newScene, transition: transition) // Change the scene
-                game?.createRoom()
-            let touchedNodes = self.nodes(at: location)
-            for node in touchedNodes.reversed() {
-                if node.name == "planeSliderNode" {
-                    self.planeSliderNode = node as? SKSpriteNode
-                    
+            if let touch = touches.first {
+                let location = touch.location(in: self)
+                
+                if let touch = touches.first, destinationSpriteNode.frame.contains(touch.location(in: self)) {
+                    // Perform scene transition or any other actions
+                    let newScene = SecurityGameScene(size: self.size) // Initialize your new scene
+                    let transition = SKTransition.doorsOpenHorizontal(withDuration: 0.5) // Set the transition effect
+                    self.scene?.view?.presentScene(newScene, transition: transition) // Change the scene
+                    let touchedNodes = self.nodes(at: location)
+                    for node in touchedNodes.reversed() {
+                        if node.name == "planeSliderNode" {
+                            self.planeSliderNode = node as? SKSpriteNode
+                            
+                        }
+                        //                if node.name == "mainMenuLabelNode"{
+                        //                    print("pencet label")
+                        //                }
+                    }
                 }
-//                if node.name == "mainMenuLabelNode"{
-//                    print("pencet label")
-//                }
+                
             }
         }
-       
     }
-    
+            
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first, let node = self.planeSliderNode else { return }
         
@@ -88,16 +87,17 @@ class MainMenuGameScene: SKScene, SKPhysicsContactDelegate {
             let fadeInAction = SKAction.fadeIn(withDuration: 0.1)
             mainMenuLabelNode.alpha = 0.0
             mainMenuLabelNode.run(SKAction.group([fadeInAction]))
-           
+            
         }
         
         if node.position.x > 98.6 {
-            let newScene = SecurityGameScene(size: self.size) // Initialize your new scene
-            let transition = SKTransition.doorsOpenHorizontal(withDuration: 0.5) // Set the transition effect
-            self.scene?.view?.presentScene(newScene, transition: transition) // Change the scene
+//            let newScene = SecurityGameScene(size: self.size) // Initialize your new scene
+//            let transition = SKTransition.doorsOpenHorizontal(withDuration: 0.5) // Set the transition effect
+//            self.scene?.view?.presentScene(newScene, transition: transition) // Change the scene
+            game?.createRoom()
         }
     }
-
+    
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first, let node = self.planeSliderNode else { return }
@@ -105,21 +105,11 @@ class MainMenuGameScene: SKScene, SKPhysicsContactDelegate {
         let touchLocation = touch.location(in: self)
         let draggablePosition = min(max(touchLocation.x, minDragX), maxDragX)
         
-      
-            // User didn't drag the sprite, move it back to default position
-            let moveBackAction = SKAction.move(to: CGPoint(x: defaultPositionX, y: node.position.y), duration: 0.1)
-            node.run(moveBackAction)
+        
+        // User didn't drag the sprite, move it back to default position
+        let moveBackAction = SKAction.move(to: CGPoint(x: defaultPositionX, y: node.position.y), duration: 0.1)
+        node.run(moveBackAction)
         mainMenuLabelNode.isHidden = false
         
     }
-
-    
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        // Handle other touch events in the scene, if needed
-    }
 }
-
-
-
-
-
