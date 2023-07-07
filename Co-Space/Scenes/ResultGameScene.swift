@@ -15,7 +15,7 @@ class ResultGameScene : SKScene,  SKPhysicsContactDelegate{
     var moonResultNode =  SKSpriteNode()
     var logoResultNode = SKSpriteNode()
     var backgroundNode = SKSpriteNode()
-    
+    var animatedGameOverGif: FLAnimatedImageView!
     
     override func sceneDidLoad() {
         
@@ -79,9 +79,27 @@ class ResultGameScene : SKScene,  SKPhysicsContactDelegate{
             self.moonResultNode.run(resizeAction)
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.5){
-               
+                guard let gifURL = Bundle.main.url(forResource: "GameOver", withExtension: "gif") else {
+                    fatalError("Failed to find the GIF file")
+                }
+                
+                do {
+                    // Create the FLAnimatedImage object
+                    let animatedImage = try FLAnimatedImage(animatedGIFData: Data(contentsOf: gifURL))
+                    
+                    // Create the FLAnimatedImageView and set its properties
+                    self.animatedGameOverGif = FLAnimatedImageView(frame: view.frame)
+                    self.animatedGameOverGif.animatedImage = animatedImage
+                    self.animatedGameOverGif.contentMode = .scaleAspectFit
+                    
+                    // Add the FLAnimatedImageView as a subview to the SpriteKit view
+                    view.addSubview(self.animatedGameOverGif)
+                } catch {
+                    print("Failed to create FLAnimatedImage: \(error)")
+                }
             }
         }
+        
         
         
         
@@ -91,3 +109,4 @@ class ResultGameScene : SKScene,  SKPhysicsContactDelegate{
     
     
 }
+
