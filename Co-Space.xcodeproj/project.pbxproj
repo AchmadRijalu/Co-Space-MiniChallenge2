@@ -35,6 +35,8 @@
 		77937DE72A50277B009770F4 /* DumpCodeTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77937DE62A50277B009770F4 /* DumpCodeTest.swift */; };
 		77937DF72A544481009770F4 /* GuiderGameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77937DF62A544481009770F4 /* GuiderGameScene.swift */; };
 		77937DF92A54465E009770F4 /* SecurityGuestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77937DF82A54465E009770F4 /* SecurityGuestModel.swift */; };
+		77ACA6992A56E19D00C591E7 /* GameOver.gif in Resources */ = {isa = PBXBuildFile; fileRef = 77ACA6982A56E19D00C591E7 /* GameOver.gif */; };
+		77ACA69C2A56FF7E00C591E7 /* FLAnimatedImage in Frameworks */ = {isa = PBXBuildFile; productRef = 77ACA69B2A56FF7E00C591E7 /* FLAnimatedImage */; };
 		77D6B4902A49DD8B00BB551F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 77D6B48E2A49DD8B00BB551F /* Assets.xcassets */; };
 		77D6B4922A49DDBE00BB551F /* starfield.sks in Resources */ = {isa = PBXBuildFile; fileRef = 77D6B4912A49DDBE00BB551F /* starfield.sks */; };
 		77D6B4942A4BC57F00BB551F /* GuiderGameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D6B4932A4BC57F00BB551F /* GuiderGameViewModel.swift */; };
@@ -92,6 +94,7 @@
 		77937DE62A50277B009770F4 /* DumpCodeTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DumpCodeTest.swift; sourceTree = "<group>"; };
 		77937DF62A544481009770F4 /* GuiderGameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuiderGameScene.swift; sourceTree = "<group>"; };
 		77937DF82A54465E009770F4 /* SecurityGuestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SecurityGuestModel.swift; path = "Co-Space/Scenes/SecurityGuestModel.swift"; sourceTree = SOURCE_ROOT; };
+		77ACA6982A56E19D00C591E7 /* GameOver.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = GameOver.gif; path = ../../../../../../Downloads/GameOver.gif; sourceTree = "<group>"; };
 		77D6B48E2A49DD8B00BB551F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		77D6B4912A49DDBE00BB551F /* starfield.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = starfield.sks; sourceTree = "<group>"; };
 		77D6B4932A4BC57F00BB551F /* GuiderGameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuiderGameViewModel.swift; sourceTree = "<group>"; };
@@ -127,6 +130,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				77E3E32C2A43D50B00143224 /* SpriteKit.framework in Frameworks */,
+				77ACA69C2A56FF7E00C591E7 /* FLAnimatedImage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -219,6 +223,7 @@
 				77E3E3032A414BFE00143224 /* Co_SpaceApp.swift */,
 				77E3E3052A414BFE00143224 /* ContentView.swift */,
 				563EFB752A566518005EEA26 /* GameStart.gif */,
+				77ACA6982A56E19D00C591E7 /* GameOver.gif */,
 				77E3E3072A414BFF00143224 /* Assets.xcassets */,
 				77E3E3092A414BFF00143224 /* Preview Content */,
 			);
@@ -315,6 +320,9 @@
 			dependencies = (
 			);
 			name = "Co-Space";
+			packageProductDependencies = (
+				77ACA69B2A56FF7E00C591E7 /* FLAnimatedImage */,
+			);
 			productName = "Co-Space";
 			productReference = 77E3E3002A414BFE00143224 /* Co-Space.app */;
 			productType = "com.apple.product-type.application";
@@ -343,6 +351,9 @@
 				Base,
 			);
 			mainGroup = 77E3E2F72A414BFE00143224;
+			packageReferences = (
+				77ACA69A2A56FF7E00C591E7 /* XCRemoteSwiftPackageReference "FLAnimatedImage" */,
+			);
 			productRefGroup = 77E3E3012A414BFE00143224 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -364,6 +375,7 @@
 				CF2CF9072A53B1C500377547 /* ResultGameScene.sks in Resources */,
 				77E3E30B2A414BFF00143224 /* Preview Assets.xcassets in Resources */,
 				77D6B4982A4DEA2200BB551F /* MainMenuGameScene.sks in Resources */,
+				77ACA6992A56E19D00C591E7 /* GameOver.gif in Resources */,
 				563EFB762A566518005EEA26 /* GameStart.gif in Resources */,
 				4A862D6B2A4708ED00AF4E54 /* Starfield.sks in Resources */,
 				4A862D6C2A4708ED00AF4E54 /* Assets.xcassets in Resources */,
@@ -625,6 +637,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		77ACA69A2A56FF7E00C591E7 /* XCRemoteSwiftPackageReference "FLAnimatedImage" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Flipboard/FLAnimatedImage";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		77ACA69B2A56FF7E00C591E7 /* FLAnimatedImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 77ACA69A2A56FF7E00C591E7 /* XCRemoteSwiftPackageReference "FLAnimatedImage" */;
+			productName = FLAnimatedImage;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 77E3E2F82A414BFE00143224 /* Project object */;
 }

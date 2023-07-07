@@ -24,7 +24,6 @@ struct RoleRevealView: View {
                     isActive: $isMovingToGameView,
                     label: EmptyView.init
                 )
-                
                 SpriteView(scene: scene)
                     .onAppear{
                         scene.game = self.game
@@ -33,7 +32,6 @@ struct RoleRevealView: View {
                         scene.backgroundColor = SKColor(named: "DarkPurple") ?? .blue
                     }
                     .ignoresSafeArea()
-                
                 VStack(alignment: .trailing){
                     HStack{
                         Spacer()
