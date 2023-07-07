@@ -86,6 +86,8 @@ class InventoryGameScene: SKScene {
         if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "inventory-button-open-1"{
             if(drawermoonOpen != true){
                 drawermoonOpen = true
+                drawersunOpen = false
+                drawerstarOpen = false
                 animateDrawer(door: "moon", moon: drawermoonOpen, sun: drawersunOpen, star: drawerstarOpen)
             }
             
@@ -94,6 +96,8 @@ class InventoryGameScene: SKScene {
             if(drawersunOpen != true){
                 if(drawersunOpen != true){
                     drawersunOpen = true
+                    drawerstarOpen = false
+                    drawermoonOpen = false
                     animateDrawer(door: "sun", moon: drawermoonOpen, sun: drawersunOpen, star: drawerstarOpen)
                 }
             }
@@ -102,6 +106,8 @@ class InventoryGameScene: SKScene {
             if(drawerstarOpen != true){
                 if(drawerstarOpen != true){
                     drawerstarOpen = true
+                    drawersunOpen = false
+                    drawermoonOpen = false
                     animateDrawer(door: "star", moon: drawermoonOpen, sun: drawersunOpen, star: drawerstarOpen)
                 }
             }
@@ -118,7 +124,7 @@ class InventoryGameScene: SKScene {
             }else{
                 buying(potionPriceNode)
             }
-     
+            
         }
         if let node = self.atPoint(touchLocation) as? SKSpriteNode {
             if node.name == "inventory-triangle-card-off" {
@@ -176,8 +182,8 @@ class InventoryGameScene: SKScene {
         let growActionLeft = SKAction.resize(toWidth: 60, duration: 0.5)
         let growActionRight = SKAction.resize(toWidth: 60, duration: 0.5)
         let delay = SKAction.wait(forDuration: 3.0)
-        let doorLeft: SKNode?
-        let doorRight: SKNode?
+        var doorLeft: SKNode?
+        var doorRight: SKNode?
         
         switch door {
         case "moon":
@@ -193,23 +199,39 @@ class InventoryGameScene: SKScene {
             doorLeft = nil
             doorRight = nil
         }
+        
         doorLeft?.run(shrinkAction)
         doorRight?.run(shrinkAction)
+        
         let growDoorsAction = SKAction.run {
-            self.inventoryStorageDoorLeft1?.run(growActionLeft)
-            self.inventoryStorageDoorLeft2?.run(growActionLeft)
-            self.inventoryStorageDoorLeft3?.run(growActionLeft)
-            self.inventoryStorageDoorRight1?.run(growActionRight)
-            self.inventoryStorageDoorRight2?.run(growActionRight)
-            self.inventoryStorageDoorRight3?.run(growActionRight)
+            if moon {
+                self.inventoryStorageDoorLeft2?.run(growActionLeft)
+                self.inventoryStorageDoorRight2?.run(growActionRight)
+                self.drawersunOpen = false
+                self.inventoryStorageDoorLeft3?.run(growActionLeft)
+                self.inventoryStorageDoorRight3?.run(growActionRight)
+                self.drawerstarOpen = false
+            }
+            if sun {
+                self.inventoryStorageDoorLeft1?.run(growActionLeft)
+                self.inventoryStorageDoorRight1?.run(growActionRight)
+                self.drawermoonOpen = false
+                self.inventoryStorageDoorLeft3?.run(growActionLeft)
+                self.inventoryStorageDoorRight3?.run(growActionRight)
+                self.drawerstarOpen = false
+            }
+            if star {
+                self.inventoryStorageDoorLeft1?.run(growActionLeft)
+                self.inventoryStorageDoorRight1?.run(growActionRight)
+                self.drawermoonOpen = false
+                self.inventoryStorageDoorLeft2?.run(growActionLeft)
+                self.inventoryStorageDoorRight2?.run(growActionRight)
+                self.drawersunOpen = false
+            }
+            
         }
-        if moon && sun && star {
-            let sequenceAction = SKAction.sequence([delay, growDoorsAction])
-            run(sequenceAction)
-            self.drawermoonOpen = false
-            self.drawersunOpen = false
-            self.drawerstarOpen = false
-        }
+        self.run(shrinkAction)
+        self.run(growDoorsAction)
     }
     
     // MARK: - setuplabel for font code
