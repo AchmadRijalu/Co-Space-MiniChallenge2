@@ -268,7 +268,6 @@ class CleanerGameScene: SKScene {
     
     //MARK: DamageAnimation
     func damageanimationrun() {
-        print("jalan")
         let fadeInAction = SKAction.fadeIn(withDuration: 0.8)
         let fadeOutAction = SKAction.fadeOut(withDuration: 0.8)
         let sequence = SKAction.sequence([fadeInAction,fadeOutAction])
