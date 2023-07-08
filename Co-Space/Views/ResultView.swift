@@ -14,7 +14,7 @@ struct ResultView: View {
     var body: some View {
         ZStack{
             VStack{
-                SpriteView(scene: scene, options: [.allowsTransparency]).ignoresSafeArea()
+                SpriteView(scene: scene, options: [.allowsTransparency], debugOptions: []).ignoresSafeArea()
             }
             .onAppear{
                 scene.backgroundColor = .clear

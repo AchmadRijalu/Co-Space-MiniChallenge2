@@ -129,7 +129,6 @@ class GuiderGameScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
         let tags: NSMutableDictionary = [
             "patience": 5,
             "alienType": randomNum,
-            
         ]
         if randomSign == 1 {
             print("1")
@@ -190,7 +189,6 @@ class GuiderGameScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
             self.seatClickable = true
         }
-        
         if queueList.count > 0 {
             for i in 0...(queueList.count - 1) {
                 if queueList[i].queue > 1 {
@@ -417,9 +415,6 @@ class GuiderGameScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
             self.newGuest = nil
         }
     }
-    
-    
-    
     //MARK: - Disappear Animation
     func runBounceAndDisappearAnimation(sprite: SKNode) {
         // Bounce action
