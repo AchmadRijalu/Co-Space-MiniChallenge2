@@ -9,8 +9,6 @@ import Foundation
 import GameKit
 import SwiftUI
 
-// MARK: Game Data Objects
-
 struct GameData: Codable {
     // Game Properties
     var message: String?
@@ -22,6 +20,7 @@ struct GameData: Codable {
     
     // Security Properties
     var identityCard: [String:Int]?
+    var newGuest: [String]?
     
     // Cleaner Properties
     var poop: String?
@@ -68,6 +67,12 @@ extension MainGame {
     // ========================== BUAT UPDATE IDENTITY CARD KE PLAYER LAIN ==========================
     func encode(idCard: [String:Int]?) -> Data? {
         let gameData = GameData(identityCard: idCard)
+        return encode(gameData: gameData)
+    }
+    
+    // ========================== BUAT UPDATE NEW GUEST KE PLAYER LAIN ==========================
+    func encode(newGuest: [String]?) -> Data? {
+        let gameData = GameData(newGuest: newGuest)
         return encode(gameData: gameData)
     }
     

@@ -9,13 +9,15 @@
 import Foundation
 import SpriteKit
 import AVFoundation
+import SwiftUI
 
 struct GuestQueueGuide {
     var queue: Int
     var guest: SKSpriteNode
 }
+
 class GuiderGameScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
-    var game: MainGame?
+    var game: MainGame = MainGame()
     
     var planetGuide: SKNode?
     //Spawn Location
@@ -32,7 +34,8 @@ class GuiderGameScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
     var locationList: [SKNode] = []
     var moveLocationList: [SKNode] = []
     var queueList: [GuestQueueGuide] = []
-    var newGuest: SKSpriteNode?
+    var newGuestFromSecurity: SKSpriteNode?
+    var newGuest: [String:SKSpriteNode] = [:]
     var seatClickable: Bool = true
     var guestLeave: Bool = false
     var isTimeVibrating:Bool = false
@@ -42,6 +45,7 @@ class GuiderGameScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
     var timerBarNode: SKSpriteNode!
     var timerBarBackground: SKSpriteNode?
     var timerBarDuration: TimeInterval = 10
+    var guestCounter = 0
     
     
     //MARK: - SET UP THE SEAT NODE
@@ -80,7 +84,6 @@ class GuiderGameScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
         }
     }
     
-    var addNewGuestTimerCount:Int = 0
     override func didMove(to view: SKView) {
         if let particles = SKEmitterNode(fileNamed: "Starfield"){
             particles.position = CGPoint (x: 1000, y: 0)
@@ -90,66 +93,51 @@ class GuiderGameScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
         }
         createTimerBar()
         continuousTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
-            self.addNewGuestTimerCount += 1
             self.checkQueue()
-            if (self.addNewGuestTimerCount >= 4){
-                self.addGuest()
-                self.addNewGuestTimerCount = 0
+            if (self.game.newGuestData != nil) {
+                
+                if (self.queueList.count >= 3){
+                    // fail
+                    print("Health Reduce: Queue penuh")
+//                    self.game?.updateHealth(add: false, amount: 1)
+                    self.game.newGuestData = nil
+                }
+                else {
+                    self.guestCounter += 1
+                    self.newGuest["guest-\(self.guestCounter)"] = self.generateGuest(symbol: (self.game.newGuestData?[0] ?? "rectangle"), imageName: (self.game.newGuestData?[1] ?? "guest-1"))
+                    self.game.newGuestData = nil
+                    self.addChild(self.newGuest["guest-\(self.guestCounter)"]!)
+                    self.updateNewGuest(guestIdx: "guest-\(self.guestCounter)")
+                }
+                
             }
         }
     }
-    //MARK: - Adding a new guest
-    private func addGuest(){
-        if (self.queueList.count >= 3){
-            // fail
-            print("Health Reduce")
-        }
-        else {
-            self.newGuest = generateGuest()
-            self.updateNewGuest()
-            
-            self.scene?.addChild(self.newGuest!)
-        }
-    }
+    
     //MARK: - Generate new guest node
-    private func generateGuest() -> SKSpriteNode {
-        let randomNum = Int(arc4random_uniform(8)) + 1
-        let randomSign = arc4random_uniform(3) + 1
-        let newGuest = SKSpriteNode(texture: SKTexture(imageNamed: "guest-\(randomNum)"))
+    private func generateGuest(symbol: String, imageName: String) -> SKSpriteNode {
+        let newGuestGenerated = SKSpriteNode(texture: SKTexture(imageNamed: imageName))
+        newGuestGenerated.position = locationSpawn?.position ?? CGPoint(x: 100.0, y: 100.0)
+        newGuestGenerated.name = "newGuest"
+        newGuestGenerated.size = CGSize(width: 70, height: 70)
+        newGuestGenerated.zPosition = 100
+        let alienType = Int(imageName.split(separator: "-")[1])
         var signNewGuest = SKSpriteNode()
-        signNewGuest.position.x = newGuest.position.x + 16
-        signNewGuest.position.y = newGuest.position.y - 25
+        signNewGuest.position.x = 0
+        signNewGuest.position.y = 0
         signNewGuest.size = CGSize(width: 30, height: 30)
         signNewGuest.name = "newGuestSign"
-        newGuest.addChild(signNewGuest)
-        newGuest.position = locationSpawn?.position ?? CGPoint(x: 0.0, y: 0.0)
-        newGuest.name = "newGuest"
-        newGuest.size = CGSize(width: 70, height: 70)
-        newGuest.zPosition = 2
+        newGuestGenerated.addChild(signNewGuest)
+       
         let tags: NSMutableDictionary = [
             "patience": 5,
-            "alienType": randomNum,
-            
+            "alienType": alienType ?? 1,
+            "sign": symbol
         ]
-        if randomSign == 1 {
-            print("1")
-            tags["sign"] = "square"
-            signNewGuest.texture = SKTexture(imageNamed: "squaresign")
-            
-        } else if randomSign == 2 {
-            print("2")
-            tags["sign"] = "circle"
-            signNewGuest.texture = SKTexture(imageNamed: "circlesign")
-        }
-        else if randomSign == 3 {
-            print("3")
-            tags["sign"] = "triangle"
-            signNewGuest.texture = SKTexture(imageNamed: "trianglesign")
-        }
-        newGuest.userData = tags
+        signNewGuest.texture = SKTexture(imageNamed: "\(symbol)sign")
+        newGuestGenerated.userData = tags
         
-        
-        return newGuest
+        return newGuestGenerated
     }
     //MARK: - Trigger
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -183,7 +171,7 @@ class GuiderGameScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
         }
     }
     
-    //MARK: - Move the guest to doing something
+    //MARK: - Move the guest to do something
     func moveGuest(numberSeat: Int?, signSeat: String?) {
         
         self.seatClickable = false
@@ -264,7 +252,6 @@ class GuiderGameScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
                         }
                         
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                           
                             self.guestLeave = false
                             self.isTimeVibrating = false
                             self.stopVibratingSprite(self.timerBarBackground!)
@@ -274,12 +261,9 @@ class GuiderGameScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
                         
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                             self.queueList.removeFirst()
-                           
-                            
                         }
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                             newNode.removeFromParent()
-                            
                         }
                     }
                 }
@@ -364,25 +348,25 @@ class GuiderGameScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
     }
     
     //MARK: - Moving animation into specific location
-    private func updateNewGuest() {
+    private func updateNewGuest(guestIdx: String) {
         var delayAddQueue = 0.0
         // Move the last queue to position 3 from spawn
         let moveAction1 = SKAction.move(to: moveLocationList[0].position, duration: 0.4)
-        self.newGuest?.run(moveAction1)
+        self.newGuest[guestIdx]?.run(moveAction1)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             let moveAction2 = SKAction.move(to: self.moveLocationList[1].position, duration: 0.5)
-            self.newGuest?.run(moveAction2)
+            self.newGuest[guestIdx]?.run(moveAction2)
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             let moveAction3 = SKAction.move(to: self.moveLocationList[2].position, duration: 0.5)
-            self.newGuest?.run(moveAction3)
+            self.newGuest[guestIdx]?.run(moveAction3)
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
             
             let moveAction4 = SKAction.move(to: self.locationList[2].position, duration: 0.6)
-            self.newGuest?.run(moveAction4)
+            self.newGuest[guestIdx]?.run(moveAction4)
             
         }
         delayAddQueue = 2.2
@@ -391,7 +375,7 @@ class GuiderGameScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.1) {
                 
                 let moveAction4 = SKAction.move(to: self.locationList[1].position, duration: 0.6)
-                self.newGuest?.run(moveAction4)
+                self.newGuest[guestIdx]?.run(moveAction4)
                 
             }
             delayAddQueue = 2.7
@@ -399,11 +383,11 @@ class GuiderGameScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2.7) {
                     
                     let moveAction5 = SKAction.move(to: self.locationList[0].position, duration: 0.6)
-                    self.newGuest?.run(moveAction5)
+                    self.newGuest[guestIdx]?.run(moveAction5)
                     
-                    let newGuestTime = self.newGuest?.userData?.value(forKey: "patience") as? Int
+                    let newGuestTime = self.newGuest[guestIdx]?.userData?.value(forKey: "patience") as? Int
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-                        self.timerRenewal(seconds: newGuestTime!)
+                        self.timerRenewal(seconds: newGuestTime ?? 5)
                     }
                 }
                 
@@ -412,9 +396,9 @@ class GuiderGameScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + delayAddQueue) {
-            self.queueList.append(GuestQueueGuide(queue: (self.queueList.count + 1), guest: self.newGuest!))
+            self.queueList.append(GuestQueueGuide(queue: (self.queueList.count + 1), guest: (self.newGuest[guestIdx])!))
             
-            self.newGuest = nil
+            self.newGuest.removeValue(forKey: guestIdx)
         }
     }
     

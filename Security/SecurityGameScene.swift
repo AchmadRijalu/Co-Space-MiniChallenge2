@@ -7,49 +7,43 @@
 
 import SpriteKit
 import GameplayKit
+import SwiftUI
 
 struct GuestQueueSecurity {
     var queue: Int
     var guest: SKNode
-    var currentPosition: CGPoint
 }
 
 class SecurityGameScene: SKScene {
-    var game: MainGame?
+    var game: MainGame = MainGame()
     
-//    let scene = SKScene(fileNamed: "SecurityGameScene")
     let securitybackground = SKSpriteNode(imageNamed : "security-background")
     let planetbackground = SKSpriteNode(imageNamed : "security-planet")
-    let rectangle = SKSpriteNode(imageNamed : "button-rectangle")
-    let rectangleidentitycardquantity = SKSpriteNode(imageNamed: "identity-card-qty")
+    let square = SKSpriteNode(imageNamed : "button-square")
+    let squareidentitycardquantity = SKSpriteNode(imageNamed: "identity-card-qty")
     let circle = SKSpriteNode(imageNamed : "button-circle")
     let circleidentitycardquantity = SKSpriteNode(imageNamed: "identity-card-qty")
     let triangle = SKSpriteNode(imageNamed : "button-triangle")
     let triangleidentitycardquantity = SKSpriteNode(imageNamed: "identity-card-qty")
-    var pengunjung1 = SKSpriteNode(imageNamed : "guest-1")
-    var pengunjung2 = SKSpriteNode(imageNamed : "guest-2")
-    var pengunjung3 = SKSpriteNode(imageNamed : "guest-3")
-    var pengunjung4 = SKSpriteNode(imageNamed : "guest-4")
-    var pengunjung5 = SKSpriteNode(imageNamed : "guest-5")
-    let generatepengunjung = SKSpriteNode(imageNamed : "guest-6")
-    var rectangle1textNode = SKNode()
-    var rectangle1TextLabelNode = SKLabelNode()
+    var square1textNode = SKNode()
+    var square1TextLabelNode = SKLabelNode()
     var triangle1textNode = SKNode()
     var triangle1TextLabelNode = SKLabelNode()
     var circle1textNode = SKNode()
     var circle1TextLabelNode = SKLabelNode()
-    var counterrectangle = 10
-    var countertriangle = 10
-    var countercircle = 10
     var securitylabel = SKSpriteNode(imageNamed: "security-label")
+    var tappedSymbol = ""
+    
+    let newGuestPace = 5
     var locationList: [SKNode] = []
     var dissapearNode: SKNode = SKNode()
     var queueList: [GuestQueueSecurity] = []
     var guestTimer: Timer?
+    var continuousTimer: Timer?
+    var addNewGuestTimer: Int = 0
     var guestLeave: Bool = false
-    let guestListTemplate = GuestDictionary().guestList
-    var guestCounter = 5
-    var healthCounter = 5
+    let guestListTemplate = GuestSecurityDictionary().guestList
+    var guestCounter = 0
     var idCardClickable = true
     
     let timerBarWidth: CGFloat = 130.0
@@ -61,165 +55,88 @@ class SecurityGameScene: SKScene {
     var healthBarNode: SKSpriteNode!
     
     override func sceneDidLoad() {
-            
-            if let security1backgroundNode = scene?.childNode(withName: "securitybackground") {
-                securitybackground.name = "securitybackgroundNode"
-                securitybackground.size = CGSize(width: UIScreen.main.bounds.width + 0.5 * UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-                securitybackground.position = security1backgroundNode.position
-                securitybackground.zPosition = -3
-                self.addChild(securitybackground)
-            }
-            
-            if let planet1backgroundNode = scene?.childNode(withName: "planetbackground") {
-                planetbackground.name = "planetbackgroundNode"
-                planetbackground.size = CGSize(width:700, height: 350)
-                planetbackground.position = planet1backgroundNode.position
-                planetbackground.zPosition = -1
-                self.addChild(planetbackground)
-            }
-            
-            if let security1labelNode = scene?.childNode(withName: "securitylabel") {
-                securitylabel.name = "planetbackgroundNode"
-                securitylabel.size = CGSize(width:150, height: 50)
-                securitylabel.position = security1labelNode.position
-                securitylabel.zPosition = -1
-                self.addChild(securitylabel)
-            }
-            
-            if let rectangle1buttonNode = scene?.childNode(withName: "rectanglebutton") {
-                rectangle.name = "rectangle1buttonNode"
-                rectangle.size = CGSize(width: 65, height: 80)
-                rectangle.position = rectangle1buttonNode.position
-                rectangle.zPosition = 1
-                self.addChild(rectangle)
-            }
-            
-            if let rectangle1quantityNode = scene?.childNode(withName: "rectangleleft") {
-                rectangleidentitycardquantity.name = "rectangle1quantityNode"
-                rectangleidentitycardquantity.size = CGSize(width: 50, height: 30)
-                rectangleidentitycardquantity.position = rectangle1quantityNode.position
-                rectangleidentitycardquantity.zPosition = 1
-                self.addChild(rectangleidentitycardquantity)
-            }
-            
-            if let triangle1buttonNode = scene?.childNode(withName: "trianglebutton") {
-                triangle.name = "triangle1buttonNode"
-                triangle.size = CGSize(width: 65, height: 80)
-                triangle.position = triangle1buttonNode.position
-                triangle.zPosition = 1
-                self.addChild(triangle)
-            }
-            
-            if let triangle1quantityNode = scene?.childNode(withName: "triangleleft") {
-                triangleidentitycardquantity.name = "triangle1quantityNode"
-                triangleidentitycardquantity.size = CGSize(width: 50, height: 30)
-                triangleidentitycardquantity.position = triangle1quantityNode.position
-                triangleidentitycardquantity.zPosition = 1
-                self.addChild(triangleidentitycardquantity)
-            }
-            
-            if let circle1buttonNode = scene?.childNode(withName: "circlebutton") {
-                circle.name = "circle1buttonNode"
-                circle.size = CGSize(width: 65, height: 80)
-                circle.position = circle1buttonNode.position
-                circle.zPosition = 1
-                self.addChild(circle)
-            }
-            
-            if let circle1quantityNode = scene?.childNode(withName: "circleleft") {
-                circleidentitycardquantity.name = "circle1quantityNode"
-                circleidentitycardquantity.size = CGSize(width: 50, height: 30)
-                circleidentitycardquantity.position = circle1quantityNode.position
-                circleidentitycardquantity.zPosition = 1
-                self.addChild(circleidentitycardquantity)
-            }
-            
-            if let location1Node = scene?.childNode(withName: "location1") {
-                pengunjung1.name = "pengunjung1"
-                pengunjung1.size = CGSize(width: 100, height: 100)
-                pengunjung1.position = location1Node.position
-                pengunjung1.zPosition = 1
-                let tags: NSMutableDictionary = [
-                    "nama": "pengunjung1",
-                    "kesabaran": 3,
-                ]
-                pengunjung1.userData = tags
-                self.addChild(pengunjung1)
-                
-                locationList.append(location1Node)
-                queueList.append(GuestQueueSecurity(queue: 1, guest: pengunjung1, currentPosition: locationList[0].position))
-                
-                timerRenewal(seconds: 3)
-            }
-            
-            if let location2Node = scene?.childNode(withName: "location2") {
-                pengunjung2.name = "pengunjung2"
-                pengunjung2.size = CGSize(width: 100, height: 100)
-                pengunjung2.position = location2Node.position
-                pengunjung2.zPosition = 1
-                let tags: NSMutableDictionary = [
-                    "nama": "pengunjung2",
-                    "kesabaran": 4,
-                ]
-                pengunjung2.userData = tags
-                self.addChild(pengunjung2)
-                
-                locationList.append(location2Node)
-                queueList.append(GuestQueueSecurity(queue: 2, guest: pengunjung2, currentPosition: locationList[1].position))
-            }
-            
-            if let location3Node = scene?.childNode(withName: "location3") {
-                pengunjung3.name = "pengunjung3"
-                pengunjung3.size = CGSize(width: 100, height: 100)
-                pengunjung3.position = location3Node.position
-                pengunjung3.zPosition = 1
-                let tags: NSMutableDictionary = [
-                    "nama": "pengunjung3",
-                    "kesabaran": 2,
-                ]
-                pengunjung3.userData = tags
-                self.addChild(pengunjung3)
-                
-                locationList.append(location3Node)
-                queueList.append(GuestQueueSecurity(queue: 3, guest: pengunjung3, currentPosition: locationList[2].position))
-            }
-            
-            if let location4Node = scene?.childNode(withName: "location4") {
-                pengunjung4.name = "pengunjung4"
-                pengunjung4.size = CGSize(width: 100, height: 100)
-                pengunjung4.position = location4Node.position
-                pengunjung4.zPosition = 1
-                let tags: NSMutableDictionary = [
-                    "nama": "pengunjung4",
-                    "kesabaran": 4,
-                ]
-                pengunjung4.userData = tags
-                self.addChild(pengunjung4)
-                
-                locationList.append(location4Node)
-                queueList.append(GuestQueueSecurity(queue: 4, guest: pengunjung4, currentPosition: locationList[3].position))
-            }
-            
-            if let location5Node = scene?.childNode(withName: "location5") {
-                pengunjung5.name = "pengunjung5"
-                pengunjung5.size = CGSize(width: 100, height: 100)
-                pengunjung5.position = location5Node.position
-                pengunjung5.zPosition = 1
-                let tags: NSMutableDictionary = [
-                    "nama": "pengunjung5",
-                    "kesabaran": 3,
-                ]
-                pengunjung5.userData = tags
-                self.addChild(pengunjung5)
-                
-                locationList.append(location5Node)
-                queueList.append(GuestQueueSecurity(queue: 5, guest: pengunjung5, currentPosition: locationList[4].position))
-            }
-            
-            dissapearNode = scene?.childNode(withName: "disappearLocation") ?? SKNode()
-            createHealthBar()
-            createTimerBar()
+        if let security1backgroundNode = scene?.childNode(withName: "securitybackground") {
+            securitybackground.name = "securitybackgroundNode"
+            securitybackground.size = CGSize(width: UIScreen.main.bounds.width + 0.5 * UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+            securitybackground.position = security1backgroundNode.position
+            securitybackground.zPosition = -3
+            self.addChild(securitybackground)
         }
+        
+        if let planet1backgroundNode = scene?.childNode(withName: "planetbackground") {
+            planetbackground.name = "planetbackgroundNode"
+            planetbackground.size = CGSize(width:700, height: 350)
+            planetbackground.position = planet1backgroundNode.position
+            planetbackground.zPosition = -1
+            self.addChild(planetbackground)
+        }
+        
+        if let security1labelNode = scene?.childNode(withName: "securitylabel") {
+            securitylabel.name = "planetbackgroundNode"
+            securitylabel.size = CGSize(width:150, height: 50)
+            securitylabel.position = security1labelNode.position
+            securitylabel.zPosition = -1
+            self.addChild(securitylabel)
+        }
+        
+        if let square1buttonNode = scene?.childNode(withName: "squarebutton") {
+            square.name = "square1buttonNode"
+            square.size = CGSize(width: 65, height: 80)
+            square.position = square1buttonNode.position
+            square.zPosition = 1
+            self.addChild(square)
+        }
+        
+        if let square1quantityNode = scene?.childNode(withName: "squareleft") {
+            squareidentitycardquantity.name = "square1quantityNode"
+            squareidentitycardquantity.size = CGSize(width: 50, height: 30)
+            squareidentitycardquantity.position = square1quantityNode.position
+            squareidentitycardquantity.zPosition = 1
+            self.addChild(squareidentitycardquantity)
+        }
+        
+        if let triangle1buttonNode = scene?.childNode(withName: "trianglebutton") {
+            triangle.name = "triangle1buttonNode"
+            triangle.size = CGSize(width: 65, height: 80)
+            triangle.position = triangle1buttonNode.position
+            triangle.zPosition = 1
+            self.addChild(triangle)
+        }
+        
+        if let triangle1quantityNode = scene?.childNode(withName: "triangleleft") {
+            triangleidentitycardquantity.name = "triangle1quantityNode"
+            triangleidentitycardquantity.size = CGSize(width: 50, height: 30)
+            triangleidentitycardquantity.position = triangle1quantityNode.position
+            triangleidentitycardquantity.zPosition = 1
+            self.addChild(triangleidentitycardquantity)
+        }
+        
+        if let circle1buttonNode = scene?.childNode(withName: "circlebutton") {
+            circle.name = "circle1buttonNode"
+            circle.size = CGSize(width: 65, height: 80)
+            circle.position = circle1buttonNode.position
+            circle.zPosition = 1
+            self.addChild(circle)
+        }
+        
+        if let circle1quantityNode = scene?.childNode(withName: "circleleft") {
+            circleidentitycardquantity.name = "circle1quantityNode"
+            circleidentitycardquantity.size = CGSize(width: 50, height: 30)
+            circleidentitycardquantity.position = circle1quantityNode.position
+            circleidentitycardquantity.zPosition = 1
+            self.addChild(circleidentitycardquantity)
+        }
+        
+        for i in 1...5 {
+            if let locationNode = scene?.childNode(withName: "location\(i)") {
+                locationList.append(locationNode)
+            }
+        }
+        
+        dissapearNode = scene?.childNode(withName: "disappearLocation") ?? SKNode()
+        createHealthBar()
+        createTimerBar()
+    }
     
     override func didMove(to view: SKView) {
         if let particles = SKEmitterNode(fileNamed: "Starfield"){
@@ -229,19 +146,17 @@ class SecurityGameScene: SKScene {
             addChild(particles)
         }
         if let securityScene = SKScene(fileNamed: "SecurityGameScene"){
-            rectangle1textNode = securityScene.childNode(withName: "rectangletext")!
-            let rectangletext = SKLabelNode(fontNamed: "Arial")
-            rectangletext.text = "x\(counterrectangle)"
-            rectangletext.fontColor = .black
-            rectangletext.fontSize = 12
-            rectangletext.position = rectangle1textNode.position
-            rectangletext.zPosition = 2
-            rectangle1TextLabelNode = rectangletext
-            self.addChild(rectangletext)
+            square1textNode = securityScene.childNode(withName: "squaretext")!
+            let squaretext = SKLabelNode(fontNamed: "Arial")
+            squaretext.fontColor = .black
+            squaretext.fontSize = 12
+            squaretext.position = square1textNode.position
+            squaretext.zPosition = 2
+            square1TextLabelNode = squaretext
+            self.addChild(squaretext)
             
             triangle1textNode = securityScene.childNode(withName: "triangletext")!
             let triangletext = SKLabelNode(fontNamed: "Arial")
-            triangletext.text = "x\(countertriangle)"
             triangletext.fontColor = .black
             triangletext.fontSize = 12
             triangletext.position = triangle1textNode.position
@@ -251,7 +166,6 @@ class SecurityGameScene: SKScene {
             
             circle1textNode = securityScene.childNode(withName: "circletext")!
             let circletext = SKLabelNode(fontNamed: "Arial")
-            circletext.text = "x\(countercircle)"
             circletext.fontColor = .black
             circletext.fontSize = 12
             circletext.position = circle1textNode.position
@@ -259,7 +173,34 @@ class SecurityGameScene: SKScene {
             circle1TextLabelNode = circletext
             self.addChild(circletext)
             
-            updateHealthBar()
+            updateCounterUI(symbol: "triangle")
+            updateCounterUI(symbol: "circle")
+            updateCounterUI(symbol: "square")
+            updateHealthBar(newHealth: self.game.health)
+        }
+        
+        continuousTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
+            self.addNewGuestTimer += 1
+            self.checkQueue()
+            if (self.addNewGuestTimer >= self.newGuestPace){
+                if (self.queueList.count < 5){
+                    let newGuestNode = self.generateNewGuest()
+                    let queueCount = self.queueList.count
+                    self.addChild(newGuestNode)
+                    newGuestNode.run(SKAction.move(to: self.locationList[queueCount].position, duration: 0.5))
+                    if ((queueCount + 1) == 1){
+                        let firstQueueGuestTime = newGuestNode.userData?.value(forKey: "patience") as? Int
+                        self.timerRenewal(seconds: firstQueueGuestTime ?? 5)
+                    }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        self.queueList.append(GuestQueueSecurity(queue: (queueCount + 1), guest: newGuestNode))
+                    }
+                    self.addNewGuestTimer = 0
+                }
+                else {
+                    print("Full Queue")
+                }
+            }
         }
     }
     
@@ -267,38 +208,58 @@ class SecurityGameScene: SKScene {
         guard let touch = touches.first else { return }
         let touchLocation = touch.location(in: self)
         
-        if (idCardClickable){
-            if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "rectangle1buttonNode" {
-                guestTimer?.invalidate()
-                guestTimer = nil
-                
-                moveGuest()
-                if counterrectangle > 0{
-                    counterrectangle -= 1
-                }
-                updateCounterUI(counterrectangle)
+        if (idCardClickable && self.queueList.count > 0){
+            if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "square1buttonNode" {
+                self.tappedSymbol = "square"
+                usingIdentityCard2(symbol: "square")
             }
-            
             else if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "circle1buttonNode" {
-                guestTimer?.invalidate()
-                guestTimer = nil
-                
-                moveGuest()
-                if countercircle > 0{
-                    countercircle -= 1
-                }
-                updateCounterUI2(countercircle)
+                self.tappedSymbol = "circle"
+                usingIdentityCard2(symbol: "circle")
             }
-            
             else if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "triangle1buttonNode" {
-                guestTimer?.invalidate()
-                guestTimer = nil
+                self.tappedSymbol = "triangle"
+                usingIdentityCard2(symbol: "triangle")
+            }
+        }
+    }
+    
+    func usingIdentityCard (symbol: String) {
+        let result = game.useIdentityCard(symbol: symbol)
+        if (result == "success" || result == "empty"){
+            guestTimer?.invalidate()
+            guestTimer = nil
+            updateCounterUI(symbol: symbol)
+            moveGuest()
+            if (result == "empty"){
+                // Disable button
                 
-                moveGuest()
-                if countertriangle > 0{
-                    countertriangle -= 1
+            }
+        }
+        else {
+            // Feedback kalo abis
+            
+        }
+    }
+    
+    func usingIdentityCard2(symbol: String){
+        game.availableIdCard[symbol]! -= 1
+        guestTimer?.invalidate()
+        guestTimer = nil
+        updateCounterUI(symbol: symbol)
+        moveGuest()
+    }
+    
+    func checkQueue(){
+        if (self.queueList.count > 0){
+            for i in 0...(queueList.count - 1) {
+                queueList[i].queue = i + 1
+                let moveAction = SKAction.move(to: locationList[i].position, duration: 0.5)
+                queueList[i].guest.run(moveAction)
+                if (i == 0 && self.guestTimer == nil) {
+                    let firstQueueGuestTime = queueList[i].guest.userData?.value(forKey: "patience") as? Int
+                    timerRenewal(seconds: firstQueueGuestTime ?? 5)
                 }
-                updateCounterUI1(countertriangle)
             }
         }
     }
@@ -309,7 +270,8 @@ class SecurityGameScene: SKScene {
             self.idCardClickable = true
         }
         
-        for i in 0...(queueList.count-1) {
+        var removeFirst = false
+        for i in 0...(queueList.count - 1) {
             if (queueList[i].queue > 1){
                 let nextQueue = queueList[i].queue - 1
                 
@@ -321,40 +283,54 @@ class SecurityGameScene: SKScene {
                 queueList[i].queue = nextQueue
             }
             else {
+                let artificialGuestNode = SKSpriteNode()
+                artificialGuestNode.size = CGSize(width: 100, height: 100)
+                artificialGuestNode.position = queueList[i].guest.position
+                let artificialGuestNodeTexture = queueList[0].guest.userData?.value(forKey: "image") as? String
+                artificialGuestNode.texture = SKTexture(imageNamed: artificialGuestNodeTexture ?? "")
+                artificialGuestNode.zPosition = 4
+                scene?.addChild(artificialGuestNode)
+                
+                removeFirst = true
+                self.queueList[i].guest.removeFromParent()
+                
                 // Kalo guestnya udah dikasih tanda
                 if (!guestLeave){
                     // Udah masuk ke guide
                     let moveAction = SKAction.move(to: dissapearNode.position, duration: 1.0)
-                    queueList[i].guest.run(moveAction)
+                    artificialGuestNode.run(moveAction)
+                    artificialGuestNode.run(SKAction.scale(to: 0.5, duration: 1.0))
+                    print("game",game)
+                    
+                    game.sendGuestToGuide(symbol: tappedSymbol, imageName: artificialGuestNodeTexture ?? "guest-1")
                 }
-                else { // kalo misalnya kesabarannya udah habis
+                else { // kalo misalnya patiencenya udah habis
                     let moveAction = SKAction.moveBy(x: 0, y: -175, duration: 1.0)
-                    queueList[i].guest.run(moveAction)
+                    artificialGuestNode.run(moveAction)
                     guestLeave = false
-                    if healthCounter > 0 {
-                        healthCounter -= 1
-                    }
+                    game.updateHealth(add: false, amount: 1)
                 }
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                    self.queueList[i].guest.removeFromParent()
-                    self.queueList.removeFirst()
-                    
-                    let newGuest = self.generateNewGuest()
-                    self.addChild(newGuest)
-                    self.queueList.append(GuestQueueSecurity(queue: (self.queueList.count + 1), guest: newGuest, currentPosition: self.locationList[4].position))
+                    artificialGuestNode.removeFromParent()
                 }
             }
         }
         
-        let firstQueueGuestTime = queueList[0].guest.userData?.value(forKey: "kesabaran") as? Int
+        if (removeFirst) {
+            self.queueList.removeFirst()
+        }
+        
         timerCount = 0
         self.guestTimer?.invalidate()
         self.guestTimer = nil
-        updateTimerBar(progress: 100, full: 100)
-        print("Timer Reset")
-        timerRenewal(seconds: Int(firstQueueGuestTime!))
-        updateHealthBar()
+        updateTimerBar(progress: 0, full: 100)
+        
+        if (self.queueList.count > 0){
+            let firstQueueGuestTime = queueList[0].guest.userData?.value(forKey: "patience") as? Int
+            timerRenewal(seconds: Int(firstQueueGuestTime!))
+        }
+        updateHealthBar(newHealth: game.health)
     }
     
     var healthCount: Int = 5
@@ -377,8 +353,8 @@ class SecurityGameScene: SKScene {
         }
     }
     
-    func updateHealthBar() {
-            let healthRatio = CGFloat(healthCounter) / 5.0
+    func updateHealthBar(newHealth: Int) {
+        let healthRatio = CGFloat(newHealth) / 5.0
             let newWidth = healthBarWidth * healthRatio
             healthBarNode.size.width = newWidth
         }
@@ -424,27 +400,34 @@ class SecurityGameScene: SKScene {
         guestCounter += 1
         
         let guestTemplate = guestListTemplate.randomElement()
-        let newNode = SKSpriteNode(texture: SKTexture(imageNamed: (guestTemplate?.ImageName!)!))
+        let newNode = SKSpriteNode(texture: SKTexture(imageNamed: (guestTemplate?.imageName!)!))
         newNode.position = locationList[4].position
-        newNode.name = "pengunjung\(guestCounter)"
+        newNode.name = "guest-\(guestCounter)"
         newNode.size = CGSize(width: 100, height: 100)
+        newNode.zPosition = 10
         let tags: NSMutableDictionary = [
-            "nama": guestTemplate?.nama ?? "no-name",
-            "kesabaran": guestTemplate?.kesabaranSecurity ?? 0,
+            "nama": guestTemplate?.name ?? "no-name",
+            "patience": Int.random(in: (game.patienceRangeSecurity["start"] ?? 8)...(game.patienceRangeSecurity["end"] ?? 10)),
+            "image": guestTemplate?.imageName
         ]
         newNode.userData = tags
         
         return newNode
     }
     
-    func updateCounterUI(_ counter: Int) {
-        rectangle1TextLabelNode.text = "x \(counter)"
-    }
-    func updateCounterUI1(_ counter: Int) {
-        triangle1TextLabelNode.text = "x \(counter)"
-    }
-    func updateCounterUI2(_ counter: Int) {
-        circle1TextLabelNode.text = "x \(counter)"
+    func updateCounterUI(symbol: String) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            let newCount = "x \((self.game.availableIdCard[symbol]) ?? 5)"
+            if (symbol == "square"){
+                self.square1TextLabelNode.text = newCount
+            }
+            else if (symbol == "triangle") {
+                self.triangle1TextLabelNode.text = newCount
+            }
+            else if (symbol == "circle") {
+                self.circle1TextLabelNode.text = newCount
+            }
+        }
     }
 }
 

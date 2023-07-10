@@ -10,6 +10,7 @@ import SpriteKit
 
 struct RoleRevealView: View {
     @ObservedObject var game: MainGame
+    
     @State var startTimer: Timer?
     @State var timerCount = 5
     @State var isMovingToGameView = false
@@ -26,11 +27,8 @@ struct RoleRevealView: View {
                 )
                 
                 SpriteView(scene: scene)
-                    .onAppear{
-                        scene.game = self.game
-                        scene.size = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-                        scene.scaleMode = .fill
-                        scene.backgroundColor = SKColor(named: "DarkPurple") ?? .blue
+                    .task{
+                        scene.game = game
                     }
                     .ignoresSafeArea()
                 
@@ -57,7 +55,7 @@ struct RoleRevealView: View {
             .background(.purple)
             .ignoresSafeArea()
         }
-        .onAppear{
+        .task{
             startTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
                 timerCount -= 1
                 if (timerCount <= 0){

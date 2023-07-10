@@ -6,24 +6,23 @@
 //
 
 import Foundation
-struct Pengunjung {
-    var nama: String?
-    var kesabaranSecurity: Int?
-    var ImageName: String?
+struct GuestSecurity {
+    var name: String?
+    var imageName: String?
 }
 
-class GuestDictionary {
-    var guestList:[Pengunjung]=[]
+class GuestSecurityDictionary {
+    var guestList:[GuestSecurity]=[]
     init() {
         guestList = [
-            Pengunjung(nama:"Pengunjung1",kesabaranSecurity: 7,ImageName: "guest-1"),
-            Pengunjung(nama:"Pengunjung2",kesabaranSecurity: 8,ImageName: "guest-2"),
-            Pengunjung(nama:"Pengunjung3",kesabaranSecurity: 12,ImageName: "guest-3"),
-            Pengunjung(nama:"Pengunjung4",kesabaranSecurity: 8,ImageName: "guest-4"),
-            Pengunjung(nama:"Pengunjung5",kesabaranSecurity: 9,ImageName: "guest-5"),
-            Pengunjung(nama:"Pengunjung6",kesabaranSecurity: 10,ImageName: "guest-6"),
-            Pengunjung(nama:"Pengunjung7",kesabaranSecurity: 11,ImageName: "guest-7"),
-            Pengunjung(nama:"Pengunjung8",kesabaranSecurity: 10,ImageName: "guest-8"),
+            GuestSecurity(name:"Guest-1", imageName: "guest-1"),
+            GuestSecurity(name:"Guest-2", imageName: "guest-2"),
+            GuestSecurity(name:"Guest-3", imageName: "guest-3"),
+            GuestSecurity(name:"Guest-4", imageName: "guest-4"),
+            GuestSecurity(name:"Guest-5", imageName: "guest-5"),
+            GuestSecurity(name:"Guest-6", imageName: "guest-6"),
+            GuestSecurity(name:"Guest-7", imageName: "guest-7"),
+            GuestSecurity(name:"Guest-8", imageName: "guest-8"),
         ]
     }
 }

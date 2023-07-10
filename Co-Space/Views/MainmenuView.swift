@@ -17,7 +17,7 @@ struct MainmenuView: View {
     @State private var isDragging = false
     var scene = SKScene(fileNamed: "MainMenuGameScene.sks") as! MainMenuGameScene
     
-    @StateObject private var game = MainGame()
+    @StateObject var game: MainGame = MainGame()
     
     var body: some View {
         NavigationStack{
@@ -28,12 +28,14 @@ struct MainmenuView: View {
                             
                             SpriteView(scene: scene).ignoresSafeArea()
                             
-                        }.ignoresSafeArea().onAppear(){
+                        }.ignoresSafeArea()
+                        .task{
+                            scene.game = game
                             scene.size = CGSize(width: screenWidth, height: screenHeight)
                             scene.scaleMode = .fill
                             scene.backgroundColor = SKColor(named: "DarkPurple") ?? .blue
                         }
-
+                        
                     }
                 }
                 .frame(width: geo.size.width, height: geo.size.height)
@@ -49,7 +51,7 @@ struct MainmenuView: View {
                 )
                 
             }
-        }.onAppear(){
+        }.onAppear{
             self.dragAmount = 0
             scene.game = self.game
             if !game.playingGame {
@@ -59,6 +61,7 @@ struct MainmenuView: View {
             dragAmount = 0
             isDragging = false
         }
+        
         .navigationBarBackButtonHidden(true)
     }
 }

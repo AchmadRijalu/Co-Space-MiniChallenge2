@@ -44,22 +44,36 @@ extension MainGame: GKMatchDelegate {
             // Add the message to the chat view.
             let message = Message(content: text, playerName: player.displayName, isLocalPlayer: false)
             messages.append(message)
-        } else if let coin = gameData?.coin{
+        }
+        else if let coin = gameData?.coin{
             self.coin = coin
-        } else if let health = gameData?.health{
+        }
+        else if let health = gameData?.health{
             self.health = health
             checkHealth()
-        } else if let score = gameData?.score{
+        }
+        else if let score = gameData?.score{
             self.score = score
-        } else if let potionPrice = gameData?.potionPrice{
+        }
+        else if let potionPrice = gameData?.potionPrice{
             self.potionPrice = potionPrice
-        } else if let gameRole = gameData?.roles {
+        }
+        else if let gameRole = gameData?.roles {
             self.myRole = gameRole[GKLocalPlayer.local.displayName] ?? ""
-        } else if let idCard = gameData?.identityCard {
+        }
+        else if let idCard = gameData?.identityCard {
             self.availableIdCard = idCard
-        } else if let poop = gameData?.poop{
+        }
+        else if let newGuest = gameData?.newGuest{
+            // Idx 0: Symbol, Idx 1: Image name
+            if (self.myRole == "guide") {
+                self.newGuestData = newGuest
+            }
+        }
+        else if let poop = gameData?.poop{
             self.activePoop = poop
-        } else if let drawerContent = gameData?.drawerContent {
+        }
+        else if let drawerContent = gameData?.drawerContent {
             self.drawerContent = drawerContent
         }
     }

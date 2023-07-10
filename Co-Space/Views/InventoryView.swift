@@ -4,6 +4,7 @@ import SpriteKit
 struct InventoryView: View {
     @ObservedObject var game: MainGame
     var scene = SKScene(fileNamed: "InventoryGameScene.sks") as! InventoryGameScene
+    
     var body: some View {
         ZStack{
             VStack{
@@ -17,6 +18,7 @@ struct InventoryView: View {
             }
             .ignoresSafeArea()
         }
+        .environmentObject(game)
         .navigationBarBackButtonHidden()
     }
 }

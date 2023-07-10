@@ -9,7 +9,7 @@ import SwiftUI
 import SpriteKit
 
 struct CleanerView: View {
-    @StateObject var game = MainGame()
+    @ObservedObject var game : MainGame
 //    var scene: SKScene {
 //          let scene = CleanerGameScene()
 //          scene.size = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
@@ -17,18 +17,21 @@ struct CleanerView: View {
 //          return scene
 //      }
     
-    var scene = SKScene(fileNamed: "CleanerGameScene.sks")
+    var scene = SKScene(fileNamed: "CleanerGameScene.sks") as! CleanerGameScene
     
       
       var body: some View {
-          SpriteView(scene: scene!)
+          SpriteView(scene: scene)
+              .onAppear{
+                  scene.game = game
+              }
               .ignoresSafeArea()
       }
 }
 
 struct CleanerView_Previews: PreviewProvider {
     static var previews: some View {
-        CleanerView().previewInterfaceOrientation(.landscapeRight)
+        CleanerView(game: MainGame()).previewInterfaceOrientation(.landscapeRight)
             .ignoresSafeArea()
     }
 }

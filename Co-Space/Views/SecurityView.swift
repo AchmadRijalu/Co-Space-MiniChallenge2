@@ -9,14 +9,16 @@ import SwiftUI
 import SpriteKit
 
 struct SecurityView: View {
-    @ObservedObject var game: MainGame
+    @State var timer: Timer?
+    @ObservedObject var game:MainGame
+    
     var scene = SKScene(fileNamed: "SecurityGameScene.sks") as! SecurityGameScene
     var body: some View {
         ZStack{
             VStack{
                 SpriteView(scene: scene).ignoresSafeArea()
             }
-            .onAppear{
+            .task{
                 scene.game = self.game
                 scene.size = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
                 scene.scaleMode = .fill

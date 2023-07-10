@@ -13,8 +13,8 @@ import SwiftUI
 @MainActor
 class MainGame: NSObject, GKGameCenterControllerDelegate, ObservableObject {
     // =========================== MAIN GAME PROPERTIES ===========================
-    @Published var playerNumberMin = 4
-    @Published var playerNumberMax = 4
+    @Published var playerNumberMin = 2
+    @Published var playerNumberMax = 2
     
     /// The game interface state.
     @Published var matchAvailable = false
@@ -24,15 +24,17 @@ class MainGame: NSObject, GKGameCenterControllerDelegate, ObservableObject {
 
     /// Self Profile
     @Published var isHost = false
-    @Published var myRole: String = "inventory"
+    @Published var myRole: String = ""
     
     /// Game communication
     @Published var messages: [Message] = []
     
     /// Game Properties
+    @Published var patienceRangeSecurity = ["start": 8, "end": 10]
+    @Published var patienceRangeGuide = ["start": 3, "end": 7]
     @Published var score = 0
     @Published var coin = 0
-    @Published var health = 0
+    @Published var health = 5
     @Published var potionPrice = 10
     
     /// The voice chat properties.
@@ -40,8 +42,8 @@ class MainGame: NSObject, GKGameCenterControllerDelegate, ObservableObject {
     @Published var opponentSpeaking = false
     
     // =========================== ROLE SECURITY PROPERTIES ===========================
-    @Published var availableIdCard: [String:Int] = ["rectangle": 10, "triangle": 10, "circle": 10]
-    
+    @Published var availableIdCard: [String:Int] = ["square": 10, "triangle": 10, "circle": 10]
+    var newGuestData: [String]? = nil
     
     // =========================== ROLE GUIDE PROPERTIES ===========================
     
@@ -135,7 +137,7 @@ class MainGame: NSObject, GKGameCenterControllerDelegate, ObservableObject {
     // Starting and stopping the game.
     func startGame(match: GKMatch) {
         GKAccessPoint.shared.isActive = false
-        playingGame = true
+        self.playingGame = true
         myMatch = match
         myMatch?.delegate = self
             
@@ -144,6 +146,7 @@ class MainGame: NSObject, GKGameCenterControllerDelegate, ObservableObject {
         
         // Increment the achievement to play 10 games.
         reportProgress()
+        self.objectWillChange.send()
     }
     
     private func defineHost(){
@@ -168,23 +171,27 @@ class MainGame: NSObject, GKGameCenterControllerDelegate, ObservableObject {
     // Shuffling Role
     func shuffleRole(){
         if self.isHost {
-            let role = ["security", "guide", "cleaner", "inventory"]
-//            let role = ["security", "guide"]
+//            let role = ["security", "guide", "cleaner", "inventory"]
+            let role = ["security", "guide"]
             var shuffledRole = role.shuffled()
             
             var assignedRoles: [String: String] = [:]
             
-            // Assign role ke player local dulu
-            if let chosenRole = shuffledRole.popLast() {
-                self.myRole = chosenRole
-            }
-            // Assign role ke player selain local
-            var gamePlayers: [GKPlayer] = myMatch?.players ?? []
-            for p in gamePlayers{
-                if let chosenRole = shuffledRole.popLast() {
-                    assignedRoles[p.displayName] = chosenRole
-                }
-            }
+//            // Assign role ke player local dulu
+//            if let chosenRole = shuffledRole.popLast() {
+//                self.myRole = chosenRole
+//            }
+//            // Assign role ke player selain local
+//            var gamePlayers: [GKPlayer] = myMatch?.players ?? []
+//            for p in gamePlayers{
+//                if let chosenRole = shuffledRole.popLast() {
+//                    assignedRoles[p.displayName] = chosenRole
+//                }
+//            }
+            
+            assignedRoles["J2X-1989"] = "guide"
+            assignedRoles["DarkKnight1709"] = "security"
+            self.myRole = "security"
             
             // Kirim role" ke player selain local (yg role local gausa dikirim)
             do {

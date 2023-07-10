@@ -7,6 +7,7 @@
 
 import SpriteKit
 import GameplayKit
+import SwiftUI
     
 class CleanerGameScene: SKScene {
     var game: MainGame?

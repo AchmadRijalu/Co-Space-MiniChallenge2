@@ -7,9 +7,10 @@
 
 import Foundation
 import SpriteKit
+import SwiftUI
 
 class RoleRevealScene: SKScene {
-    var game: MainGame?
+    @ObservedObject var game: MainGame = MainGame()
     
     var counterNext = 0
     var instructionArrays: [String: [String]] = [
@@ -29,9 +30,9 @@ class RoleRevealScene: SKScene {
     }
     
     override func didMove(to view: SKView) {
-        currentInstruction = SKTexture(imageNamed: instructionArrays[game!.myRole]![counterNext])
+        currentInstruction = SKTexture(imageNamed: instructionArrays[game.myRole]?[counterNext] ?? "instruction-security-1")
         if let roleRevealNode = self.childNode(withName: "role-reveal") as? SKSpriteNode {
-            roleRevealNode.texture = SKTexture(imageNamed: "role-reveal-\(game!.myRole)")
+            roleRevealNode.texture = SKTexture(imageNamed: "role-reveal-\(game.myRole)")
         }
         
         refreshInstruction()
@@ -59,7 +60,7 @@ class RoleRevealScene: SKScene {
     
     func refreshButtonNext() {
         if let buttonNextNode = self.childNode(withName: "Next") as? SKSpriteNode {
-            let newTexture = counterNext < instructionArrays[game!.myRole]!.count - 1 ? buttonNextEnableTexture : buttonNextDisableTexture
+            let newTexture = counterNext < instructionArrays[game.myRole]!.count - 1 ? buttonNextEnableTexture : buttonNextDisableTexture
             buttonNextNode.texture = newTexture
         }
     }
@@ -72,9 +73,9 @@ class RoleRevealScene: SKScene {
     }
     
     func buttonNextClicked() {
-        if counterNext < instructionArrays[game!.myRole]!.count - 1 {
+        if counterNext < instructionArrays[game.myRole]!.count - 1 {
             counterNext += 1
-            currentInstruction = SKTexture(imageNamed: instructionArrays[game!.myRole]![counterNext])
+            currentInstruction = SKTexture(imageNamed: instructionArrays[game.myRole]![counterNext])
             refreshInstruction()
         }
         refreshButtonNext()
@@ -84,7 +85,7 @@ class RoleRevealScene: SKScene {
     func buttonPreviousClicked() {
         if counterNext > 0 {
             counterNext -= 1
-            currentInstruction = SKTexture(imageNamed: instructionArrays[game!.myRole]![counterNext])
+            currentInstruction = SKTexture(imageNamed: instructionArrays[game.myRole]![counterNext])
             refreshInstruction()
         }
         refreshButtonNext()
