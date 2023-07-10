@@ -8,7 +8,6 @@
 import Foundation
 import SpriteKit
 import AVFoundation
-
 class ResultGameScene : SKScene,  SKPhysicsContactDelegate{
     
     
@@ -22,10 +21,6 @@ class ResultGameScene : SKScene,  SKPhysicsContactDelegate{
     var playAgainResultNode = SKSpriteNode()
     var exitResultNode = SKSpriteNode()
     
-    override func sceneDidLoad() {
-        
-        
-    }
     func createAnimatedImagesArrayReverse(imageName: String, frameCount: Int) -> [SKTexture] {
         var animatedImages: [SKTexture] = []
         for index in (1..<frameCount).reversed() {
@@ -36,6 +31,7 @@ class ResultGameScene : SKScene,  SKPhysicsContactDelegate{
         
         return animatedImages
     }
+    
     func easeOutElastic(_ t: CGFloat) -> CGFloat {
         let p: CGFloat = 0.4
         let s: CGFloat = 0.3
@@ -97,7 +93,7 @@ class ResultGameScene : SKScene,  SKPhysicsContactDelegate{
             resizeAction.timingMode = .easeOut
             
             self.moonResultNode.run(resizeAction)
-         
+            
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
                 // Set initial scale for the dockResultNode
@@ -111,7 +107,6 @@ class ResultGameScene : SKScene,  SKPhysicsContactDelegate{
                 // Set spring-like animation properties
                 let damping: CGFloat = 0.4
                 let initialVelocity: CGFloat = 0.0
-                
                 // Create the dockChangedResultNode the animation asset and set its properties
                 self.dockChangedResultNode = SKSpriteNode(imageNamed: "result-background-dock")
                 self.dockChangedResultNode.name = "result-background-dock"
@@ -222,19 +217,34 @@ class ResultGameScene : SKScene,  SKPhysicsContactDelegate{
                 self.backgroundFinal.size = self.size
                 self.backgroundFinal.zPosition = -1
                 self.addChild(self.backgroundFinal)
-               
+                
                 
             }
             
-            
-            
         }
-        
-        
-        
-        
-        
     }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        for touch in touches {
+            let location = touch.location(in: self)
+            
+            let touchedNodes = self.nodes(at: location)
+            for node in touchedNodes {
+                if let spriteNode = node as? SKSpriteNode {
+                    if spriteNode.name == "result-button-play-again" {
+                        print("Touched result-button-play-again")
+                    } else if spriteNode.name == "result-button-exit" {
+                        print("Touched result-button-exit")
+                        // Add your scene transition code here
+                        let newScene = MainMenuGameScene(size: self.size) // Initialize your new scene
+                        let transition = SKTransition.doorsOpenHorizontal(withDuration: 0.5) // Set the transition effect
+                        self.scene?.view?.presentScene(newScene, transition: transition) // Change the scene
+                    }
+                }
+            }
+        }
+    }
+    
     
     
 }
