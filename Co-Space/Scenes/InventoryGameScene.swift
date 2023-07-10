@@ -12,7 +12,10 @@ import GameplayKit
 class InventoryGameScene: SKScene {
     // MARK: - Declaring as SKNode
     var game: MainGame?
-    var inventoryBackground, inventoryLabel, inventoryShop, inventoryStorageMoon, inventoryStorageSun, inventoryStorageStar, inventoryPotionCard, inventoryTriangleCard, inventoryCircleCard, inventoryRectangleCard, inventoryStorageDoorLeft1, inventoryStorageDoorRight1, inventoryStorageDoorLeft2, inventoryStorageDoorRight2, inventoryStorageDoorLeft3, inventoryStorageDoorRight3, inventoryButtonBuy, inventoryButtonOpen1, inventoryButtonOpen2, inventoryButtonOpen3, inventoryContentstar, inventoryContentsun, inventoryContentmoon: SKNode?
+    var inventoryBackground, inventoryLabel, inventoryShop, inventoryStorageMoon, inventoryStorageSun, inventoryStorageStar, inventoryPotionCard, inventoryTriangleCard, inventoryCircleCard, inventoryRectangleCard, inventoryStorageDoorLeft1, inventoryStorageDoorRight1, inventoryStorageDoorLeft2, inventoryStorageDoorRight2, inventoryStorageDoorLeft3, inventoryStorageDoorRight3, inventoryButtonBuy, inventoryButtonOpen1, inventoryButtonOpen2, inventoryButtonOpen3, inventoryPoop: SKNode?
+    var inventoryStorageContentMoon = SKSpriteNode(imageNamed : "cleaner-tool-brown")
+    var inventoryStorageContentSun = SKSpriteNode(imageNamed : "cleaner-tool-green")
+    var inventoryStorageContentStar = SKSpriteNode(imageNamed : "cleaner-tool-orange")
     
     // MARK: - Inventory price,coin and drawer open button
     var potionPriceNode = 15
@@ -26,11 +29,12 @@ class InventoryGameScene: SKScene {
     var triangleclick = false
     var squareclick = false
     var circleclick = false
+    var activePoop = false
     
     // MARK: - Inventory for inside content
-    let cleaningItem = ["cleaner-tool-green", "cleaner-tool-orange", "cleaner-tool-brown"]
-    var drawerContent = ["sun": "", "moon": "", "star": ""]
-    let cleaningItemNodeSize = ["green": ["width": 77, "height": 156], "orange": ["width": 128, "height": 156], "brown": ["width": 110, "height": 156]]
+    var drawerContent = ["sun": "green", "moon": "brown", "star": "orange"]
+    let cleaningItemNodeSize = ["green": ["width": 51, "height": 102], "orange": ["width": 79, "height": 97], "brown": ["width": 52, "height": 74]]
+    let cleaningItemAndPoop = ["green", "orange", "brown"]
     
     // MARK: - Start the basic setup load
     override func sceneDidLoad() {
@@ -72,9 +76,34 @@ class InventoryGameScene: SKScene {
         inventoryButtonOpen1 = scene?.childNode(withName: "inventory-button-open-1")
         inventoryButtonOpen2 = scene?.childNode(withName: "inventory-button-open-2")
         inventoryButtonOpen3 = scene?.childNode(withName: "inventory-button-open-3")
-        inventoryContentmoon = scene?.childNode(withName: "inventory-storage-content-moon")
-        inventoryContentsun = scene?.childNode(withName: "inventory-storage-content-sun")
-        inventoryContentstar = scene?.childNode(withName: "inventory-storage-content-star")
+        inventoryPoop = scene?.childNode(withName: "inventory-poop")
+        
+        if let inventoryStorageContentMoonNode = scene?.childNode(withName: "inventory-storage-content-moon") {
+            inventoryStorageContentMoon.name = "inventory-storage-content-moon"
+            inventoryStorageContentMoon.size = CGSize(width: 52, height: 74)
+            inventoryStorageContentMoon.position = inventoryStorageContentMoonNode.position
+            inventoryStorageContentMoon.position = inventoryStorageContentMoonNode.position
+            inventoryStorageContentMoon.zPosition = 1
+            self.addChild(inventoryStorageContentMoon)
+        }
+        
+        if let inventoryStorageContentSunNode = scene?.childNode(withName: "inventory-storage-content-sun") {
+            inventoryStorageContentSun.name = "inventory-storage-content-sun"
+            inventoryStorageContentSun.size = CGSize(width: 51, height: 102)
+            inventoryStorageContentSun.position = inventoryStorageContentSunNode.position
+            inventoryStorageContentSun.position = inventoryStorageContentSunNode.position
+            inventoryStorageContentSun.zPosition = 1
+            self.addChild(inventoryStorageContentSun)
+        }
+        
+        if let inventoryStorageContentStarNode = scene?.childNode(withName: "inventory-storage-content-star") {
+            inventoryStorageContentStar.name = "inventory-storage-content-star"
+            inventoryStorageContentStar.size = CGSize(width: 79, height: 97)
+            inventoryStorageContentStar.position = inventoryStorageContentStarNode.position
+            inventoryStorageContentStar.position = inventoryStorageContentStarNode.position
+            inventoryStorageContentStar.zPosition = 1
+            self.addChild(inventoryStorageContentStar)
+        }
     }
     
     // MARK: - clicktouch code
@@ -87,8 +116,8 @@ class InventoryGameScene: SKScene {
             if(drawermoonOpen != true){
                 drawermoonOpen = true
                 animateDrawer(door: "moon", moon: drawermoonOpen, sun: drawersunOpen, star: drawerstarOpen)
+//                inventoryStorageContentSun.size
             }
-            
         }
         if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "inventory-button-open-2"{
             if(drawersunOpen != true){
@@ -120,6 +149,7 @@ class InventoryGameScene: SKScene {
             }
      
         }
+        
         if let node = self.atPoint(touchLocation) as? SKSpriteNode {
             if node.name == "inventory-triangle-card-off" {
                 changeImage(node: inventoryTriangleCard!, imageName: "inventory-triangle-card-on")
@@ -130,6 +160,17 @@ class InventoryGameScene: SKScene {
             } else if node.name == "inventory-rectangle-card-off" {
                 changeImage(node: inventoryRectangleCard!, imageName: "inventory-rectangle-card-on")
                 squareclick = true
+            }
+        }
+        
+        if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "inventory-poop" {
+            randomizeDrawer()
+            activePoop.toggle()
+            if activePoop{
+                changeImage(node: inventoryPoop!, imageName: "cleaner-poop-green")
+            }
+            else{
+                changeImage(node: inventoryPoop!, imageName: "cleaner-poop-brown")
             }
         }
     }
@@ -223,4 +264,30 @@ class InventoryGameScene: SKScene {
         return labelNode
     }
     
+    private func randomizeDrawer() {
+        var cleaningItemShuffled = cleaningItemAndPoop.shuffled()
+        for k in self.drawerContent.keys {
+            if let chosenItem = cleaningItemShuffled.popLast() {
+                self.drawerContent[k] = chosenItem
+            }
+        }
+        
+        if let colorMoon = drawerContent["moon"],  let colorSun = drawerContent["sun"], let colorStar = drawerContent["star"] {
+            adjustSizeContent(colorMoon: colorMoon, colorSun: colorSun, colorStar: colorStar)
+        }
+    }
+    
+    private func adjustSizeContent(colorMoon: String, colorSun: String, colorStar: String){
+        inventoryStorageContentMoon.texture = SKTexture(imageNamed: "cleaner-tool-\(colorMoon)")
+        inventoryStorageContentSun.texture = SKTexture(imageNamed: "cleaner-tool-\(colorSun)")
+        inventoryStorageContentStar.texture = SKTexture(imageNamed: "cleaner-tool-\(colorStar)")
+        
+        if let heightMoon = cleaningItemNodeSize[colorMoon]?["height"], let widthMoon = cleaningItemNodeSize[colorMoon]?["width"],
+           let heightSun = cleaningItemNodeSize[colorSun]?["height"], let widthSun = cleaningItemNodeSize[colorSun]?["width"],
+           let heightStar = cleaningItemNodeSize[colorStar]?["height"], let widthStar = cleaningItemNodeSize[colorStar]?["width"] {
+            inventoryStorageContentMoon.size = CGSize(width: Int(widthMoon), height: Int(heightMoon))
+            inventoryStorageContentSun.size = CGSize(width: Int(widthSun), height: Int(heightSun))
+            inventoryStorageContentStar.size = CGSize(width: Int(widthStar), height: Int(heightStar))
+        }
+    }
 }
