@@ -52,7 +52,7 @@ class MainGame: NSObject, GKGameCenterControllerDelegate, ObservableObject {
     
     // =========================== ROLE INVENTORY PROPERTIES ===========================
     let cleaningItemAndPoop = ["green", "orange", "brown"]
-    var drawerContent: [String: String] = ["sun": "", "moon": "", "star": ""]
+    var drawerContent: [String: String] = ["sun": "green", "moon": "brown", "star": "orange"]
     
     /// The root view controller of the window.
     var rootViewController: UIViewController? {

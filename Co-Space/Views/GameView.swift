@@ -36,12 +36,12 @@ struct GameView: View {
                 }
                
             }
-            .onAppear {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                    isPresented = true
-                    print(isPresented)
-                }
-            }
+//            .onAppear {
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+//                    isPresented = true
+//                    print(isPresented)
+//                }
+//            }
         }
         .navigationBarBackButtonHidden(true)
     }

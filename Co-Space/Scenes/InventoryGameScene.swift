@@ -12,7 +12,8 @@ import SwiftUI
 
 class InventoryGameScene: SKScene {
     // MARK: - Declaring as SKNode
-    var game: MainGame?
+    var game: MainGame!
+    
     var inventoryBackground, inventoryLabel, inventoryShop, inventoryStorageMoon, inventoryStorageSun, inventoryStorageStar, inventoryPotionCard, inventoryTriangleCard, inventoryCircleCard, inventoryRectangleCard, inventoryStorageDoorLeft1, inventoryStorageDoorRight1, inventoryStorageDoorLeft2, inventoryStorageDoorRight2, inventoryStorageDoorLeft3, inventoryStorageDoorRight3, inventoryButtonBuy, inventoryButtonOpen1, inventoryButtonOpen2, inventoryButtonOpen3, inventoryPoop: SKNode?
     var inventoryStorageContentMoon = SKSpriteNode(imageNamed : "cleaner-tool-brown")
     var inventoryStorageContentSun = SKSpriteNode(imageNamed : "cleaner-tool-green")
@@ -33,7 +34,6 @@ class InventoryGameScene: SKScene {
     var activePoop = false
     
     // MARK: - Inventory for inside content
-    var drawerContent = ["sun": "green", "moon": "brown", "star": "orange"]
     let cleaningItemNodeSize = ["green": ["width": 51, "height": 102], "orange": ["width": 79, "height": 97], "brown": ["width": 52, "height": 74]]
     let cleaningItemAndPoop = ["green", "orange", "brown"]
     
@@ -171,7 +171,9 @@ class InventoryGameScene: SKScene {
         }
         
         if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "inventory-poop" {
-            randomizeDrawer()
+//            randomizeDrawer()
+            // randomize drawer
+            setColor()
             activePoop.toggle()
             if activePoop{
                 changeImage(node: inventoryPoop!, imageName: "cleaner-poop-green")
@@ -287,15 +289,8 @@ class InventoryGameScene: SKScene {
         return labelNode
     }
     
-    private func randomizeDrawer() {
-        var cleaningItemShuffled = cleaningItemAndPoop.shuffled()
-        for k in self.drawerContent.keys {
-            if let chosenItem = cleaningItemShuffled.popLast() {
-                self.drawerContent[k] = chosenItem
-            }
-        }
-        
-        if let colorMoon = drawerContent["moon"],  let colorSun = drawerContent["sun"], let colorStar = drawerContent["star"] {
+    private func setColor() {
+        if let colorMoon = self.game.drawerContent["moon"],  let colorSun = self.game.drawerContent["sun"], let colorStar = self.game.drawerContent["star"] {
             adjustSizeContent(colorMoon: colorMoon, colorSun: colorSun, colorStar: colorStar)
         }
     }
