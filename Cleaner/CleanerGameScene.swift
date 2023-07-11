@@ -21,6 +21,7 @@ class CleanerGameScene: SKScene {
     var drawerOpen: Bool = false
     var buttonGuessClickable: Bool = false
     
+    var damageanimation: SKNode?
     let cleanerBackground = SKSpriteNode(imageNamed : "cleaner-background")
     let cleanerPlanet = SKSpriteNode(imageNamed : "cleaner-planet")
     let cleanerStorage = SKSpriteNode(imageNamed : "cleaner-storage")
@@ -110,6 +111,10 @@ class CleanerGameScene: SKScene {
             self.addChild(cleanerStorageContent)
         }
         
+        if let damageanimationNode = self.scene?.childNode(withName: "damageanimation") {
+            damageanimation = damageanimationNode
+        }
+        
         for i in 1...5 {
             if let guestSeatNodeTriangle = scene?.childNode(withName: "triangle-seat-\(i)") {
                 seatNodeList["triangle"]?.append(guestSeatNodeTriangle)
@@ -170,6 +175,7 @@ class CleanerGameScene: SKScene {
                             randomizeDrawer()
                         }
                         else {
+                            damageanimationrun()
                             print("Health berkurang, salah kursi")
                         }
                     }
@@ -228,6 +234,7 @@ class CleanerGameScene: SKScene {
                             }
                         }
                         else {
+                            damageanimationrun()
                             print("Health berkurang, salah tebak")
                         }
                     }
@@ -259,6 +266,14 @@ class CleanerGameScene: SKScene {
             let growActionRight = SKAction.resize(toWidth: 86, duration: 0.5)
             self.cleanerDoorRight.run(growActionRight)
         }
+    }
+    
+    //MARK: DamageAnimation
+    func damageanimationrun() {
+        let fadeInAction = SKAction.fadeIn(withDuration: 0.8)
+        let fadeOutAction = SKAction.fadeOut(withDuration: 0.8)
+        let sequence = SKAction.sequence([fadeInAction,fadeOutAction])
+        damageanimation?.run(sequence)
     }
 }
 
