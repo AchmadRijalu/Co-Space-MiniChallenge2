@@ -265,11 +265,11 @@
 			children = (
 				CFC5AD1A2A493A840075CAFF /* CleanerGameScene.sks */,
 				CFC5AD1B2A493A840075CAFF /* CleanerGameScene.swift */,
+				77E3E3302A43E5AC00143224 /* GuiderGameScene.sks */,
+				77937DF62A544481009770F4 /* GuiderGameScene.swift */,
 				CFC5AD1C2A493A840075CAFF /* GameViewController.swift */,
 				4AC6ACFD2A50416000168957 /* RoleRevealScene.sks */,
 				4AC6ACFF2A50428400168957 /* RoleRevealScene.swift */,
-				77E3E3302A43E5AC00143224 /* GuiderGameScene.sks */,
-				77937DF62A544481009770F4 /* GuiderGameScene.swift */,
 				77D6B4952A4DEA0A00BB551F /* MainMenuGameScene.swift */,
 				77D6B4972A4DEA2200BB551F /* MainMenuGameScene.sks */,
 				77937DE62A50277B009770F4 /* DumpCodeTest.swift */,

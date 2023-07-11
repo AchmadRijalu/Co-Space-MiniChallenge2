@@ -15,7 +15,7 @@ struct GuestQueueSecurity {
 }
 
 class SecurityGameScene: SKScene {
-    var game: MainGame = MainGame()
+    var game: MainGame!
     
     let securitybackground = SKSpriteNode(imageNamed : "security-background")
     let planetbackground = SKSpriteNode(imageNamed : "security-planet")
@@ -127,15 +127,74 @@ class SecurityGameScene: SKScene {
             self.addChild(circleidentitycardquantity)
         }
         
+        square1textNode = self.childNode(withName: "squaretext")!
+        let squaretext = SKLabelNode(fontNamed: "Arial")
+        squaretext.fontColor = .black
+        squaretext.fontSize = 12
+        squaretext.position = square1textNode.position
+        squaretext.zPosition = 2
+        square1TextLabelNode = squaretext
+        self.addChild(squaretext)
+        
+        triangle1textNode = self.childNode(withName: "triangletext")!
+        let triangletext = SKLabelNode(fontNamed: "Arial")
+        triangletext.fontColor = .black
+        triangletext.fontSize = 12
+        triangletext.position = triangle1textNode.position
+        triangletext.zPosition = 2
+        triangle1TextLabelNode = triangletext
+        self.addChild(triangletext)
+        
+        circle1textNode = self.childNode(withName: "circletext")!
+        let circletext = SKLabelNode(fontNamed: "Arial")
+        circletext.fontColor = .black
+        circletext.fontSize = 12
+        circletext.position = circle1textNode.position
+        circletext.zPosition = 2
+        circle1TextLabelNode = circletext
+        self.addChild(circletext)
+        
         for i in 1...5 {
             if let locationNode = scene?.childNode(withName: "location\(i)") {
                 locationList.append(locationNode)
             }
         }
         
-        dissapearNode = scene?.childNode(withName: "disappearLocation") ?? SKNode()
+        self.dissapearNode = scene?.childNode(withName: "disappearLocation") ?? SKNode()
         createHealthBar()
         createTimerBar()
+              
+        updateCounterUI(symbol: "triangle")
+        updateCounterUI(symbol: "circle")
+        updateCounterUI(symbol: "square")
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+            self.continuousTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
+                self.addNewGuestTimer += 1
+                self.checkQueue()
+                if (self.addNewGuestTimer >= self.newGuestPace){
+                    if (self.queueList.count < 5){
+                        let newGuestNode = self.generateNewGuest()
+                        let queueCount = self.queueList.count
+                        self.addChild(newGuestNode)
+                        newGuestNode.run(SKAction.move(to: self.locationList[queueCount].position, duration: 0.5))
+                        if ((queueCount + 1) == 1){
+                            let firstQueueGuestTime = newGuestNode.userData?.value(forKey: "patience") as? Int
+                            self.timerRenewal(seconds: firstQueueGuestTime ?? 5)
+                        }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            self.queueList.append(GuestQueueSecurity(queue: (queueCount + 1), guest: newGuestNode))
+                        }
+                        self.addNewGuestTimer = 0
+                    }
+                    else {
+                        print("Full Queue")
+                    }
+                }
+                self.updateHealthBar(newHealth: self.game.health)
+                print("New Health \(self.game.health)")
+            }
+        }
     }
     
     override func didMove(to view: SKView) {
@@ -145,86 +204,30 @@ class SecurityGameScene: SKScene {
             particles.zPosition = -2
             addChild(particles)
         }
-        if let securityScene = SKScene(fileNamed: "SecurityGameScene"){
-            square1textNode = securityScene.childNode(withName: "squaretext")!
-            let squaretext = SKLabelNode(fontNamed: "Arial")
-            squaretext.fontColor = .black
-            squaretext.fontSize = 12
-            squaretext.position = square1textNode.position
-            squaretext.zPosition = 2
-            square1TextLabelNode = squaretext
-            self.addChild(squaretext)
-            
-            triangle1textNode = securityScene.childNode(withName: "triangletext")!
-            let triangletext = SKLabelNode(fontNamed: "Arial")
-            triangletext.fontColor = .black
-            triangletext.fontSize = 12
-            triangletext.position = triangle1textNode.position
-            triangletext.zPosition = 2
-            triangle1TextLabelNode = triangletext
-            self.addChild(triangletext)
-            
-            circle1textNode = securityScene.childNode(withName: "circletext")!
-            let circletext = SKLabelNode(fontNamed: "Arial")
-            circletext.fontColor = .black
-            circletext.fontSize = 12
-            circletext.position = circle1textNode.position
-            circletext.zPosition = 2
-            circle1TextLabelNode = circletext
-            self.addChild(circletext)
-            
-            updateCounterUI(symbol: "triangle")
-            updateCounterUI(symbol: "circle")
-            updateCounterUI(symbol: "square")
-            updateHealthBar(newHealth: self.game.health)
-        }
-        
-        continuousTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
-            self.addNewGuestTimer += 1
-            self.checkQueue()
-            if (self.addNewGuestTimer >= self.newGuestPace){
-                if (self.queueList.count < 5){
-                    let newGuestNode = self.generateNewGuest()
-                    let queueCount = self.queueList.count
-                    self.addChild(newGuestNode)
-                    newGuestNode.run(SKAction.move(to: self.locationList[queueCount].position, duration: 0.5))
-                    if ((queueCount + 1) == 1){
-                        let firstQueueGuestTime = newGuestNode.userData?.value(forKey: "patience") as? Int
-                        self.timerRenewal(seconds: firstQueueGuestTime ?? 5)
-                    }
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        self.queueList.append(GuestQueueSecurity(queue: (queueCount + 1), guest: newGuestNode))
-                    }
-                    self.addNewGuestTimer = 0
-                }
-                else {
-                    print("Full Queue")
-                }
-            }
-        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first else { return }
         let touchLocation = touch.location(in: self)
         
+//        print("Health dari Scene \(game.health)")
+        print("Health dari scene \(self.game.health)")
+        
         if (idCardClickable && self.queueList.count > 0){
             if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "square1buttonNode" {
-                self.tappedSymbol = "square"
-                usingIdentityCard2(symbol: "square")
+                usingIdentityCard(symbol: "square")
             }
             else if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "circle1buttonNode" {
-                self.tappedSymbol = "circle"
-                usingIdentityCard2(symbol: "circle")
+                usingIdentityCard(symbol: "circle")
             }
             else if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "triangle1buttonNode" {
-                self.tappedSymbol = "triangle"
-                usingIdentityCard2(symbol: "triangle")
+                usingIdentityCard(symbol: "triangle")
             }
         }
     }
     
     func usingIdentityCard (symbol: String) {
+        self.tappedSymbol = symbol
         let result = game.useIdentityCard(symbol: symbol)
         if (result == "success" || result == "empty"){
             guestTimer?.invalidate()
@@ -243,7 +246,9 @@ class SecurityGameScene: SKScene {
     }
     
     func usingIdentityCard2(symbol: String){
-        game.availableIdCard[symbol]! -= 1
+        self.tappedSymbol = symbol
+//        game?.availableIdCard[symbol]! -= 1
+//        game?.useIdentityCard(symbol: symbol)
         guestTimer?.invalidate()
         guestTimer = nil
         updateCounterUI(symbol: symbol)
@@ -251,6 +256,9 @@ class SecurityGameScene: SKScene {
     }
     
     func checkQueue(){
+        if (self.game == nil){
+            print("nil disini")
+        }
         if (self.queueList.count > 0){
             for i in 0...(queueList.count - 1) {
                 queueList[i].queue = i + 1
@@ -300,15 +308,15 @@ class SecurityGameScene: SKScene {
                     let moveAction = SKAction.move(to: dissapearNode.position, duration: 1.0)
                     artificialGuestNode.run(moveAction)
                     artificialGuestNode.run(SKAction.scale(to: 0.5, duration: 1.0))
-                    print("game",game)
                     
-                    game.sendGuestToGuide(symbol: tappedSymbol, imageName: artificialGuestNodeTexture ?? "guest-1")
+                    game?.sendGuestToGuide(symbol: tappedSymbol, imageName: artificialGuestNodeTexture ?? "guest-1")
                 }
                 else { // kalo misalnya patiencenya udah habis
                     let moveAction = SKAction.moveBy(x: 0, y: -175, duration: 1.0)
                     artificialGuestNode.run(moveAction)
                     guestLeave = false
-                    game.updateHealth(add: false, amount: 1)
+//                    self.game.health -= 1
+                    self.game.updateHealth(add: false, amount: 1)
                 }
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
@@ -330,7 +338,6 @@ class SecurityGameScene: SKScene {
             let firstQueueGuestTime = queueList[0].guest.userData?.value(forKey: "patience") as? Int
             timerRenewal(seconds: Int(firstQueueGuestTime!))
         }
-        updateHealthBar(newHealth: game.health)
     }
     
     var healthCount: Int = 5
@@ -407,7 +414,7 @@ class SecurityGameScene: SKScene {
         newNode.zPosition = 10
         let tags: NSMutableDictionary = [
             "nama": guestTemplate?.name ?? "no-name",
-            "patience": Int.random(in: (game.patienceRangeSecurity["start"] ?? 8)...(game.patienceRangeSecurity["end"] ?? 10)),
+            "patience": Int.random(in: (self.game.patienceRangeSecurity["start"]!)...(self.game.patienceRangeSecurity["end"]!)),
             "image": guestTemplate?.imageName
         ]
         newNode.userData = tags
@@ -417,7 +424,7 @@ class SecurityGameScene: SKScene {
     
     func updateCounterUI(symbol: String) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            let newCount = "x \((self.game.availableIdCard[symbol]) ?? 5)"
+            let newCount = "x \((self.game.availableIdCard[symbol])!)"
             if (symbol == "square"){
                 self.square1TextLabelNode.text = newCount
             }

@@ -30,29 +30,29 @@ class MainGame: NSObject, GKGameCenterControllerDelegate, ObservableObject {
     @Published var messages: [Message] = []
     
     /// Game Properties
-    @Published var patienceRangeSecurity = ["start": 8, "end": 10]
-    @Published var patienceRangeGuide = ["start": 3, "end": 7]
-    @Published var score = 0
-    @Published var coin = 0
-    @Published var health = 5
-    @Published var potionPrice = 10
+    var patienceRangeSecurity = ["start": 8, "end": 10]
+    var patienceRangeGuide = ["start": 3, "end": 7]
+    var score = 0
+    var coin = 0
+    var health = 5
+    var potionPrice = 10
     
     /// The voice chat properties.
     @Published var voiceChat: GKVoiceChat? = nil
     @Published var opponentSpeaking = false
     
     // =========================== ROLE SECURITY PROPERTIES ===========================
-    @Published var availableIdCard: [String:Int] = ["square": 10, "triangle": 10, "circle": 10]
+    var availableIdCard: [String:Int] = ["square": 10, "triangle": 10, "circle": 10]
     var newGuestData: [String]? = nil
     
     // =========================== ROLE GUIDE PROPERTIES ===========================
     
     // =========================== ROLE CLEANER PROPERTIES ===========================
-    @Published var activePoop = ""
+    var activePoop = ""
     
     // =========================== ROLE INVENTORY PROPERTIES ===========================
     let cleaningItemAndPoop = ["green", "orange", "brown"]
-    @Published var drawerContent: [String: String] = ["sun": "", "moon": "", "star": ""]
+    var drawerContent: [String: String] = ["sun": "", "moon": "", "star": ""]
     
     /// The root view controller of the window.
     var rootViewController: UIViewController? {
@@ -127,7 +127,7 @@ class MainGame: NSObject, GKGameCenterControllerDelegate, ObservableObject {
         
         // Present the interface where the player selects opponents and starts the game.
         if let viewController = GKMatchmakerViewController(matchRequest: request) {
-            viewController.matchmakingMode = GKMatchmakingMode.inviteOnly
+//            viewController.matchmakingMode = GKMatchmakingMode.inviteOnly
             viewController.matchmakerDelegate = self
             viewController.canStartWithMinimumPlayers = true
             rootViewController?.present(viewController, animated: true) { }
@@ -146,7 +146,6 @@ class MainGame: NSObject, GKGameCenterControllerDelegate, ObservableObject {
         
         // Increment the achievement to play 10 games.
         reportProgress()
-        self.objectWillChange.send()
     }
     
     private func defineHost(){
@@ -159,7 +158,7 @@ class MainGame: NSObject, GKGameCenterControllerDelegate, ObservableObject {
         for p in gamePlayers{
             nameArray.append(p.displayName)
         }
-        nameArray.sort(by: <)
+        nameArray.sort(by: >)
         
         if (nameArray[0] == GKLocalPlayer.local.displayName){
             isHost = true
@@ -177,21 +176,21 @@ class MainGame: NSObject, GKGameCenterControllerDelegate, ObservableObject {
             
             var assignedRoles: [String: String] = [:]
             
-//            // Assign role ke player local dulu
-//            if let chosenRole = shuffledRole.popLast() {
-//                self.myRole = chosenRole
-//            }
-//            // Assign role ke player selain local
-//            var gamePlayers: [GKPlayer] = myMatch?.players ?? []
-//            for p in gamePlayers{
-//                if let chosenRole = shuffledRole.popLast() {
-//                    assignedRoles[p.displayName] = chosenRole
-//                }
-//            }
+            // Assign role ke player local dulu
+            if let chosenRole = shuffledRole.popLast() {
+                self.myRole = chosenRole
+            }
+            // Assign role ke player selain local
+            var gamePlayers: [GKPlayer] = myMatch?.players ?? []
+            for p in gamePlayers{
+                if let chosenRole = shuffledRole.popLast() {
+                    assignedRoles[p.displayName] = chosenRole
+                }
+            }
             
-            assignedRoles["J2X-1989"] = "guide"
-            assignedRoles["DarkKnight1709"] = "security"
-            self.myRole = "security"
+            assignedRoles["AchmadRijalu"] = "security"
+//            assignedRoles["DarkKnight1709"] = "security"
+            self.myRole = "guide"
             
             // Kirim role" ke player selain local (yg role local gausa dikirim)
             do {

@@ -17,6 +17,9 @@ struct SecurityView: View {
         ZStack{
             VStack{
                 SpriteView(scene: scene).ignoresSafeArea()
+                    .onTapGesture {
+                        print("Health dari View \(game.health)")
+                    }
             }
             .task{
                 scene.game = self.game

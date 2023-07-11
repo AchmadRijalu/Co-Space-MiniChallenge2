@@ -50,6 +50,7 @@ extension MainGame: GKMatchDelegate {
         }
         else if let health = gameData?.health{
             self.health = health
+            print("health dari decode: \(health)")
             checkHealth()
         }
         else if let score = gameData?.score{

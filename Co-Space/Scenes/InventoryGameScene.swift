@@ -10,7 +10,7 @@ import GameplayKit
 import SwiftUI
 
 class InventoryGameScene: SKScene {
-    var game: MainGame?
+    var game: MainGame!
     
     var inventoryBackground: SKNode?
     var inventoryLabel: SKNode?

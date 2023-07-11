@@ -18,7 +18,7 @@ extension MainGame {
             do {
                 // perbarui jumlah id card
                 let data = encode(idCard: self.availableIdCard)
-                try myMatch?.sendData(toAllPlayers: data!, with: GKMatch.SendDataMode.unreliable)
+                try myMatch?.sendData(toAllPlayers: data!, with: GKMatch.SendDataMode.reliable)
             } catch {
                 print("Error: \(error.localizedDescription).")
             }
@@ -37,7 +37,7 @@ extension MainGame {
         do {
             // perbarui jumlah id card
             let data = encode(newGuest: [symbol, imageName])
-            try myMatch?.sendData(toAllPlayers: data!, with: GKMatch.SendDataMode.unreliable)
+            try myMatch?.sendData(toAllPlayers: data!, with: GKMatch.SendDataMode.reliable)
         } catch {
             print("Error: \(error.localizedDescription).")
         }

@@ -25,9 +25,8 @@ struct MainmenuView: View {
                 VStack {
                     ZStack{
                         VStack{
-                            
-                            SpriteView(scene: scene).ignoresSafeArea()
-                            
+                            SpriteView(scene: scene)
+                                .ignoresSafeArea()
                         }.ignoresSafeArea()
                         .task{
                             scene.game = game
@@ -35,7 +34,6 @@ struct MainmenuView: View {
                             scene.scaleMode = .fill
                             scene.backgroundColor = SKColor(named: "DarkPurple") ?? .blue
                         }
-                        
                     }
                 }
                 .frame(width: geo.size.width, height: geo.size.height)
@@ -49,7 +47,6 @@ struct MainmenuView: View {
                     )
                     .navigationBarBackButtonHidden(true)
                 )
-                
             }
         }.onAppear{
             self.dragAmount = 0
@@ -61,7 +58,6 @@ struct MainmenuView: View {
             dragAmount = 0
             isDragging = false
         }
-        
         .navigationBarBackButtonHidden(true)
     }
 }

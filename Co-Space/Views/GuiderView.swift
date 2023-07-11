@@ -31,7 +31,8 @@ struct GuiderView: View {
             }
             .onTapGesture {
 //                scene.game = self.game
-                print("Halo")
+//                print("Halo")
+                print("Health dari View \(game.health)")
             }
             .ignoresSafeArea()
         }

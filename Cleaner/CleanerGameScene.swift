@@ -10,14 +10,12 @@ import GameplayKit
 import SwiftUI
     
 class CleanerGameScene: SKScene {
-    var game: MainGame?
+    var game: MainGame!
     
     // Setup Scene
     var activePoop: SKSpriteNode? = nil
     var activeSeatWithPoop = ""
     var seatWithPoop: [String] = []
-    let cleaningItemAndPoop = ["green", "orange", "brown"]
-    var drawerContent: [String: String] = ["sun": "", "moon": "", "star": ""]
     let cleaningItemNodeSize = ["green": ["width": 77, "height": 156], "orange": ["width": 128, "height": 156], "brown": ["width": 110, "height": 156]]
     var drawerOpen: Bool = false
     var buttonGuessClickable: Bool = false
@@ -155,7 +153,7 @@ class CleanerGameScene: SKScene {
                 if (node.name!.contains("seat")){
                     if (activePoop == nil && activeSeatWithPoop == ""){
                         if (seatWithPoop.contains(node.name!)) {
-                            var randomPoopShuffled = self.cleaningItemAndPoop.shuffled()
+                            var randomPoopShuffled = self.game.cleaningItemAndPoop.shuffled()
                             if let chosenPoop = randomPoopShuffled.popLast() {
                                 activePoop = SKSpriteNode(imageNamed: "cleaner-poop-\(chosenPoop)")
                                 activePoop?.name = chosenPoop
@@ -168,7 +166,7 @@ class CleanerGameScene: SKScene {
                                 buttonGuessClickable = true
                                 print("\(activeSeatWithPoop) : \(activePoop?.name)")
                             }
-                            randomizeDrawer()
+                            self.game.randomizeDrawer()
                         }
                         else {
                             print("Health berkurang, salah kursi")
@@ -203,11 +201,11 @@ class CleanerGameScene: SKScene {
                         
                         let delay = (self.cleanerStorageContent.texture == nil) ? 0.0 : 0.7
                         DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
-                            self.cleanerStorageContent.texture = SKTexture(imageNamed: "cleaner-tool-\(self.drawerContent[guessedSymbol]!)")
-                            self.cleanerStorageContent.size = CGSize(width: self.cleaningItemNodeSize[self.drawerContent[guessedSymbol]!]!["width"]!, height: self.cleaningItemNodeSize[self.drawerContent[guessedSymbol]!]!["height"]!)
+                            self.cleanerStorageContent.texture = SKTexture(imageNamed: "cleaner-tool-\(self.game.drawerContent[guessedSymbol]!)")
+                            self.cleanerStorageContent.size = CGSize(width: self.cleaningItemNodeSize[self.game.drawerContent[guessedSymbol]!]!["width"]!, height: self.cleaningItemNodeSize[self.game.drawerContent[guessedSymbol]!]!["height"]!)
                         }
                         
-                        if (drawerContent[guessedSymbol] == self.activePoop?.name) {
+                        if (self.game.drawerContent[guessedSymbol] == self.activePoop?.name) {
                             DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                                 self.activePoop?.run(SKAction.fadeOut(withDuration: 0.5))
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
@@ -235,16 +233,6 @@ class CleanerGameScene: SKScene {
                 }
             }
         }
-    }
-    
-    private func randomizeDrawer() {
-        var cleaningItemShuffled = cleaningItemAndPoop.shuffled()
-        for k in self.drawerContent.keys {
-            if let chosenItem = cleaningItemShuffled.popLast() {
-                self.drawerContent[k] = chosenItem
-            }
-        }
-        print(self.drawerContent)
     }
     
     private func animateDrawer(open: Bool) {

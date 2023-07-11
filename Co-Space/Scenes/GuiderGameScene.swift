@@ -16,8 +16,9 @@ struct GuestQueueGuide {
     var guest: SKSpriteNode
 }
 
-class GuiderGameScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
-    var game: MainGame = MainGame()
+class GuiderGameScene: SKScene, SKPhysicsContactDelegate{
+    var game: MainGame!
+    var newGuestNode: [String]?
     
     var planetGuide: SKNode?
     //Spawn Location
@@ -46,6 +47,7 @@ class GuiderGameScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
     var timerBarBackground: SKSpriteNode?
     var timerBarDuration: TimeInterval = 10
     var guestCounter = 0
+    
     
     
     //MARK: - SET UP THE SEAT NODE
@@ -96,11 +98,11 @@ class GuiderGameScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
             self.checkQueue()
             if (self.game.newGuestData != nil) {
                 
-                if (self.queueList.count >= 3){
+                if ((self.queueList.count + self.newGuest.count) >= 3){
                     // fail
                     print("Health Reduce: Queue penuh")
-//                    self.game?.updateHealth(add: false, amount: 1)
                     self.game.newGuestData = nil
+                    self.game.updateHealth(add: false, amount: 1)
                 }
                 else {
                     self.guestCounter += 1
@@ -110,6 +112,11 @@ class GuiderGameScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
                     self.updateNewGuest(guestIdx: "guest-\(self.guestCounter)")
                 }
                 
+            }
+            
+            if (self.guestTimer != nil && self.queueList.count <= 0){
+                self.guestTimer?.invalidate()
+                self.guestTimer = nil
             }
         }
     }
@@ -143,6 +150,9 @@ class GuiderGameScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first else { return }
         let touchLocation = touch.location(in: self)
+        
+        print("Health dari scene \(self.game.health)")
+        
         if (seatClickable){
             if let node = self.atPoint(touchLocation) as? SKSpriteNode {
                 if (node.name != nil){
@@ -158,6 +168,9 @@ class GuiderGameScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
     }
     //MARK: - Checking queue
     func checkQueue() {
+        if (game == nil){
+            print("nil disini")
+        }
         if (self.queueList.count > 0){
             for i in 0...(self.queueList.count - 1) {
                 let newQueue = i + 1
@@ -207,6 +220,7 @@ class GuiderGameScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
                                     
                                     
                                     let moveToSeat = SKAction.move(to: seatSprite, duration: 0.4)
+                                    // Ada orangnya isi 1
                                     seatNodeStatusList[signSeat]?[numberSeat - 1] = 1
                                     
                                     newSpriteNode.texture = queueList[i].guest.texture
@@ -218,6 +232,7 @@ class GuiderGameScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
                                     queueList[i].guest.removeFromParent()
                                     let randomNumChangeToDirty = Double(arc4random_uniform(7)) + 1
                                     DispatchQueue.main.asyncAfter(deadline: .now() + randomNumChangeToDirty) {
+                                        // Kotor isi 2
                                         self.seatNodeStatusList[signSeat]?[numberSeat - 1] = 2
                                         newSpriteNode.texture = SKTexture(imageNamed: "dirtysign")
                                         newSpriteNode.size = CGSize(width: 15, height: 45)
@@ -305,6 +320,7 @@ class GuiderGameScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
             if self.timerCount >= Double(seconds) {
                 self.guestLeave = true
                 self.moveGuest(numberSeat: nil, signSeat: nil)
+                self.game.updateHealth(add: false, amount: 1)
             }
         }
     }
@@ -324,7 +340,6 @@ class GuiderGameScene: SKScene, ObservableObject, SKPhysicsContactDelegate{
             timerBarNode.anchorPoint = CGPoint(x: 0, y: 0.5)
             timerBarNode.zPosition = timerBarNode.zPosition + 1
             addChild(timerBarNode)
-            
         }
 
     }

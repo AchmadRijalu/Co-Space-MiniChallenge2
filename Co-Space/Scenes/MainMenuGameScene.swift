@@ -2,8 +2,8 @@ import Foundation
 import SpriteKit
 import SwiftUI
 
-class MainMenuGameScene: SKScene, SKPhysicsContactDelegate, ObservableObject {
-    @ObservedObject var game: MainGame = MainGame()
+class MainMenuGameScene: SKScene, SKPhysicsContactDelegate {
+    var game: MainGame?
     
     var planeSliderNode: SKSpriteNode!
     var isTapped:Bool = false
@@ -13,7 +13,6 @@ class MainMenuGameScene: SKScene, SKPhysicsContactDelegate, ObservableObject {
     let maxDragX: CGFloat = 105  // Batas maksimum sumbu X
     
     override func didMove(to view: SKView) {
-        
         if let planeSliderNode = self.childNode(withName: "planeSliderNode"){
             self.planeSliderNode = planeSliderNode as? SKSpriteNode
             self.planeSliderNode.name = "planeSliderNode"
@@ -93,7 +92,7 @@ class MainMenuGameScene: SKScene, SKPhysicsContactDelegate, ObservableObject {
 //            let newScene = SecurityGameScene(size: self.size) // Initialize your new scene
 //            let transition = SKTransition.doorsOpenHorizontal(withDuration: 0.5) // Set the transition effect
 //            self.scene?.view?.presentScene(newScene, transition: transition) // Change the scene
-            game.createRoom()
+            game?.createRoom()
             
             print("gaesss")
         }
