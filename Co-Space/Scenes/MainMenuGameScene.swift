@@ -93,9 +93,8 @@ class MainMenuGameScene: SKScene, SKPhysicsContactDelegate, ObservableObject {
 //            let newScene = SecurityGameScene(size: self.size) // Initialize your new scene
 //            let transition = SKTransition.doorsOpenHorizontal(withDuration: 0.5) // Set the transition effect
 //            self.scene?.view?.presentScene(newScene, transition: transition) // Change the scene
-            game.createRoom()
-            
-            print("gaesss")
+//            game.createRoom()
+            NotificationCenter.default.post(name: Notification.Name("NavigatetoGameRoom"), object: nil)
         }
     }
     

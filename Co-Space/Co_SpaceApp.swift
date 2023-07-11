@@ -9,9 +9,10 @@ import SwiftUI
 
 @main
 struct Co_SpaceApp: App {
+    @StateObject var multipeerSession = SpaceMultipeerSession(username: "DefaulUsername")
     var body: some Scene {
         WindowGroup {
-            MainmenuView()
+            MainmenuView().environmentObject(multipeerSession)
         }
     }
 }
