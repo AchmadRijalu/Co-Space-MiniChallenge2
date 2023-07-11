@@ -9,21 +9,37 @@ import SwiftUI
 
 struct GameView: View {
     @ObservedObject var game: MainGame
+    @State var isPresented:Bool = false
     
     var body: some View {
         NavigationView {
             VStack {
-                if (game.myRole == "security") {
-                    SecurityView(game: game)
+                ZStack{
+                    
+                    
+                    if (game.myRole == "security") {
+                        SecurityView(game: game)
+                    }
+                    else if (game.myRole == "guide") {
+                        GuiderView(game: game)
+                    }
+                    else if (game.myRole == "cleaner") {
+                        CleanerView(game: game)
+                    }
+                    else if (game.myRole == "inventory") {
+                        InventoryView(game: game)
+                    }
+                    
+                    if isPresented == true{
+                        ResultView(game: game)
+                    }
                 }
-                else if (game.myRole == "guide") {
-                    GuiderView(game: game)
-                }
-                else if (game.myRole == "cleaner") {
-                    CleanerView(game: game)
-                }
-                else if (game.myRole == "inventory") {
-                    InventoryView(game: game)
+               
+            }
+            .onAppear {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                    isPresented = true
+                    print(isPresented)
                 }
             }
         }
@@ -33,6 +49,6 @@ struct GameView: View {
 
 struct GameView_Previews: PreviewProvider {
     static var previews: some View {
-        GameView(game: MainGame())
+        GameView(game: MainGame()).previewInterfaceOrientation(.landscapeLeft)
     }
 }

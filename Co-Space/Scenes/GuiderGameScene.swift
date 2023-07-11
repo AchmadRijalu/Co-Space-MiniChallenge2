@@ -191,7 +191,6 @@ class GuiderGameScene: SKScene, SKPhysicsContactDelegate{
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
             self.seatClickable = true
         }
-        
         if queueList.count > 0 {
             for i in 0...(queueList.count - 1) {
                 if queueList[i].queue > 1 {
@@ -416,9 +415,6 @@ class GuiderGameScene: SKScene, SKPhysicsContactDelegate{
             self.newGuest.removeValue(forKey: guestIdx)
         }
     }
-    
-    
-    
     //MARK: - Disappear Animation
     func runBounceAndDisappearAnimation(sprite: SKNode) {
         // Bounce action

@@ -25,13 +25,11 @@ struct RoleRevealView: View {
                     isActive: $isMovingToGameView,
                     label: EmptyView.init
                 )
-                
                 SpriteView(scene: scene)
                     .task{
                         scene.game = game
                     }
                     .ignoresSafeArea()
-                
                 VStack(alignment: .trailing){
                     HStack{
                         Spacer()

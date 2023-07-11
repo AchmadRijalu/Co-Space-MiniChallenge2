@@ -6,15 +6,30 @@
 //
 
 import SwiftUI
+import SpriteKit
 
 struct ResultView: View {
+    @ObservedObject var game: MainGame
+    
+    var scene = SKScene(fileNamed: "ResultGameScene.sks") as! ResultGameScene
+    let backgroundOpacity: Double = 0.1
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ZStack{
+            VStack{
+                SpriteView(scene: scene, options: [.allowsTransparency], debugOptions: []).ignoresSafeArea()
+            }
+            .onAppear{
+                scene.game = games
+                scene.backgroundColor = .clear
+            }
+            .edgesIgnoringSafeArea(.all)
+        }
+        .navigationBarBackButtonHidden()
     }
 }
 
 struct ResultView_Previews: PreviewProvider {
     static var previews: some View {
-        ResultView()
+        ResultView(game: MainGame()).previewInterfaceOrientation(.landscapeLeft)
     }
 }

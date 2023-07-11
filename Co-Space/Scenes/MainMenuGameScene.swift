@@ -111,5 +111,18 @@ class MainMenuGameScene: SKScene, SKPhysicsContactDelegate {
         node.run(moveBackAction)
         mainMenuLabelNode.isHidden = false
         
+        
+        
+    }
+    //MARK: - Animation Space Gif
+    func createAnimatedImagesArray(imageName: String, frameCount: Int) -> [SKTexture] {
+        var animatedImages: [SKTexture] = []
+        for index in 1..<frameCount {
+            let textureName = "\(imageName)\(index)"
+            let texture = SKTexture(imageNamed: textureName)
+            animatedImages.append(texture)
+        }
+        
+        return animatedImages
     }
 }
