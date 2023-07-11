@@ -31,7 +31,7 @@ struct GameView: View {
                     }
                     
                     if isPresented == true{
-                        ResultView()
+                        ResultView(game: game)
                     }
                 }
                

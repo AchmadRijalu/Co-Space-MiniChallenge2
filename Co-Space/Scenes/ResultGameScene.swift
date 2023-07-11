@@ -10,6 +10,7 @@ import SpriteKit
 import AVFoundation
 class ResultGameScene : SKScene,  SKPhysicsContactDelegate{
     
+    var game : MainGame!
     
     var moonResultNode =  SKSpriteNode()
     var logoResultNode = SKSpriteNode()
