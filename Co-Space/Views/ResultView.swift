@@ -19,7 +19,7 @@ struct ResultView: View {
                 SpriteView(scene: scene, options: [.allowsTransparency], debugOptions: []).ignoresSafeArea()
             }
             .onAppear{
-                scene.game = games
+//                scene.game = games
                 scene.backgroundColor = .clear
             }
             .edgesIgnoringSafeArea(.all)
