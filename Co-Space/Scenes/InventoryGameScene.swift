@@ -8,7 +8,7 @@
 import SpriteKit
 import GameplayKit
 import SwiftUI
-
+import AVFoundation
 
 class InventoryGameScene: SKScene {
     // MARK: - Declaring as SKNode
@@ -18,6 +18,10 @@ class InventoryGameScene: SKScene {
     var inventoryStorageContentMoon = SKSpriteNode(imageNamed : "cleaner-tool-brown")
     var inventoryStorageContentSun = SKSpriteNode(imageNamed : "cleaner-tool-green")
     var inventoryStorageContentStar = SKSpriteNode(imageNamed : "cleaner-tool-orange")
+    
+    //MARK: - Declaring sound effect avaudioplayer
+    var storageDoorOpenedSoundEffect = AVAudioPlayer()
+//    var gameOverSoundEffect = SKAudioNode()
     
     // MARK: - Inventory price,coin and drawer open button
     var coin1LabelNode = SKLabelNode()
@@ -36,6 +40,22 @@ class InventoryGameScene: SKScene {
     // MARK: - Inventory for inside content
     let cleaningItemNodeSize = ["green": ["width": 51, "height": 102], "orange": ["width": 79, "height": 97], "brown": ["width": 52, "height": 74]]
     let cleaningItemAndPoop = ["green", "orange", "brown"]
+    
+    
+    func playSoundEffect(sound:String) {
+        guard let url = Bundle.main.url(forResource: sound, withExtension: "wav") else { return }
+        do {
+            storageDoorOpenedSoundEffect = try AVAudioPlayer(contentsOf: url)
+            storageDoorOpenedSoundEffect.numberOfLoops = 0
+            storageDoorOpenedSoundEffect.prepareToPlay()
+            storageDoorOpenedSoundEffect.play()
+            
+            
+            
+        } catch let error {
+            print("Error: \(error.localizedDescription)")
+        }
+    }
     
     // MARK: - Start the basic setup load
     override func sceneDidLoad() {
@@ -145,6 +165,7 @@ class InventoryGameScene: SKScene {
                     drawermoonOpen = true
                     drawersunOpen = false
                     drawerstarOpen = false
+                     playSoundEffect(sound : "storage-door" )
                     animateDrawer(door: "moon", moon: drawermoonOpen, sun: drawersunOpen, star: drawerstarOpen)
                     //                inventoryStorageContentSun.size
                 }
@@ -155,6 +176,7 @@ class InventoryGameScene: SKScene {
                         drawersunOpen = true
                         drawerstarOpen = false
                         drawermoonOpen = false
+                         playSoundEffect(sound : "storage-door" )
                         animateDrawer(door: "sun", moon: drawermoonOpen, sun: drawersunOpen, star: drawerstarOpen)
                     }
                 }
@@ -165,6 +187,7 @@ class InventoryGameScene: SKScene {
                         drawerstarOpen = true
                         drawersunOpen = false
                         drawermoonOpen = false
+                         playSoundEffect(sound : "storage-door" )
                         animateDrawer(door: "star", moon: drawermoonOpen, sun: drawersunOpen, star: drawerstarOpen)
                     }
                 }

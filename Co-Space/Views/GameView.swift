@@ -15,8 +15,6 @@ struct GameView: View {
         NavigationView {
             VStack {
                 ZStack{
-                    
-                    
                     if (game.myRole == "security") {
                         SecurityView(game: game)
                     }
