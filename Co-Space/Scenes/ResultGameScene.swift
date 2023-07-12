@@ -8,9 +8,9 @@
 import Foundation
 import SpriteKit
 import AVFoundation
-class ResultGameScene : SKScene,  SKPhysicsContactDelegate{
+class ResultGameScene : SKScene,  SKPhysicsContactDelegate, ObservableObject{
     
-    var game : MainGame!
+    @Published var game : MainGame!
     
     var moonResultNode =  SKSpriteNode()
     var logoResultNode = SKSpriteNode()
@@ -21,6 +21,8 @@ class ResultGameScene : SKScene,  SKPhysicsContactDelegate{
     var gameOverResultNode = SKSpriteNode()
     var playAgainResultNode = SKSpriteNode()
     var exitResultNode = SKSpriteNode()
+    var hyperDriveOutSoundEffect = AVAudioPlayer()
+    var gameOverSoundEffect = SKAudioNode()
     
     func createAnimatedImagesArrayReverse(imageName: String, frameCount: Int) -> [SKTexture] {
         var animatedImages: [SKTexture] = []
@@ -31,6 +33,42 @@ class ResultGameScene : SKScene,  SKPhysicsContactDelegate{
         }
         
         return animatedImages
+    }
+    
+    
+    func playDriveOutSoundEffect() {
+        guard let url = Bundle.main.url(forResource: "transition-hyper-drive-out", withExtension: "wav") else { return }
+        do {
+            
+            hyperDriveOutSoundEffect = try AVAudioPlayer(contentsOf: url)
+            hyperDriveOutSoundEffect.numberOfLoops = 0
+            hyperDriveOutSoundEffect.enableRate = true
+            hyperDriveOutSoundEffect.rate = 2.0
+            hyperDriveOutSoundEffect.prepareToPlay()
+            DispatchQueue.main.asyncAfter(deadline: .now() +  0.1){
+                self.hyperDriveOutSoundEffect.play()
+            }
+            
+            
+        } catch let error {
+            print("Error: \(error.localizedDescription)")
+        }
+    }
+    
+    
+    func playGameOverSoundEffect() {
+        guard let url = Bundle.main.url(forResource: "game-over", withExtension: "wav") else { return }
+        do {
+            
+            hyperDriveOutSoundEffect = try AVAudioPlayer(contentsOf: url)
+            hyperDriveOutSoundEffect.numberOfLoops = 0
+            hyperDriveOutSoundEffect.prepareToPlay()
+            self.hyperDriveOutSoundEffect.play()
+            
+            
+        } catch let error {
+            print("Error: \(error.localizedDescription)")
+        }
     }
     
     func easeOutElastic(_ t: CGFloat) -> CGFloat {
@@ -85,6 +123,7 @@ class ResultGameScene : SKScene,  SKPhysicsContactDelegate{
             
             let logoSequence = SKAction.sequence([scaleDownAction, waitAction, scaleUpAction])
             self.logoResultNode.run(logoSequence)
+            self.playGameOverSoundEffect()
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 4.3) {
@@ -132,6 +171,7 @@ class ResultGameScene : SKScene,  SKPhysicsContactDelegate{
                 // Run the spring-like animation on the dockResultNode
                 self.dockChangedResultNode.run(SKAction.group([scaleAction, springAction]))
             }
+            
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.5){
                 // Create the dockResultNode constant and set its properties
                 self.dockResultNode = SKSpriteNode(imageNamed: "result-interior")
@@ -143,7 +183,10 @@ class ResultGameScene : SKScene,  SKPhysicsContactDelegate{
                 
                 //space gif play animation
                 let spaceJumpTex = self.createAnimatedImagesArrayReverse(imageName: "SpaceJump", frameCount: 125)
+                
+                
                 let spaceJumpAction = SKAction.animate(with: spaceJumpTex, timePerFrame: 0.03)
+                
                 var spriteNode = SKSpriteNode(texture: spaceJumpTex[0], size: self.size)
                 spriteNode.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2)
                 spriteNode.zPosition = -1
@@ -154,11 +197,15 @@ class ResultGameScene : SKScene,  SKPhysicsContactDelegate{
                 }])
                 spriteNode.run(sequence)
                 
+                //play hyper drive out animation
+                self.playDriveOutSoundEffect()
+                
+                
+                
             }
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 5.0){
                 self.moonResultNode.removeFromParent()
-                
                 let initialPositionGameOver = CGPoint(x: self.size.width / 2, y: -self.gameOverResultNode.size.height / 2)
                 let finalPositionGameOver = CGPoint(x: self.size.width / 2, y: self.size.height / 2 + 100)
                 self.gameOverResultNode = SKSpriteNode(imageNamed: "result-text-game-over")
@@ -166,7 +213,6 @@ class ResultGameScene : SKScene,  SKPhysicsContactDelegate{
                 self.gameOverResultNode.size = CGSize(width: 193.5, height: 27)
                 self.gameOverResultNode.position = initialPositionGameOver
                 self.gameOverResultNode.zPosition = 3
-                
                 
                 let initialPositionPlayAgain = CGPoint(x: self.size.width / 2, y: -self.playAgainResultNode.size.height / 2)
                 let finalPositionPlayAgain = CGPoint(x: self.size.width / 2 - 120, y: self.size.height / 2)
@@ -237,8 +283,14 @@ class ResultGameScene : SKScene,  SKPhysicsContactDelegate{
                     } else if spriteNode.name == "result-button-exit" {
                         print("Touched result-button-exit")
                         // Add your scene transition code here
-                        let newScene = MainMenuGameScene(size: self.size) // Initialize your new scene
+                        let newScene = SKScene(fileNamed: "MainMenuGameScene.sks") as! MainMenuGameScene
+                        newScene.size = self.size
+                        newScene.game = game
+                        newScene.scaleMode = .fill
+                        newScene.backgroundColor = SKColor(named: "DarkPurple") ?? .blue
+                        
                         let transition = SKTransition.doorsOpenHorizontal(withDuration: 0.5) // Set the transition effect
+                        //                        view?.presentScene(newScene, transition: transition)
                         self.scene?.view?.presentScene(newScene, transition: transition) // Change the scene
                     }
                 }

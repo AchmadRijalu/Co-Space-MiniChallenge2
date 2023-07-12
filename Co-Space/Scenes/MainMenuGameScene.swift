@@ -18,7 +18,7 @@ class MainMenuGameScene: SKScene, SKPhysicsContactDelegate {
     var backgroundMusic = SKAudioNode()
     var isBacksoundEnabled = true
     
-    
+//
     func playSoundMultipleTimes(count: Int) {
         guard let url = Bundle.main.url(forResource: "backsound", withExtension: "wav") else { return }
         do {
@@ -26,7 +26,7 @@ class MainMenuGameScene: SKScene, SKPhysicsContactDelegate {
             audioPlayer?.numberOfLoops = count - 1
             audioPlayer?.prepareToPlay()
             audioPlayer?.play()
-            
+
         } catch let error {
             print("error")
             print(error.localizedDescription)
@@ -94,19 +94,6 @@ class MainMenuGameScene: SKScene, SKPhysicsContactDelegate {
                             isBacksoundEnabled = true
                             self.mainMenuSoundNode?.texture = SKTexture(imageNamed: "mainmenu-button-sound")
                         }
-                        //                        if let musicURL = Bundle.main.url(forResource: "swipe-rocket", withExtension: "wav") {
-                        //                            backgroundMusic = SKAudioNode(url: musicURL)
-                        //                            backgroundMusic.autoplayLooped = false
-                        //                            addChild(backgroundMusic)
-                        //                            backgroundMusic.run(SKAction.sequence([
-                        ////                                SKAction.wait(forDuration: 0.5),
-                        //                                SKAction.run {
-                        //                                    // this will start playing the pling once.
-                        //                                    self.backgroundMusic.run(SKAction.play())
-                        //                                }
-                        //                            ])
-                        //                            )
-                        //                        }
                     }
                     if spriteNode.name == "planeSliderNode" {
                         if let musicURL = Bundle.main.url(forResource: "swipe-rocket", withExtension: "wav") {
@@ -114,7 +101,6 @@ class MainMenuGameScene: SKScene, SKPhysicsContactDelegate {
                             backgroundMusic.autoplayLooped = false
                             addChild(backgroundMusic)
                             backgroundMusic.run(SKAction.sequence([
-                                //                                SKAction.wait(forDuration: 0.5),
                                 SKAction.run {
                                     // this will start playing the pling once.
                                     self.backgroundMusic.run(SKAction.play())
@@ -128,8 +114,6 @@ class MainMenuGameScene: SKScene, SKPhysicsContactDelegate {
                             let location = touch.location(in: self)
                             
                             if let touch = touches.first, spriteNode.frame.contains(touch.location(in: self)) {
-                                // Perform scene transition or any other actions
-                                
                                 let touchedNodes = self.nodes(at: location)
                                 for node in touchedNodes.reversed() {
                                     if node.name == "planeSliderNode" {
@@ -145,48 +129,6 @@ class MainMenuGameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
     }
-    
-    
-    //    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-    //        // Handle other touch events in the scene, if needed
-    //        if let draggableSpriteNode = self.childNode(withName: "planeSliderNode") {
-    //            if let musicURL = Bundle.main.url(forResource: "swipe-rocket", withExtension: "wav") {
-    //                backgroundMusic = SKAudioNode(url: musicURL)
-    //                backgroundMusic.autoplayLooped = false
-    //                addChild(backgroundMusic)
-    //                backgroundMusic.run(SKAction.sequence([
-    //                    SKAction.wait(forDuration: 0.5),
-    //                        SKAction.run {
-    //                            // this will start playing the pling once.
-    //                            self.backgroundMusic.run(SKAction.play())
-    //                        }
-    //                    ])
-    //                                          )
-    //            }
-    //        }
-    //        if let destinationSpriteNode = self.childNode(withName: "planeSlider2Node") {
-    //
-    //            if let touch = touches.first {
-    //                let location = touch.location(in: self)
-    //
-    //                if let touch = touches.first, destinationSpriteNode.frame.contains(touch.location(in: self)) {
-    //                    // Perform scene transition or any other actions
-    //
-    //                    let touchedNodes = self.nodes(at: location)
-    //                    for node in touchedNodes.reversed() {
-    //                        if node.name == "planeSliderNode" {
-    //                            self.planeSliderNode = node as? SKSpriteNode
-    //
-    //                        }
-    //                        //                if node.name == "mainMenuLabelNode"{
-    //                        //                    print("pencet label")
-    //                        //                }
-    //                    }
-    //                }
-    //
-    //            }
-    //        }
-    //    }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first, let node = self.planeSliderNode else { return }
@@ -208,7 +150,8 @@ class MainMenuGameScene: SKScene, SKPhysicsContactDelegate {
         
         if node.position.x > 98.6 {
             
-            let newScene = ResultGameScene(size: self.size) // Initialize your new scene
+            let newScene = ResultGameScene(size: self.size) // Initialize new scene
+            newScene.game = game
             let transition = SKTransition.doorsOpenHorizontal(withDuration: 0.5) // Set the transition effect
             self.scene?.view?.presentScene(newScene, transition: transition) // Change the scene
             
@@ -222,11 +165,9 @@ class MainMenuGameScene: SKScene, SKPhysicsContactDelegate {
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first, let node = self.planeSliderNode else { return }
-        
         let touchLocation = touch.location(in: self)
         let draggablePosition = min(max(touchLocation.x, minDragX), maxDragX)
-        
-        
+
         // User didn't drag the sprite, move it back to default position
         let moveBackAction = SKAction.move(to: CGPoint(x: defaultPositionX, y: node.position.y), duration: 0.1)
         node.run(moveBackAction)
