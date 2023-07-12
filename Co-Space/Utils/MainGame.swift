@@ -13,8 +13,8 @@ import SwiftUI
 @MainActor
 class MainGame: NSObject, GKGameCenterControllerDelegate, ObservableObject {
     // =========================== MAIN GAME PROPERTIES ===========================
-    @Published var playerNumberMin = 2
-    @Published var playerNumberMax = 2
+    @Published var playerNumberMin = 4
+    @Published var playerNumberMax = 4
     
     /// The game interface state.
     @Published var matchAvailable = false
@@ -30,13 +30,14 @@ class MainGame: NSObject, GKGameCenterControllerDelegate, ObservableObject {
     @Published var messages: [Message] = []
     
     /// Game Properties
-    var patienceRangeSecurity = ["start": 8, "end": 10]
-    var patienceRangeGuide = ["start": 3, "end": 7]
+    var patienceRangeSecurity = ["start": 8, "end": 10] // will change to 5-7
+    var patienceRangeGuide = ["start": 3, "end": 5] // will change to 2-4
+    var watchingTimeRange = ["start": 5, "end": 8] // will change to 7-10
     var score = 0
     var coin = 0
     var health = 5
-    var potionPrice = 10
-    
+    var potionPrice = 10 
+                           
     /// The voice chat properties.
     @Published var voiceChat: GKVoiceChat? = nil
     @Published var opponentSpeaking = false
@@ -46,9 +47,12 @@ class MainGame: NSObject, GKGameCenterControllerDelegate, ObservableObject {
     var newGuestData: [String]? = nil
     
     // =========================== ROLE GUIDE PROPERTIES ===========================
+    var newCleanedSeat: [String]? = nil
     
     // =========================== ROLE CLEANER PROPERTIES ===========================
-    var activePoop = ""
+    // 0 = No poop active || 1 = poop active || 2 = poop cleaning done
+    var poopState = 0
+    var newDirtySeatCleaner: [String]? = nil
     
     // =========================== ROLE INVENTORY PROPERTIES ===========================
     let cleaningItemAndPoop = ["green", "orange", "brown"]
@@ -158,7 +162,7 @@ class MainGame: NSObject, GKGameCenterControllerDelegate, ObservableObject {
         for p in gamePlayers{
             nameArray.append(p.displayName)
         }
-        nameArray.sort(by: >)
+        nameArray.sort(by: <)
         
         if (nameArray[0] == GKLocalPlayer.local.displayName){
             isHost = true
@@ -170,8 +174,8 @@ class MainGame: NSObject, GKGameCenterControllerDelegate, ObservableObject {
     // Shuffling Role
     func shuffleRole(){
         if self.isHost {
-//            let role = ["security", "guide", "cleaner", "inventory"]
-            let role = ["security", "guide"]
+            let role = ["security", "guide", "cleaner", "inventory"]
+//            let role = ["security", "guide"]
             var shuffledRole = role.shuffled()
             
             var assignedRoles: [String: String] = [:]
@@ -188,9 +192,9 @@ class MainGame: NSObject, GKGameCenterControllerDelegate, ObservableObject {
                 }
             }
             
-            assignedRoles["AchmadRijalu"] = "security"
-//            assignedRoles["DarkKnight1709"] = "security"
-            self.myRole = "guide"
+//            assignedRoles["AchmadRijalu"] = "security"
+////            assignedRoles["DarkKnight1709"] = "security"
+//            self.myRole = "guide"
             
             // Kirim role" ke player selain local (yg role local gausa dikirim)
             do {

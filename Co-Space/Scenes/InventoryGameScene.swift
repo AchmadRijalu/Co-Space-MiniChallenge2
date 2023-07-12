@@ -20,8 +20,6 @@ class InventoryGameScene: SKScene {
     var inventoryStorageContentStar = SKSpriteNode(imageNamed : "cleaner-tool-orange")
     
     // MARK: - Inventory price,coin and drawer open button
-    var potionPriceNode = 15
-    var totalCoinNode = 15
     var coin1LabelNode = SKLabelNode()
     var potion1PriceLabelNode = SKLabelNode()
     var drawermoonOpen = false
@@ -32,6 +30,8 @@ class InventoryGameScene: SKScene {
     var squareclick = false
     var circleclick = false
     var activePoop = false
+    
+    var continuousTimer: Timer?
     
     // MARK: - Inventory for inside content
     let cleaningItemNodeSize = ["green": ["width": 51, "height": 102], "orange": ["width": 79, "height": 97], "brown": ["width": 52, "height": 74]]
@@ -46,12 +46,37 @@ class InventoryGameScene: SKScene {
     override func didMove(to view: SKView) {
         if let inventoryScene = SKScene(fileNamed: "InventoryGameScene") {
             let counterCoinNode = inventoryScene.childNode(withName: "counter-coins")!
-            coin1LabelNode = setupLabelNode(counterCoinNode.position, "\(totalCoinNode)")
+            coin1LabelNode = setupLabelNode(counterCoinNode.position, "\(self.game.coin)")
             self.addChild(coin1LabelNode)
             
             let counterpotionPriceNode = inventoryScene.childNode(withName: "counter-potion-price")!
-            potion1PriceLabelNode = setupLabelNode(counterpotionPriceNode.position, "\(potionPriceNode)")
+            potion1PriceLabelNode = setupLabelNode(counterpotionPriceNode.position, "\(self.game.potionPrice)")
             self.addChild(potion1PriceLabelNode)
+        }
+        
+        self.continuousTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
+            if (self.game.poopState == 1) {
+                self.setColor()
+            }
+            if (self.game.poopState == 2) {
+                let growActionLeft = SKAction.resize(toWidth: 72, duration: 0.5)
+                let growActionRight = SKAction.resize(toWidth: 56.7, duration: 0.5)
+                self.inventoryStorageDoorLeft1?.run(growActionLeft)
+                self.inventoryStorageDoorRight1?.run(growActionRight)
+                self.drawersunOpen = false
+                self.inventoryStorageDoorLeft2?.run(growActionLeft)
+                self.inventoryStorageDoorRight2?.run(growActionRight)
+                self.drawermoonOpen = false
+                self.inventoryStorageDoorLeft3?.run(growActionLeft)
+                self.inventoryStorageDoorRight3?.run(growActionRight)
+                self.drawerstarOpen = false
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    self.game.updatePoopState(newState: 0)
+                }
+            }
+            
+            self.updaterlabel()
         }
     }
     
@@ -77,7 +102,6 @@ class InventoryGameScene: SKScene {
         inventoryButtonOpen1 = scene?.childNode(withName: "inventory-button-open-1")
         inventoryButtonOpen2 = scene?.childNode(withName: "inventory-button-open-2")
         inventoryButtonOpen3 = scene?.childNode(withName: "inventory-button-open-3")
-        inventoryPoop = scene?.childNode(withName: "inventory-poop")
         
         if let inventoryStorageContentMoonNode = scene?.childNode(withName: "inventory-storage-content-moon") {
             inventoryStorageContentMoon.name = "inventory-storage-content-moon"
@@ -113,73 +137,78 @@ class InventoryGameScene: SKScene {
         let touchLocation = touch.location(in: self)
         resetItemShop()
         
-        if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "inventory-button-open-1"{
-            if(drawermoonOpen != true){
-                drawermoonOpen = true
-                drawersunOpen = false
-                drawerstarOpen = false
-                animateDrawer(door: "moon", moon: drawermoonOpen, sun: drawersunOpen, star: drawerstarOpen)
-//                inventoryStorageContentSun.size
-            }
-        }
-        if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "inventory-button-open-2"{
-            if(drawersunOpen != true){
-                if(drawersunOpen != true){
-                    drawersunOpen = true
-                    drawerstarOpen = false
-                    drawermoonOpen = false
-                    animateDrawer(door: "sun", moon: drawermoonOpen, sun: drawersunOpen, star: drawerstarOpen)
-                }
-            }
-        }
-        if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "inventory-button-open-3"{
-            if(drawerstarOpen != true){
-                if(drawerstarOpen != true){
-                    drawerstarOpen = true
+//        print(self.game.drawerContent)
+        
+        if (self.game.poopState == 1){
+            if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "inventory-button-open-2"{
+                if(drawermoonOpen != true){
+                    drawermoonOpen = true
                     drawersunOpen = false
-                    drawermoonOpen = false
-                    animateDrawer(door: "star", moon: drawermoonOpen, sun: drawersunOpen, star: drawerstarOpen)
+                    drawerstarOpen = false
+                    animateDrawer(door: "moon", moon: drawermoonOpen, sun: drawersunOpen, star: drawerstarOpen)
+                    //                inventoryStorageContentSun.size
+                }
+            }
+            if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "inventory-button-open-1"{
+                if(drawersunOpen != true){
+                    if(drawersunOpen != true){
+                        drawersunOpen = true
+                        drawerstarOpen = false
+                        drawermoonOpen = false
+                        animateDrawer(door: "sun", moon: drawermoonOpen, sun: drawersunOpen, star: drawerstarOpen)
+                    }
+                }
+            }
+            if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "inventory-button-open-3"{
+                if(drawerstarOpen != true){
+                    if(drawerstarOpen != true){
+                        drawerstarOpen = true
+                        drawersunOpen = false
+                        drawermoonOpen = false
+                        animateDrawer(door: "star", moon: drawermoonOpen, sun: drawersunOpen, star: drawerstarOpen)
+                    }
                 }
             }
         }
         
-        if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "inventory-potion-card-off" {
-            changeImage(node: inventoryPotionCard!, imageName: "inventory-potion-card-on")
-            potionclick = true
-        }
-        
-        if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "inventory-button-buy" {
-            if triangleclick == true || circleclick == true || squareclick == true{
-                buying(5)
-            }else{
-                buying(potionPriceNode)
-            }
-            
-        }
-        
-        if let node = self.atPoint(touchLocation) as? SKSpriteNode {
-            if node.name == "inventory-triangle-card-off" {
-                changeImage(node: inventoryTriangleCard!, imageName: "inventory-triangle-card-on")
-                triangleclick = true
-            } else if node.name == "inventory-circle-card-off" {
-                changeImage(node: inventoryCircleCard!, imageName: "inventory-circle-card-on")
-                circleclick = true
-            } else if node.name == "inventory-rectangle-card-off" {
-                changeImage(node: inventoryRectangleCard!, imageName: "inventory-rectangle-card-on")
-                squareclick = true
+        if (self.game.coin >= self.game.potionPrice){
+            if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "inventory-potion-card-off" {
+                changeImage(node: inventoryPotionCard!, imageName: "inventory-potion-card-on")
+                potionclick = true
             }
         }
         
-        if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "inventory-poop" {
-//            randomizeDrawer()
-            // randomize drawer
-            setColor()
-            activePoop.toggle()
-            if activePoop{
-                changeImage(node: inventoryPoop!, imageName: "cleaner-poop-green")
+        if (triangleclick || circleclick || squareclick || potionclick){
+            if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "inventory-button-buy" {
+                if (triangleclick) {
+                    self.game.buyIdentityCard(symbol: "triangle")
+                }
+                else if (circleclick) {
+                    self.game.buyIdentityCard(symbol: "circle")
+                }
+                else if (squareclick) {
+                    self.game.buyIdentityCard(symbol: "square")
+                }
+                else {
+                    self.game.buyPotion()
+                }
+                
+                updaterlabel()
             }
-            else{
-                changeImage(node: inventoryPoop!, imageName: "cleaner-poop-brown")
+        }
+        
+        if (self.game.coin >= 5){
+            if let node = self.atPoint(touchLocation) as? SKSpriteNode {
+                if node.name == "inventory-triangle-card-off" {
+                    changeImage(node: inventoryTriangleCard!, imageName: "inventory-triangle-card-on")
+                    triangleclick = true
+                } else if node.name == "inventory-circle-card-off" {
+                    changeImage(node: inventoryCircleCard!, imageName: "inventory-circle-card-on")
+                    circleclick = true
+                } else if node.name == "inventory-rectangle-card-off" {
+                    changeImage(node: inventoryRectangleCard!, imageName: "inventory-rectangle-card-on")
+                    squareclick = true
+                }
             }
         }
     }
@@ -205,37 +234,26 @@ class InventoryGameScene: SKScene {
     
     // MARK: - updatelabel code
     func updaterlabel() {
-        coin1LabelNode.text = "\(totalCoinNode)"
-        potion1PriceLabelNode.text = "\(potionPriceNode)"
-    }
-    
-    // MARK: - mechanism buy code
-    func buying(_ counter: Int) {
-        if totalCoinNode >= counter {
-            totalCoinNode -= counter
-            if counter == potionPriceNode{
-                potionPriceNode += 5
-            }
-        }
-        updaterlabel()
+        coin1LabelNode.text = "\(self.game.coin)"
+        potion1PriceLabelNode.text = "\(self.game.potionPrice)"
     }
     
     // MARK: - drawer animation code
     private func animateDrawer(door: String, moon: Bool, sun: Bool, star: Bool) {
         let shrinkAction = SKAction.resize(toWidth: 0.0, duration: 0.5)
-        let growActionLeft = SKAction.resize(toWidth: 60, duration: 0.5)
-        let growActionRight = SKAction.resize(toWidth: 60, duration: 0.5)
+        let growActionLeft = SKAction.resize(toWidth: 72, duration: 0.5)
+        let growActionRight = SKAction.resize(toWidth: 56.7, duration: 0.5)
         let delay = SKAction.wait(forDuration: 3.0)
         var doorLeft: SKNode?
         var doorRight: SKNode?
         
         switch door {
         case "moon":
-            doorLeft = inventoryStorageDoorLeft1
-            doorRight = inventoryStorageDoorRight1
-        case "sun":
             doorLeft = inventoryStorageDoorLeft2
             doorRight = inventoryStorageDoorRight2
+        case "sun":
+            doorLeft = inventoryStorageDoorLeft1
+            doorRight = inventoryStorageDoorRight1
         case "star":
             doorLeft = inventoryStorageDoorLeft3
             doorRight = inventoryStorageDoorRight3
@@ -249,16 +267,16 @@ class InventoryGameScene: SKScene {
         
         let growDoorsAction = SKAction.run {
             if moon {
-                self.inventoryStorageDoorLeft2?.run(growActionLeft)
-                self.inventoryStorageDoorRight2?.run(growActionRight)
+                self.inventoryStorageDoorLeft1?.run(growActionLeft)
+                self.inventoryStorageDoorRight1?.run(growActionRight)
                 self.drawersunOpen = false
                 self.inventoryStorageDoorLeft3?.run(growActionLeft)
                 self.inventoryStorageDoorRight3?.run(growActionRight)
                 self.drawerstarOpen = false
             }
             if sun {
-                self.inventoryStorageDoorLeft1?.run(growActionLeft)
-                self.inventoryStorageDoorRight1?.run(growActionRight)
+                self.inventoryStorageDoorLeft2?.run(growActionLeft)
+                self.inventoryStorageDoorRight2?.run(growActionRight)
                 self.drawermoonOpen = false
                 self.inventoryStorageDoorLeft3?.run(growActionLeft)
                 self.inventoryStorageDoorRight3?.run(growActionRight)
@@ -267,10 +285,10 @@ class InventoryGameScene: SKScene {
             if star {
                 self.inventoryStorageDoorLeft1?.run(growActionLeft)
                 self.inventoryStorageDoorRight1?.run(growActionRight)
-                self.drawermoonOpen = false
+                self.drawersunOpen = false
                 self.inventoryStorageDoorLeft2?.run(growActionLeft)
                 self.inventoryStorageDoorRight2?.run(growActionRight)
-                self.drawersunOpen = false
+                self.drawermoonOpen = false
             }
             
         }

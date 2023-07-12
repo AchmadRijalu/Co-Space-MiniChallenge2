@@ -22,9 +22,13 @@ struct GameData: Codable {
     var identityCard: [String:Int]?
     var newGuest: [String]?
     
+    // Guide Properties
+    var newDirtySeat: [String]?
+    
     // Cleaner Properties
-    var poop: String?
+    var poopState: Int?
     var drawerContent: [String:String]?
+    var newCleanedSeat: [String]?
 }
 
 extension MainGame {
@@ -76,9 +80,21 @@ extension MainGame {
         return encode(gameData: gameData)
     }
     
-    // ========================== BUAT UPDATE POOP KE PLAYER LAIN ==========================
-    func encode(poop: String?) -> Data? {
-        let gameData = GameData(poop: poop)
+    // ========================== BUAT UPDATE NEW DIRTY SEAT KE PLAYER LAIN ==========================
+    func encode(newDirt: [String]?) -> Data? {
+        let gameData = GameData(newDirtySeat: newDirt)
+        return encode(gameData: gameData)
+    }
+    
+    // ========================== BUAT UPDATE POOP STATE KE PLAYER LAIN ==========================
+    func encode(poopState: Int?) -> Data? {
+        let gameData = GameData(poopState: poopState)
+        return encode(gameData: gameData)
+    }
+    
+    // ========================== BUAT UPDATE NEW CLEANED SEAT KE PLAYER LAIN ==========================
+    func encode(newCleaned: [String]?) -> Data? {
+        let gameData = GameData(newCleanedSeat: newCleaned)
         return encode(gameData: gameData)
     }
     

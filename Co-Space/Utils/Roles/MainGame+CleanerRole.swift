@@ -26,4 +26,25 @@ extension MainGame {
             print("Error: \(error.localizedDescription).")
         }
     }
+    
+    func updatePoopState(newState: Int) {
+        self.poopState = newState
+        
+        do {
+            // perbarui poop state
+            let data = encode(poopState: self.poopState)
+            try myMatch?.sendData(toAllPlayers: data!, with: GKMatch.SendDataMode.reliable)
+        } catch {
+            print("Error: \(error.localizedDescription).")
+        }
+    }
+    
+    func sendCleanedSeatToGuide(symbol: String, number: Int) {
+        do {
+            let data = encode(newCleaned: [symbol, String(number)])
+            try myMatch?.sendData(toAllPlayers: data!, with: GKMatch.SendDataMode.reliable)
+        } catch {
+            print("Error: \(error.localizedDescription).")
+        }
+    }
 }

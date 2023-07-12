@@ -97,7 +97,6 @@ class GuiderGameScene: SKScene, SKPhysicsContactDelegate{
         continuousTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
             self.checkQueue()
             if (self.game.newGuestData != nil) {
-                
                 if ((self.queueList.count + self.newGuest.count) >= 3){
                     // fail
                     print("Health Reduce: Queue penuh")
@@ -111,12 +110,22 @@ class GuiderGameScene: SKScene, SKPhysicsContactDelegate{
                     self.addChild(self.newGuest["guest-\(self.guestCounter)"]!)
                     self.updateNewGuest(guestIdx: "guest-\(self.guestCounter)")
                 }
-                
             }
             
             if (self.guestTimer != nil && self.queueList.count <= 0){
                 self.guestTimer?.invalidate()
                 self.guestTimer = nil
+            }
+            
+            if (self.game.newCleanedSeat != nil) {
+                let seatSymbol = (self.game.newCleanedSeat?[0])!
+                let seatNumber = (Int((self.game.newCleanedSeat?[1])!))!
+                self.seatNodeStatusList[seatSymbol]?[seatNumber - 1] = 0
+                if let dirtyNode = self.childNode(withName: "\(seatSymbol)-\(seatNumber)-dirt") {
+                    dirtyNode.removeFromParent()
+                }
+                print("New cleaned seat: \(seatSymbol)-\(seatNumber)-dirt")
+                self.game.newCleanedSeat = nil
             }
         }
     }
@@ -130,14 +139,14 @@ class GuiderGameScene: SKScene, SKPhysicsContactDelegate{
         newGuestGenerated.zPosition = 100
         let alienType = Int(imageName.split(separator: "-")[1])
         var signNewGuest = SKSpriteNode()
-        signNewGuest.position.x = 0
-        signNewGuest.position.y = 0
+        signNewGuest.position.x = 16
+        signNewGuest.position.y = -25
         signNewGuest.size = CGSize(width: 30, height: 30)
         signNewGuest.name = "newGuestSign"
         newGuestGenerated.addChild(signNewGuest)
        
         let tags: NSMutableDictionary = [
-            "patience": 5,
+            "patience": Int.random(in: (self.game.patienceRangeGuide["start"]!)...(self.game.patienceRangeGuide["end"]!)),
             "alienType": alienType ?? 1,
             "sign": symbol
         ]
@@ -150,8 +159,6 @@ class GuiderGameScene: SKScene, SKPhysicsContactDelegate{
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first else { return }
         let touchLocation = touch.location(in: self)
-        
-        print("Health dari scene \(self.game.health)")
         
         if (seatClickable){
             if let node = self.atPoint(touchLocation) as? SKSpriteNode {
@@ -226,18 +233,31 @@ class GuiderGameScene: SKScene, SKPhysicsContactDelegate{
                                     newSpriteNode.position = queueList[i].guest.position
                                     newSpriteNode.size = CGSize(width: 35, height: 55)
                                     newSpriteNode.zPosition = 2
-                                    self.scene?.addChild(newSpriteNode)
+                                    self.addChild(newSpriteNode)
                                     newSpriteNode.run(moveToSeat)
                                     queueList[i].guest.removeFromParent()
-                                    let randomNumChangeToDirty = Double(arc4random_uniform(7)) + 1
+                                    
+                                    self.game.updateCoin(add: true, amount: 1)
+                                    self.game.updateScore(amount: 1)
+                                    
+                                    let randomNumChangeToDirty = Double(Int.random(in: (self.game.watchingTimeRange["start"]!)...(self.game.watchingTimeRange["end"]!)))
                                     DispatchQueue.main.asyncAfter(deadline: .now() + randomNumChangeToDirty) {
                                         // Kotor isi 2
                                         self.seatNodeStatusList[signSeat]?[numberSeat - 1] = 2
                                         newSpriteNode.texture = SKTexture(imageNamed: "dirtysign")
+                                        newSpriteNode.name = "\(signSeat)-\(numberSeat)-dirt"
                                         newSpriteNode.size = CGSize(width: 15, height: 45)
+                                        
+                                        let moveUpAction = SKAction.moveBy(x: 0.0, y: 10.0, duration: 0.6)
+                                        let moveDownAction = moveUpAction.reversed()
+                                        let moveUpDownSequence = SKAction.sequence([moveUpAction, moveDownAction])
+                                        let moveSequenceRepeat = SKAction.repeatForever(moveUpDownSequence)
+                                        
+                                        newSpriteNode.run(moveSequenceRepeat)
+                                        
+                                        self.game.sendDirtySeatToCleaner(symbol: signSeat, number: numberSeat)
                                     }
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                        
                                         let newGuestSkin = self.queueList[i].guest.userData?.value(forKey: "alienType") as? Int
                                         newSpriteNode.texture = SKTexture(imageNamed: "behind-guest-\(newGuestSkin ?? 0)")
                                         self.queueList.removeFirst()
@@ -252,6 +272,7 @@ class GuiderGameScene: SKScene, SKPhysicsContactDelegate{
                         let newNode = SKSpriteNode(texture: SKTexture(imageNamed: "angry-guest-\(angrySkin ?? 0)"))
                         newNode.size = CGSize(width: 35, height: 55)
                         newNode.position = self.queueList[0].guest.position
+                        newNode.zPosition = 10
                         self.queueList[i].guest.removeFromParent()
                         newNode.removeFromParent()
                         self.scene?.addChild(newNode)

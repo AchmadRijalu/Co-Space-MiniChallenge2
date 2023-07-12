@@ -33,7 +33,7 @@ class CleanerGameScene: SKScene {
     
     let symbol = ["square", "circle", "triangle"]
     var seatNodeList: [String:[SKNode]] = ["square": [], "circle": [], "triangle": []]
-    var timerRandomPoop: Timer?
+    var continuousTimer: Timer?
     
     override func sceneDidLoad() {
         if let cleanerBackgroundNode = scene?.childNode(withName: "cleaner-background") {
@@ -131,27 +131,40 @@ class CleanerGameScene: SKScene {
     }
     
     override func didMove(to view: SKView) {
-        timerRandomPoop = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { timer in
-            if (self.seatWithPoop.count < 2){
-                while true {
-                    var randomSymbolShuffled = self.symbol.shuffled()
-                    if let chosenSymbol = randomSymbolShuffled.popLast() {
-                        let randomizedSeat = "\(chosenSymbol)-seat-\(Int.random(in: 1...5))"
-                        if (!self.seatWithPoop.contains(randomizedSeat)){
-                            self.seatWithPoop.append(randomizedSeat)
-                            print("NEW SEAT WITH POOP")
-                            print(self.seatWithPoop)
-                            break
-                        }
-                    }
-                }
+        continuousTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
+//            if (self.seatWithPoop.count < 2){
+//                while true {
+//                    var randomSymbolShuffled = self.symbol.shuffled()
+//                    if let chosenSymbol = randomSymbolShuffled.popLast() {
+//                        let randomizedSeat = "\(chosenSymbol)-seat-\(Int.random(in: 1...5))"
+//                        if (!self.seatWithPoop.contains(randomizedSeat)){
+//                            self.seatWithPoop.append(randomizedSeat)
+//                            print("NEW SEAT WITH POOP")
+//                            print(self.seatWithPoop)
+//                            break
+//                        }
+//                    }
+//                }
+//            }
+            
+            if (self.game.newDirtySeatCleaner != nil){
+                let seatSymbol = (self.game.newDirtySeatCleaner?[0])!
+                let seatNumber = "\((self.game.newDirtySeatCleaner?[1])!)"
+                let newDirtySeat = "\(seatSymbol)-seat-\(seatNumber)"
+                print("New dirty seat: \(newDirtySeat)")
+                self.seatWithPoop.append(newDirtySeat)
+                self.game.newDirtySeatCleaner = nil
             }
+            
+            print(self.seatWithPoop)
         }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first else { return }
         let touchLocation = touch.location(in: self)
+        
+//        print(self.game.drawerContent)
         
         if let node = self.atPoint(touchLocation) as? SKSpriteNode {
             if (node.name != nil){
@@ -172,6 +185,7 @@ class CleanerGameScene: SKScene {
                                 print("\(activeSeatWithPoop) : \(activePoop?.name)")
                             }
                             self.game.randomizeDrawer()
+                            self.game.updatePoopState(newState: 1)
                         }
                         else {
                             damageanimationrun()
@@ -220,6 +234,10 @@ class CleanerGameScene: SKScene {
                                 self.activePoop = nil
                             }
                             
+                            let seatSymbol = self.activeSeatWithPoop.split(separator: "-")[0]
+                            let seatNumber = Int(self.activeSeatWithPoop.split(separator: "-")[2])!
+                            self.game.sendCleanedSeatToGuide(symbol: String(seatSymbol), number: seatNumber)
+                            
                             self.seatWithPoop = self.seatWithPoop.filter { $0 != activeSeatWithPoop }
                             activeSeatWithPoop = ""
                             print("Poop hilang")
@@ -227,6 +245,7 @@ class CleanerGameScene: SKScene {
                             DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
                                 self.animateDrawer(open: false)
                                 self.drawerOpen = false
+                                self.game.updatePoopState(newState: 2)
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                     self.cleanerStorageContent.texture = nil
                                 }

@@ -71,11 +71,23 @@ extension MainGame: GKMatchDelegate {
                 self.newGuestData = newGuest
             }
         }
-        else if let poop = gameData?.poop{
-            self.activePoop = poop
+        else if let newDirt = gameData?.newDirtySeat{
+            // Idx 0: Symbol, Idx 1: Number
+            if (self.myRole == "cleaner") {
+                self.newDirtySeatCleaner = newDirt
+            }
+        }
+        else if let newPoopState = gameData?.poopState{
+            self.poopState = newPoopState
         }
         else if let drawerContent = gameData?.drawerContent {
             self.drawerContent = drawerContent
+        }
+        else if let newCleaned = gameData?.newCleanedSeat{
+            // Idx 0: Symbol, Idx 1: Number
+            if (self.myRole == "guide") {
+                self.newCleanedSeat = newCleaned
+            }
         }
     }
 }

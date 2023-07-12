@@ -11,7 +11,7 @@ import SwiftUI
 
 extension MainGame {
     // Panggil kalo inventory beli identity card
-    func buyIdentityCard(symbol: String) -> String {
+    func buyIdentityCard(symbol: String) {
         let coinPrice = 5
         let addAmount = 10
         
@@ -26,13 +26,11 @@ extension MainGame {
             } catch {
                 print("Error: \(error.localizedDescription).")
             }
-            return "success"
         }
-        return "fail"
     }
     
     // Panggil kalo inventory beli potion
-    func buyPotion() -> String {
+    func buyPotion() {
         if (self.health < 5){
             if (self.coin >= self.potionPrice){
                 updateCoin(add: false, amount: self.potionPrice)
@@ -47,8 +45,6 @@ extension MainGame {
                     print("Error: \(error.localizedDescription).")
                 }
             }
-            return "success"
         }
-        return "fail"
     }
 }

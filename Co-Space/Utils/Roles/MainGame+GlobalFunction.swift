@@ -27,6 +27,19 @@ extension MainGame{
         }
     }
     
+    // Panggil buat perbarui score ke semua orang
+    func updateScore(amount: Int) {
+        self.score += amount
+        
+        do {
+            // perbarui coin
+            let data = encode(score: self.score)
+            try myMatch?.sendData(toAllPlayers: data!, with: GKMatch.SendDataMode.reliable)
+        } catch {
+            print("Error: \(error.localizedDescription).")
+        }
+    }
+    
     // Panggil buat perbarui health ke semua orang (pake param add true klo nambah, false kalo ngurang)
     func updateHealth(add: Bool, amount: Int) {
         if add{
