@@ -248,5 +248,6 @@ class ResultGameScene : SKScene,  SKPhysicsContactDelegate{
     
     
     
+    
 }
 
