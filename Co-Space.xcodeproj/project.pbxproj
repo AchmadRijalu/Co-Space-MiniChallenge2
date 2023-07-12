@@ -35,6 +35,8 @@
 		770FAB452A5DA7F2003E81B1 /* transition-hyper-drive-out.wav in Resources */ = {isa = PBXBuildFile; fileRef = 770FAB432A5DA7F2003E81B1 /* transition-hyper-drive-out.wav */; };
 		770FAB472A5E375E003E81B1 /* backsound.wav in Resources */ = {isa = PBXBuildFile; fileRef = 770FAB462A5E375E003E81B1 /* backsound.wav */; };
 		7760AB762A5DA5AC001B84B5 /* swipe-rocket.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7760AB752A5DA5AC001B84B5 /* swipe-rocket.wav */; };
+		779037D32A5E6D9A0038FC31 /* storage-door.wav in Resources */ = {isa = PBXBuildFile; fileRef = 779037D22A5E6D9A0038FC31 /* storage-door.wav */; };
+		779037D52A5E6EE40038FC31 /* buy-button.wav in Resources */ = {isa = PBXBuildFile; fileRef = 779037D42A5E6EE40038FC31 /* buy-button.wav */; };
 		77937DE72A50277B009770F4 /* DumpCodeTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77937DE62A50277B009770F4 /* DumpCodeTest.swift */; };
 		77937DF72A544481009770F4 /* GuiderGameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77937DF62A544481009770F4 /* GuiderGameScene.swift */; };
 		77937DF92A54465E009770F4 /* SecurityGuestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77937DF82A54465E009770F4 /* SecurityGuestModel.swift */; };
@@ -94,6 +96,8 @@
 		770FAB432A5DA7F2003E81B1 /* transition-hyper-drive-out.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "transition-hyper-drive-out.wav"; sourceTree = "<group>"; };
 		770FAB462A5E375E003E81B1 /* backsound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = backsound.wav; sourceTree = "<group>"; };
 		7760AB752A5DA5AC001B84B5 /* swipe-rocket.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "swipe-rocket.wav"; sourceTree = "<group>"; };
+		779037D22A5E6D9A0038FC31 /* storage-door.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "storage-door.wav"; sourceTree = "<group>"; };
+		779037D42A5E6EE40038FC31 /* buy-button.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "buy-button.wav"; sourceTree = "<group>"; };
 		77937DE62A50277B009770F4 /* DumpCodeTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DumpCodeTest.swift; sourceTree = "<group>"; };
 		77937DF62A544481009770F4 /* GuiderGameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuiderGameScene.swift; sourceTree = "<group>"; };
 		77937DF82A54465E009770F4 /* SecurityGuestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SecurityGuestModel.swift; path = "Co-Space/Scenes/SecurityGuestModel.swift"; sourceTree = SOURCE_ROOT; };
@@ -212,6 +216,8 @@
 		77E3E3022A414BFE00143224 /* Co-Space */ = {
 			isa = PBXGroup;
 			children = (
+				779037D42A5E6EE40038FC31 /* buy-button.wav */,
+				779037D22A5E6D9A0038FC31 /* storage-door.wav */,
 				770FAB462A5E375E003E81B1 /* backsound.wav */,
 				7760AB752A5DA5AC001B84B5 /* swipe-rocket.wav */,
 				770FAB422A5DA7F2003E81B1 /* game-over.wav */,
@@ -367,6 +373,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				779037D32A5E6D9A0038FC31 /* storage-door.wav in Resources */,
 				4A862D672A46FE6E00AF4E54 /* SecurityGameScene.sks in Resources */,
 				77E3E3312A43E5AC00143224 /* GuiderGameScene.sks in Resources */,
 				CFC5AD1D2A493A840075CAFF /* CleanerGameScene.sks in Resources */,
@@ -385,6 +392,7 @@
 				77D6B4922A49DDBE00BB551F /* starfield.sks in Resources */,
 				563EFB782A566BF6005EEA26 /* SpaceGrotesk-Bold.ttf in Resources */,
 				77D6B4902A49DD8B00BB551F /* ParticleAssets.xcassets in Resources */,
+				779037D52A5E6EE40038FC31 /* buy-button.wav in Resources */,
 				77D6B4902A49DD8B00BB551F /* ParticleAssets.xcassets in Resources */,
 				CF0DBABD2A4EE0000018BDD6 /* InventoryGameScene.sks in Resources */,
 			);

@@ -15,8 +15,6 @@ struct GameView: View {
         NavigationView {
             VStack {
                 ZStack{
-                    
-                    
                     if (game.myRole == "security") {
                         SecurityView(game: game)
                     }
@@ -37,10 +35,10 @@ struct GameView: View {
                
             }
             .onAppear {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                    isPresented = true
-                    print(isPresented)
-                }
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+//                    isPresented = true
+//                    print(isPresented)
+//                }
             }
         }
         .navigationBarBackButtonHidden(true)
