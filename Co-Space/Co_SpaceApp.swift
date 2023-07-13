@@ -11,8 +11,7 @@ import SwiftUI
 struct Co_SpaceApp: App {
     var body: some Scene {
         WindowGroup {
-//            MainmenuView()
-            RoleRevealView(game: MainGame())
+            MainmenuView()
         }
     }
 }
