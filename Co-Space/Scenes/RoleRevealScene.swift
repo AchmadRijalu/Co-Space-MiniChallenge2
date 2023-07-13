@@ -8,7 +8,7 @@
 import Foundation
 import SpriteKit
 import SwiftUI
-
+import AVFoundation
 class RoleRevealScene: SKScene {
     var game: MainGame?
     
@@ -25,11 +25,25 @@ class RoleRevealScene: SKScene {
     let buttonPreviousEnableTexture = SKTexture(imageNamed: "role-reveal-button-back-unfilled")
     let buttonPreviousDisableTexture = SKTexture(imageNamed: "role-reveal-button-back-disabled")
     
+    var timerCountDownSoundEffect = SKAudioNode()
+    
     override func sceneDidLoad() {
         refreshInstruction()
     }
     
     override func didMove(to view: SKView) {
+        if let musicURL = Bundle.main.url(forResource: "count-down-15-second", withExtension: "wav") {
+            self.timerCountDownSoundEffect = SKAudioNode(url: musicURL)
+            self.timerCountDownSoundEffect.autoplayLooped = false
+            self.addChild(timerCountDownSoundEffect)
+            self.timerCountDownSoundEffect.run(SKAction.sequence([
+                SKAction.run {
+                    // this will start playing the pling once.
+                    self.timerCountDownSoundEffect.run(SKAction.play())
+                }
+            ])
+            )
+        }
         currentInstruction = SKTexture(imageNamed: instructionArrays[game?.myRole ?? "security"]?[counterNext] ?? "instruction-security-1")
         if let roleRevealNode = self.childNode(withName: "role-reveal") as? SKSpriteNode {
             roleRevealNode.texture = SKTexture(imageNamed: "role-reveal-\(game?.myRole ?? "security")")

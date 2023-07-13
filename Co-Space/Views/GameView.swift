@@ -10,8 +10,6 @@ import SwiftUI
 struct GameView: View {
     @ObservedObject var game: MainGame
     @State var isGameOver:Bool = false
-    @EnvironmentObject var isGameStart : GameStartViewModel
-    
     @State var isStart: Int = 0
     
     var body: some View {
@@ -53,7 +51,6 @@ struct GameView: View {
                 }
                 DispatchQueue.main.asyncAfter(deadline: .now() + 5.7) {
                     withAnimation {
-                        //isGameStart.isGameStart = true
                         isStart = 2
                     }
                 }
