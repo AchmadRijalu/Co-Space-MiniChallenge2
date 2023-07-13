@@ -11,19 +11,39 @@ class MainMenuGameScene: SKScene, SKPhysicsContactDelegate {
     var isTapped:Bool = false
     var mainMenuLabelNode : SKSpriteNode!
     var mainMenuSoundNode: SKSpriteNode?
+    var helpButtonNode: SKSpriteNode?
+    var comingSoonRevealNode = SKSpriteNode()
+    var comingSoonBackButton = SKSpriteNode()
     let defaultPositionX:CGFloat = -98.107
     let minDragX: CGFloat = -98.107  // Batas minimum sumbu X
     let maxDragX: CGFloat = 105  // Batas maksimum sumbu X
 //    var audioPlayer: AVAudioPlayer?
     var backsound =  IngameViewModel.shared
     var planeSwipeSound = SKAudioNode()
+    var buttonSound = SKAudioNode()
     var isBacksoundEnabled = true
+    var isComingSoonTapped = false
     
 //
    
     override func didMove(to view: SKView) {
         //Background Music
         backsound.playBacksoundSoundMultipleTimes(count: 0)
+        self.comingSoonRevealNode.name = "comingsoon-reveal"
+        self.comingSoonRevealNode.texture = SKTexture(imageNamed: "comingsoon-reveal")
+        self.comingSoonRevealNode.size = UIScreen.main.bounds.size
+        self.comingSoonRevealNode.zPosition = 4
+        self.addChild(self.comingSoonRevealNode)
+        self.comingSoonRevealNode.isHidden = true
+        
+        self.comingSoonBackButton.name = "comingsoon-back"
+        self.comingSoonBackButton.texture = SKTexture(imageNamed: "comingsoon-back")
+        self.comingSoonBackButton.size = CGSize(width: 40, height: 40)
+        self.comingSoonBackButton.position = CGPoint(x: -comingSoonRevealNode.size.width / 3, y: comingSoonRevealNode.size.height / 3)
+        self.comingSoonBackButton.zPosition = 4
+        self.addChild(self.comingSoonBackButton)
+        self.comingSoonBackButton.isHidden = true
+        
         if let planeSliderNode = self.childNode(withName: "planeSliderNode"){
             self.planeSliderNode = planeSliderNode as? SKSpriteNode
             self.planeSliderNode.name = "planeSliderNode"
@@ -56,8 +76,17 @@ class MainMenuGameScene: SKScene, SKPhysicsContactDelegate {
             self.mainMenuSoundNode?.position = mainMenuSoundNode.position
             self.mainMenuSoundNode?.size = mainMenuSoundNode.frame.size
             
-            print(self.mainMenuSoundNode)
+           
         }
+        if let helpButtonNode = self.childNode(withName: "helpButtonNode"){
+            self.helpButtonNode = helpButtonNode as! SKSpriteNode
+            self.helpButtonNode?.name = "helpButtonNode"
+            self.helpButtonNode?.position = helpButtonNode.position
+            self.helpButtonNode?.size = helpButtonNode.frame.size
+            
+            
+        }
+
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -80,6 +109,42 @@ class MainMenuGameScene: SKScene, SKPhysicsContactDelegate {
                             self.mainMenuSoundNode?.texture = SKTexture(imageNamed: "mainmenu-button-sound")
                         }
                     }
+                    if spriteNode.name == "helpButtonNode" && isComingSoonTapped == false{
+                        comingSoonRevealNode.isHidden.toggle()
+                        comingSoonBackButton.isHidden.toggle()
+                        isComingSoonTapped = true
+                        if let musicURL = Bundle.main.url(forResource: "click-button", withExtension: "wav") {
+                            buttonSound = SKAudioNode(url: musicURL)
+                            buttonSound.autoplayLooped = false
+                            addChild(buttonSound)
+                            buttonSound.run(SKAction.sequence([
+                                SKAction.run {
+                                    // this will start playing the pling once.
+                                    self.buttonSound.run(SKAction.play())
+                                }
+                            ])
+                            )
+                        }
+                    }
+                    if spriteNode.name == "comingsoon-back" && isComingSoonTapped == true{
+                        comingSoonRevealNode.isHidden.toggle()
+                        comingSoonBackButton.isHidden.toggle()
+                        isComingSoonTapped = false
+                        if let musicURL = Bundle.main.url(forResource: "click-button", withExtension: "wav") {
+                            buttonSound = SKAudioNode(url: musicURL)
+                            buttonSound.autoplayLooped = false
+                            addChild(buttonSound)
+                            buttonSound.run(SKAction.sequence([
+                                SKAction.run {
+                                    // this will start playing the pling once.
+                                    self.buttonSound.run(SKAction.play())
+                                }
+                            ])
+                            )
+                        }
+                    }
+                    
+                    
                     if spriteNode.name == "planeSliderNode" {
                         //Here
                         if let musicURL = Bundle.main.url(forResource: "swipe-rocket", withExtension: "wav") {

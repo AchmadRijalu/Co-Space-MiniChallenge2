@@ -107,7 +107,6 @@ class ResultGameScene : SKScene,  SKPhysicsContactDelegate, ObservableObject{
         addChild(backgroundNode)
         let fadeInActionBackground = SKAction.fadeIn(withDuration: 8.0)
         backgroundNode.run(fadeInActionBackground)
-        
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0){
             //Moon sprite
             self.moonResultNode.name = "moonResultNode"
