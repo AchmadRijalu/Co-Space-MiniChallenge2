@@ -18,6 +18,7 @@ struct MainmenuView: View {
     var scene = SKScene(fileNamed: "MainMenuGameScene.sks") as! MainMenuGameScene
     let audioPlayerManager = IngameViewModel()
     @StateObject var game: MainGame = MainGame()
+    @EnvironmentObject var isGameStart : GameStartViewModel
     
     var body: some View {
         NavigationStack{
@@ -49,6 +50,7 @@ struct MainmenuView: View {
                 )
             }
         }.onAppear{
+            isGameStart.isGameStart = false
             self.dragAmount = 0
             scene.game = self.game
             if !game.playingGame {

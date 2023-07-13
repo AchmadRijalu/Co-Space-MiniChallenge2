@@ -79,13 +79,12 @@ class GameStartGameScene : SKScene{
             self.logoGameStartResultNode.size = CGSize(width: 214.956, height: 214.202)
             self.logoGameStartResultNode.zPosition = 1
             self.addChild(self.logoGameStartResultNode)
-            
             let fallAction = SKAction.move(to: CGPoint(x: 423.855, y: 240.825), duration: 0.3)
             let fadeInAction = SKAction.fadeIn(withDuration: 3.0)
             let sequence = SKAction.sequence([fallAction, fadeInAction])
             self.logoGameStartResultNode.run(sequence)
         }
-      
+
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0){
             let spaceJumpTex = self.createAnimatedImagesArray(imageName: "SpaceJump", frameCount: 125)
             let spaceJumpAction = SKAction.animate(with: spaceJumpTex, timePerFrame: 0.03)
@@ -97,7 +96,6 @@ class GameStartGameScene : SKScene{
                 spriteNode?.removeFromParent()
             }])
             spriteNode.run(sequence)
-            
             self.playDriveInSoundEffect()
             
         }
