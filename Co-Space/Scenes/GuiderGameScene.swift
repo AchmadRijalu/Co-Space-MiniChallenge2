@@ -21,9 +21,6 @@ class GuiderGameScene: SKScene, SKPhysicsContactDelegate{
     var newGuestNode: [String]?
     var spriteNode: SKSpriteNode?
     var timer1: Timer?
-    let textureNames = ["texture1", "texture2", "texture3", "texture4"]
-    var currentTextureIndex = 0
-
     
     var planetGuide: SKNode?
     //Spawn Location
@@ -51,6 +48,10 @@ class GuiderGameScene: SKScene, SKPhysicsContactDelegate{
     let timerBarHeight: CGFloat = 15.0 // Height of the timer bar
     var timerBarNode: SKSpriteNode!
     var timerBarBackground: SKSpriteNode?
+    var stagebackground = SKSpriteNode(imageNamed: "stage-1")
+    var dj = SKSpriteNode(imageNamed: "alien")
+    let texturestage = [ "stage-1", "stage-2", "stage-3", "stage-4"]
+    var currentTextureIndex = 0
     var timerBarDuration: TimeInterval = 10
     var guestCounter = 0
     
@@ -99,10 +100,6 @@ class GuiderGameScene: SKScene, SKPhysicsContactDelegate{
             print("Error: \(error.localizedDescription)")
         }
     }
-    
-   
-    
-    
     //MARK: - SET UP THE SEAT NODE
     func setupGuestSeatNodesList() {
         for i in 1...5 {
@@ -150,6 +147,21 @@ class GuiderGameScene: SKScene, SKPhysicsContactDelegate{
             particles.zPosition = -2
             addChild(particles)
         }
+        if let stage1Node = scene?.childNode(withName: "GuiderStage") {
+            stagebackground.name = "backgroundstageNode"
+            stagebackground.size = CGSize(width:200, height: 120)
+            stagebackground.position = stage1Node.position
+            stagebackground.zPosition = 1
+            self.addChild(stagebackground)
+        }
+        if let dj1Node = scene?.childNode(withName: "GuiderDJ") {
+            dj.name = "djNode"
+            dj.size = CGSize(width:20, height: 25)
+            dj.position = dj1Node.position
+            dj.zPosition = 2
+            self.addChild(dj)
+        }
+
         
         // CHANGE GAME PACE
 //        DispatchQueue.main.asyncAfter(deadline: .now() + 120.0) {
@@ -198,6 +210,12 @@ class GuiderGameScene: SKScene, SKPhysicsContactDelegate{
                 print("New cleaned seat: \(seatSymbol)-\(seatNumber)-dirt")
                 self.game.newCleanedSeat.removeFirst()
             }
+        }
+        let timer = Timer.scheduledTimer(withTimeInterval: 0.25, repeats: true) { [weak self] _ in
+            guard let self = self else { return }
+            self.currentTextureIndex = (self.currentTextureIndex + 1) % self.texturestage.count
+            let textureName = self.texturestage[self.currentTextureIndex]
+            self.stagebackground.texture = SKTexture(imageNamed: textureName)
         }
     }
     
@@ -444,8 +462,6 @@ class GuiderGameScene: SKScene, SKPhysicsContactDelegate{
         if self.isFilled == true{
             let newWidth = (1.0 - (Double(progress) / Double(full))) * 130
             timerBarNode.size.width = newWidth
-            
-            
         }
         else{
             let newWidth = (1.0 - (Double(progress) / Double(full))) * 130

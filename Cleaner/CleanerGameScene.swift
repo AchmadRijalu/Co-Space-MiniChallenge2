@@ -25,10 +25,9 @@ class CleanerGameScene: SKScene {
     var poopSpawned = AVAudioPlayer()
     
     var damageanimation: SKNode?
-    let texturestage = [ "security-stage-1",  "security-stage-2",  "security-stage-3",  "security-stage-4"]
     var currentTextureIndex = 0
     let cleanerBackground = SKSpriteNode(imageNamed : "cleaner-background")
-    let cleanerPlanet = SKSpriteNode(imageNamed : "cleaner-planet")
+    let cleanerPlanet = SKSpriteNode(imageNamed : "planetguide")
     let cleanerStorage = SKSpriteNode(imageNamed : "cleaner-storage")
     let cleanerDoorLeft = SKSpriteNode(imageNamed : "cleaner-storage-door-left")
     let cleanerDoorRight = SKSpriteNode(imageNamed : "cleaner-storage-door-right")
@@ -36,6 +35,9 @@ class CleanerGameScene: SKScene {
     let cleanerButtonSun = SKSpriteNode(imageNamed : "cleaner-button-sun")
     let cleanerButtonStar = SKSpriteNode(imageNamed : "cleaner-button-star")
     var cleanerStorageContent = SKSpriteNode()
+    var stagebackground = SKSpriteNode(imageNamed: "stage-1")
+    var dj = SKSpriteNode(imageNamed: "alien")
+    let texturestage = [ "stage-1", "stage-2", "stage-3", "stage-4"]
     
     
     let symbol = ["square", "circle", "triangle"]
@@ -80,10 +82,25 @@ class CleanerGameScene: SKScene {
             cleanerBackground.zPosition = 0
             self.addChild(cleanerBackground)
         }
+        if let stage1Node = scene?.childNode(withName: "cleanerStage") {
+            stagebackground.name = "backgroundstageNode"
+            stagebackground.size = CGSize(width:200, height: 120)
+            stagebackground.position = stage1Node.position
+            stagebackground.zPosition = 3
+            self.addChild(stagebackground)
+        }
+        if let dj1Node = scene?.childNode(withName: "cleanerDJ") {
+            dj.name = "djNode"
+            dj.size = CGSize(width:20, height: 25)
+            dj.position = dj1Node.position
+            dj.zPosition = 4
+            self.addChild(dj)
+        }
+
         
         if let cleanerPlanetNode = scene?.childNode(withName: "cleaner-planet") {
             cleanerPlanet.name = "cleaner-planet"
-            cleanerPlanet.size = CGSize(width: 780, height: 400)
+            cleanerPlanet.size = CGSize(width: 787, height: 350)
             cleanerPlanet.position = cleanerPlanetNode.position
             cleanerPlanet.zPosition = 2
             self.addChild(cleanerPlanet)
@@ -201,6 +218,12 @@ class CleanerGameScene: SKScene {
                 self.seatWithPoop.append(newDirtySeat)
                 self.game.newDirtySeatCleaner.removeFirst()
             }
+        }
+        let timer = Timer.scheduledTimer(withTimeInterval: 0.25, repeats: true) { [weak self] _ in
+            guard let self = self else { return }
+            self.currentTextureIndex = (self.currentTextureIndex + 1) % self.texturestage.count
+            let textureName = self.texturestage[self.currentTextureIndex]
+            self.stagebackground.texture = SKTexture(imageNamed: textureName)
         }
     }
     

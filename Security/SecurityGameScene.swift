@@ -37,7 +37,7 @@ class SecurityGameScene: SKScene {
     var circle1TextLabelNode = SKLabelNode()
     var securitylabel = SKSpriteNode(imageNamed: "security-label")
     var tappedSymbol = ""
-    
+    var counteralien = 1
     let newGuestPace = 5
     var locationList: [SKNode] = []
     var dissapearNode: SKNode = SKNode()
@@ -114,7 +114,6 @@ class SecurityGameScene: SKScene {
     
     
     override func sceneDidLoad() {
-        
         if let security1backgroundNode = scene?.childNode(withName: "securitybackground") {
             securitybackground.name = "securitybackgroundNode"
             securitybackground.size = CGSize(width: UIScreen.main.bounds.width + 0.5 * UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
@@ -239,7 +238,9 @@ class SecurityGameScene: SKScene {
             particles.zPosition = -2
             addChild(particles)
         }
-        
+        Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
+            self.counteralien = (self.counteralien % 4) + 1
+                   }
         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
             self.continuousTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
                 self.addNewGuestTimer += 1
@@ -276,6 +277,13 @@ class SecurityGameScene: SKScene {
                     self.continuousTimer?.invalidate()
                     self.continuousTimer = nil
                 }
+            }
+            self.continuousTimer = Timer.scheduledTimer(withTimeInterval: 0.25, repeats: true) { [weak self] timer in
+                guard let self = self else { return }
+                self.counteralien = (self.counteralien % 4) + 1
+                self.updateCounterAlienForQueueList()
+                self.addNewGuestTimer += 1
+                
             }
         }
         
@@ -519,23 +527,41 @@ class SecurityGameScene: SKScene {
     
     func generateNewGuest() -> SKNode {
         guestCounter += 1
-        
         let guestTemplate = guestListTemplate.randomElement()
-        let newNode = SKSpriteNode(texture: SKTexture(imageNamed: (guestTemplate?.imageName!)!))
+        let imageName = guestTemplate?.imageName ?? "default-image"
+        let newNode = SKSpriteNode(texture: SKTexture(imageNamed: "\(imageName)-\(counteralien)"))
         newNode.position = locationList[4].position
         newNode.name = "guest-\(guestCounter)"
         newNode.size = CGSize(width: 100, height: 100)
         newNode.zPosition = 10
-        let tags: NSMutableDictionary = [
+
+        var tags: [String: Any] = [
             "nama": guestTemplate?.name ?? "no-name",
             "patience": Int.random(in: (self.game.patienceRangeSecurity["start"]!)...(self.game.patienceRangeSecurity["end"]!)),
+            "image2": newNode,
             "image": guestTemplate?.imageName
         ]
-        newNode.userData = tags
-        
+
+        // Add or update the counteralien value in the tags dictionary
+        tags["counteralien"] = counteralien
+
+        newNode.userData = NSMutableDictionary(dictionary: tags)
+
         return newNode
     }
     
+    func updateCounterAlienForQueueList() {
+        for guestQueueSecurity in queueList {
+            if var userData = guestQueueSecurity.guest.userData as? [String: Any] {
+                if let guestNode = userData["image2"] as? SKSpriteNode {
+                    if let guestTemplate = guestListTemplate.first(where: { $0.name == userData["nama"] as? String }) {
+                        let imageName = guestTemplate.imageName ?? "default-image"
+                        guestNode.texture = SKTexture(imageNamed: "\(imageName)-\(counteralien)")
+                    }
+                }
+            }
+        }
+    }
     func updateCounterUI() {
         self.square1TextLabelNode.text = "x \(self.game.idCardSquare)"
         self.triangle1TextLabelNode.text = "x \(self.game.idCardTriangle)"
