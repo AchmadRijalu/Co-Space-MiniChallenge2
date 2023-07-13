@@ -47,18 +47,15 @@ class GameStartGameScene : SKScene{
         guard let url = Bundle.main.url(forResource: nameSound, withExtension: "wav") else { return }
         do {
             
-            hyperDriveInSoundEffect = try AVAudioPlayer(contentsOf: url)
-            hyperDriveInSoundEffect.numberOfLoops = 0
-            hyperDriveInSoundEffect.enableRate = true
-            hyperDriveInSoundEffect.rate = 2.0
-            hyperDriveInSoundEffect.prepareToPlay()
-            hyperDriveInSoundEffect.play()
-//            "transition-hyper-drive-in"
+            cospaceAnnouncerSoundEffect = try AVAudioPlayer(contentsOf: url)
+            cospaceAnnouncerSoundEffect.prepareToPlay()
+            cospaceAnnouncerSoundEffect.play()
             
         } catch let error {
             print("Error: \(error.localizedDescription)")
         }
     }
+    
 
     
     
@@ -95,7 +92,9 @@ class GameStartGameScene : SKScene{
             let fallAction = SKAction.move(to: CGPoint(x: 423.855, y: 240.825), duration: 0.3)
             let fadeInAction = SKAction.fadeIn(withDuration: 3.0)
             let sequence = SKAction.sequence([fallAction, fadeInAction])
-            self.playAnnouncerSoundEffect(nameSound: "cospace-announcer")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.8){
+                self.playAnnouncerSoundEffect(nameSound: "cospace-announcer")
+            }
             self.logoGameStartResultNode.run(sequence)
         }
 

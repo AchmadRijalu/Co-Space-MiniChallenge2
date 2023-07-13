@@ -8,6 +8,7 @@
 import Foundation
 import SpriteKit
 import AVFoundation
+var cospaceGameOverAnnouncerSoundEffect = AVAudioPlayer()
 
 class ResultGameScene : SKScene,  SKPhysicsContactDelegate, ObservableObject{
     
@@ -35,6 +36,21 @@ class ResultGameScene : SKScene,  SKPhysicsContactDelegate, ObservableObject{
         
         return animatedImages
     }
+    
+    func playAnnouncerSoundEffect(nameSound:String) {
+        guard let url = Bundle.main.url(forResource: nameSound, withExtension: "wav") else { return }
+        do {
+            
+            cospaceGameOverAnnouncerSoundEffect = try AVAudioPlayer(contentsOf: url)
+            cospaceGameOverAnnouncerSoundEffect.numberOfLoops = 0
+            cospaceGameOverAnnouncerSoundEffect.prepareToPlay()
+            cospaceGameOverAnnouncerSoundEffect.play()
+            
+        } catch let error {
+            print("Error: \(error.localizedDescription)")
+        }
+    }
+    
     
     
     func playDriveOutSoundEffect() {
@@ -103,6 +119,8 @@ class ResultGameScene : SKScene,  SKPhysicsContactDelegate, ObservableObject{
             let sequence = SKAction.sequence([fallAction, fadeInAction])
             self.moonResultNode.run(sequence)
             
+            
+            
             //Logo sprite
             self.logoResultNode.name = "logoResultNode"
             self.logoResultNode.texture = SKTexture(imageNamed: "result-logo-game-over")
@@ -125,6 +143,9 @@ class ResultGameScene : SKScene,  SKPhysicsContactDelegate, ObservableObject{
             let logoSequence = SKAction.sequence([scaleDownAction, waitAction, scaleUpAction])
             self.logoResultNode.run(logoSequence)
             self.playGameOverSoundEffect()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.8){
+                self.playAnnouncerSoundEffect(nameSound: "cospace-announcer")
+            }
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 4.3) {

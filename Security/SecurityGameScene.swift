@@ -144,7 +144,7 @@ class SecurityGameScene: SKScene {
             self.addChild(square)
         }
         
-        if let square1quantityNode = scene?.childNode(withName: "squareleft") {
+        if let square1quantityNode = scene?.childNode(withName: "rectangleleft") {
             squareidentitycardquantity.name = "square1quantityNode"
             squareidentitycardquantity.size = CGSize(width: 50, height: 30)
             squareidentitycardquantity.position = square1quantityNode.position
