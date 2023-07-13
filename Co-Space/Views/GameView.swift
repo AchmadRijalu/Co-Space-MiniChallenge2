@@ -12,6 +12,10 @@ struct GameView: View {
     @State var isPresented:Bool = false
     @State var timer: Timer? = nil
     @State var goToResult = false
+    @State var isGameOver:Bool = false
+    @EnvironmentObject var isGameStart : GameStartViewModel
+    
+    @State var isStart: Int = 0
     
     var body: some View {
         NavigationView {
@@ -22,20 +26,26 @@ struct GameView: View {
             )
             VStack {
                 ZStack{
-                    if (game.myRole == "security") {
-                        SecurityView(game: game)
-                    }
-                    else if (game.myRole == "guide") {
-                        GuiderView(game: game)
-                    }
-                    else if (game.myRole == "cleaner") {
-                        CleanerView(game: game)
-                    }
-                    else if (game.myRole == "inventory") {
-                        InventoryView(game: game)
-                    }
+                    if isStart == 1 {
+                            let a = print("gamestart")
+                            GameStartView()
+                        } else if isStart == 2 {
+                            if (game.myRole == "security") {
+                                SecurityView(game: game)
+                            }
+                            else if (game.myRole == "guide") {
+                                GuiderView(game: game)
+                            }
+                            else if (game.myRole == "cleaner") {
+                                CleanerView(game: game)
+                            }
+                            else if (game.myRole == "inventory") {
+                                InventoryView(game: game)
+                            }
+                        }
                     
-                    if isPresented == true{
+                    
+                    if isGameOver == true{
                         ResultView(game: game)
                     }
                 }
@@ -46,6 +56,17 @@ struct GameView: View {
                     if (self.game.health < 3) {
                         goToResult = true
                         timer.invalidate()
+                print("appear")
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    withAnimation {
+                        isStart = 1
+                    }
+
+                }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 5.7) {
+                    withAnimation {
+                        //isGameStart.isGameStart = true
+                        isStart = 2
                     }
                 }
             }

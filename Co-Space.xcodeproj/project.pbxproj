@@ -47,6 +47,15 @@
 		77A867272A5EF0B7008FAC72 /* alien-sit.wav in Resources */ = {isa = PBXBuildFile; fileRef = 77A867262A5EF0B7008FAC72 /* alien-sit.wav */; };
 		77A867292A5EF0C3008FAC72 /* alien-leave.wav in Resources */ = {isa = PBXBuildFile; fileRef = 77A867282A5EF0C3008FAC72 /* alien-leave.wav */; };
 		77A8672B2A5F8561008FAC72 /* earn-coins.wav in Resources */ = {isa = PBXBuildFile; fileRef = 77A8672A2A5F8561008FAC72 /* earn-coins.wav */; };
+		77A8672D2A5F9076008FAC72 /* IngameSoundViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77A8672C2A5F9076008FAC72 /* IngameSoundViewModel.swift */; };
+		77A8672F2A5F9B1C008FAC72 /* backsound-play-screen.wav in Resources */ = {isa = PBXBuildFile; fileRef = 77A8672E2A5F9B1C008FAC72 /* backsound-play-screen.wav */; };
+		77A867312A5F9F8D008FAC72 /* GameStartViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77A867302A5F9F8D008FAC72 /* GameStartViewModel.swift */; };
+		77A867332A5FA069008FAC72 /* GameStartGameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77A867322A5FA069008FAC72 /* GameStartGameScene.swift */; };
+		77A867352A5FA079008FAC72 /* GameStartGameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 77A867342A5FA079008FAC72 /* GameStartGameScene.sks */; };
+		77A867372A5FA123008FAC72 /* GameStartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77A867362A5FA123008FAC72 /* GameStartView.swift */; };
+		77A867392A5FA1BE008FAC72 /* transition-hyper-drive-in.wav in Resources */ = {isa = PBXBuildFile; fileRef = 77A867382A5FA1BE008FAC72 /* transition-hyper-drive-in.wav */; };
+		77A8673C2A5FCEE4008FAC72 /* poop-spawn.wav in Resources */ = {isa = PBXBuildFile; fileRef = 77A8673A2A5FCEE4008FAC72 /* poop-spawn.wav */; };
+		77A8673D2A5FCEE4008FAC72 /* poop-cleaned.wav in Resources */ = {isa = PBXBuildFile; fileRef = 77A8673B2A5FCEE4008FAC72 /* poop-cleaned.wav */; };
 		77ACA6A12A57BD3E00C591E7 /* SpriteKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77E3E32B2A43D50B00143224 /* SpriteKit.framework */; };
 		77D6B4902A49DD8B00BB551F /* ParticleAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 77D6B48E2A49DD8B00BB551F /* ParticleAssets.xcassets */; };
 		77D6B4922A49DDBE00BB551F /* starfield.sks in Resources */ = {isa = PBXBuildFile; fileRef = 77D6B4912A49DDBE00BB551F /* starfield.sks */; };
@@ -115,6 +124,15 @@
 		77A867262A5EF0B7008FAC72 /* alien-sit.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "alien-sit.wav"; sourceTree = "<group>"; };
 		77A867282A5EF0C3008FAC72 /* alien-leave.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "alien-leave.wav"; sourceTree = "<group>"; };
 		77A8672A2A5F8561008FAC72 /* earn-coins.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "earn-coins.wav"; sourceTree = "<group>"; };
+		77A8672C2A5F9076008FAC72 /* IngameSoundViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngameSoundViewModel.swift; sourceTree = "<group>"; };
+		77A8672E2A5F9B1C008FAC72 /* backsound-play-screen.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "backsound-play-screen.wav"; sourceTree = "<group>"; };
+		77A867302A5F9F8D008FAC72 /* GameStartViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameStartViewModel.swift; sourceTree = "<group>"; };
+		77A867322A5FA069008FAC72 /* GameStartGameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameStartGameScene.swift; sourceTree = "<group>"; };
+		77A867342A5FA079008FAC72 /* GameStartGameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameStartGameScene.sks; sourceTree = "<group>"; };
+		77A867362A5FA123008FAC72 /* GameStartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameStartView.swift; sourceTree = "<group>"; };
+		77A867382A5FA1BE008FAC72 /* transition-hyper-drive-in.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "transition-hyper-drive-in.wav"; sourceTree = "<group>"; };
+		77A8673A2A5FCEE4008FAC72 /* poop-spawn.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "poop-spawn.wav"; sourceTree = "<group>"; };
+		77A8673B2A5FCEE4008FAC72 /* poop-cleaned.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "poop-cleaned.wav"; sourceTree = "<group>"; };
 		77D6B48E2A49DD8B00BB551F /* ParticleAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = ParticleAssets.xcassets; sourceTree = "<group>"; };
 		77D6B4912A49DDBE00BB551F /* starfield.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = starfield.sks; sourceTree = "<group>"; };
 		77D6B4932A4BC57F00BB551F /* GuiderGameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuiderGameViewModel.swift; sourceTree = "<group>"; };
@@ -230,6 +248,10 @@
 		77E3E3022A414BFE00143224 /* Co-Space */ = {
 			isa = PBXGroup;
 			children = (
+				77A8673B2A5FCEE4008FAC72 /* poop-cleaned.wav */,
+				77A8673A2A5FCEE4008FAC72 /* poop-spawn.wav */,
+				77A867382A5FA1BE008FAC72 /* transition-hyper-drive-in.wav */,
+				77A8672E2A5F9B1C008FAC72 /* backsound-play-screen.wav */,
 				77A867282A5EF0C3008FAC72 /* alien-leave.wav */,
 				77A8672A2A5F8561008FAC72 /* earn-coins.wav */,
 				77A867262A5EF0B7008FAC72 /* alien-sit.wav */,
@@ -280,6 +302,8 @@
 			isa = PBXGroup;
 			children = (
 				77D6B4932A4BC57F00BB551F /* GuiderGameViewModel.swift */,
+				77A8672C2A5F9076008FAC72 /* IngameSoundViewModel.swift */,
+				77A867302A5F9F8D008FAC72 /* GameStartViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -295,6 +319,7 @@
 				77E3E31D2A415D9B00143224 /* CleanerView.swift */,
 				77E3E3172A415D7900143224 /* InventoryView.swift */,
 				CF2CF9082A53BE6E00377547 /* ResultView.swift */,
+				77A867362A5FA123008FAC72 /* GameStartView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -320,6 +345,8 @@
 				4A862D6A2A4708ED00AF4E54 /* Assets.xcassets */,
 				CF2CF9042A53B1AE00377547 /* ResultGameScene.swift */,
 				CF2CF9062A53B1C500377547 /* ResultGameScene.sks */,
+				77A867322A5FA069008FAC72 /* GameStartGameScene.swift */,
+				77A867342A5FA079008FAC72 /* GameStartGameScene.sks */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -398,9 +425,12 @@
 				4A862D672A46FE6E00AF4E54 /* SecurityGameScene.sks in Resources */,
 				779037DF2A5E933A0038FC31 /* angry-alien.wav in Resources */,
 				779037DC2A5E90890038FC31 /* low-timer.wav in Resources */,
+				77A867392A5FA1BE008FAC72 /* transition-hyper-drive-in.wav in Resources */,
 				77E3E3312A43E5AC00143224 /* GuiderGameScene.sks in Resources */,
+				77A8672F2A5F9B1C008FAC72 /* backsound-play-screen.wav in Resources */,
 				CFC5AD1D2A493A840075CAFF /* CleanerGameScene.sks in Resources */,
 				4AC6ACFE2A50416000168957 /* RoleRevealScene.sks in Resources */,
+				77A8673C2A5FCEE4008FAC72 /* poop-spawn.wav in Resources */,
 				CF2CF9072A53B1C500377547 /* ResultGameScene.sks in Resources */,
 				77E3E30B2A414BFF00143224 /* Preview Assets.xcassets in Resources */,
 				77D6B4982A4DEA2200BB551F /* MainMenuGameScene.sks in Resources */,
@@ -410,6 +440,7 @@
 				7760AB762A5DA5AC001B84B5 /* swipe-rocket.wav in Resources */,
 				779037DD2A5E90890038FC31 /* low-health.wav in Resources */,
 				770FAB442A5DA7F2003E81B1 /* game-over.wav in Resources */,
+				77A867352A5FA079008FAC72 /* GameStartGameScene.sks in Resources */,
 				770FAB472A5E375E003E81B1 /* backsound.wav in Resources */,
 				770FAB452A5DA7F2003E81B1 /* transition-hyper-drive-out.wav in Resources */,
 				77A867292A5EF0C3008FAC72 /* alien-leave.wav in Resources */,
@@ -421,6 +452,7 @@
 				77D6B4902A49DD8B00BB551F /* ParticleAssets.xcassets in Resources */,
 				779037D52A5E6EE40038FC31 /* buy-button.wav in Resources */,
 				77A8672B2A5F8561008FAC72 /* earn-coins.wav in Resources */,
+				77A8673D2A5FCEE4008FAC72 /* poop-cleaned.wav in Resources */,
 				77D6B4902A49DD8B00BB551F /* ParticleAssets.xcassets in Resources */,
 				CF0DBABD2A4EE0000018BDD6 /* InventoryGameScene.sks in Resources */,
 			);
@@ -436,6 +468,7 @@
 				77E3E3182A415D7900143224 /* InventoryView.swift in Sources */,
 				CF78F2612A4BD19900409E06 /* InventoryGameScene.swift in Sources */,
 				561429DC2A4A70E700A39D62 /* MainGame+EncodeData.swift in Sources */,
+				77A8672D2A5F9076008FAC72 /* IngameSoundViewModel.swift in Sources */,
 				567593CA2A4BBD2A00CCE935 /* MainGame+GlobalFunction.swift in Sources */,
 				561429CC2A4A6CB700A39D62 /* MainGame+GKLocalPlayerListener.swift in Sources */,
 				561429E42A4A7D2E00A39D62 /* MainGame+CleanerRole.swift in Sources */,
@@ -455,10 +488,12 @@
 				561429D02A4A6E6C00A39D62 /* MainGame+GKMatchmakerViewControllerDelegate.swift in Sources */,
 				561429E22A4A7D1E00A39D62 /* MainGame+GuideRole.swift in Sources */,
 				561429CA2A4A6C3800A39D62 /* MainGame+GKGameCenterViewController.swift in Sources */,
+				77A867372A5FA123008FAC72 /* GameStartView.swift in Sources */,
 				77E3E31C2A415D9200143224 /* GuiderView.swift in Sources */,
 				561429E62A4A7D3800A39D62 /* MainGame+InventoryRole.swift in Sources */,
 				CFC5AD1E2A493A840075CAFF /* CleanerGameScene.swift in Sources */,
 				4A862D652A46FE6E00AF4E54 /* SecurityGameScene.swift in Sources */,
+				77A867312A5F9F8D008FAC72 /* GameStartViewModel.swift in Sources */,
 				4AC6AD022A5042C400168957 /* RoleRevealView.swift in Sources */,
 				77E3E3042A414BFE00143224 /* Co_SpaceApp.swift in Sources */,
 				77937DF72A544481009770F4 /* GuiderGameScene.swift in Sources */,
@@ -466,6 +501,7 @@
 				77D6B4962A4DEA0A00BB551F /* MainMenuGameScene.swift in Sources */,
 				77937DE72A50277B009770F4 /* DumpCodeTest.swift in Sources */,
 				56F837A72A550D2C00F8615F /* GameView.swift in Sources */,
+				77A867332A5FA069008FAC72 /* GameStartGameScene.swift in Sources */,
 				77D6B4942A4BC57F00BB551F /* GuiderGameViewModel.swift in Sources */,
 				77E3E3352A44021900143224 /* GuestGuiderModel.swift in Sources */,
 			);

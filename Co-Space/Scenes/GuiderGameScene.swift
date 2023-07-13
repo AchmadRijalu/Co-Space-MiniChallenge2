@@ -94,6 +94,9 @@ class GuiderGameScene: SKScene, SKPhysicsContactDelegate{
         }
     }
     
+   
+    
+    
     //MARK: - SET UP THE SEAT NODE
     func setupGuestSeatNodesList() {
         for i in 1...5 {

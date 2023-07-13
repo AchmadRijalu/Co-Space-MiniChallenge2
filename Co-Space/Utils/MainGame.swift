@@ -138,12 +138,19 @@ class MainGame: NSObject, GKGameCenterControllerDelegate, ObservableObject {
             viewController.canStartWithMinimumPlayers = true
             rootViewController?.present(viewController, animated: true) { }
         }
+        
     }
     
     // Starting and stopping the game.
     func startGame(match: GKMatch) {
+        let player = IngameViewModel.shared
         GKAccessPoint.shared.isActive = false
         self.playingGame = true
+        
+        if self.playingGame == true{
+            player.mainMenuBacksound.stop()
+            player.playGameStartSoundMultipleTimes(count: 0)
+        }
         myMatch = match
         myMatch?.delegate = self
             

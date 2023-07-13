@@ -9,10 +9,11 @@ import SwiftUI
 
 @main
 struct Co_SpaceApp: App {
+    @StateObject var gameStart = GameStartViewModel()
     var body: some Scene {
         WindowGroup {
-            MainmenuView()
-//            RoleRevealView(game: MainGame())
+            MainmenuView().environmentObject(gameStart)
+//            RoleRevealView(game: MainGame()).environmentObject(gameStart)
         }
     }
 }

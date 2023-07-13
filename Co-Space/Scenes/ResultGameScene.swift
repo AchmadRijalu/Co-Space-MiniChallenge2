@@ -252,6 +252,10 @@ class ResultGameScene : SKScene,  SKPhysicsContactDelegate, ObservableObject{
                     node.position = CGPoint(x: finalPositionExit.x, y: y)
                 }
                 
+                
+                let player = IngameViewModel.shared
+                player.gameStartBacksound.stop()
+                
                 self.addChild(self.gameOverResultNode)
                 self.addChild(self.exitResultNode)
                 self.addChild(self.playAgainResultNode)
@@ -265,6 +269,7 @@ class ResultGameScene : SKScene,  SKPhysicsContactDelegate, ObservableObject{
                 self.backgroundFinal.size = self.size
                 self.backgroundFinal.zPosition = -1
                 self.addChild(self.backgroundFinal)
+                
                 
                 
             }

@@ -8,6 +8,7 @@
 import SpriteKit
 import GameplayKit
 import SwiftUI
+import AVFoundation
     
 class CleanerGameScene: SKScene {
     var game: MainGame!
@@ -20,6 +21,8 @@ class CleanerGameScene: SKScene {
     var drawerOpen: Bool = false
     var buttonGuessClickable: Bool = false
     var buttonSetNewSeat: Bool = true
+    var poopCleaned = AVAudioPlayer()
+    var poopSpawned = AVAudioPlayer()
     
     var damageanimation: SKNode?
     let cleanerBackground = SKSpriteNode(imageNamed : "cleaner-background")
@@ -35,6 +38,36 @@ class CleanerGameScene: SKScene {
     let symbol = ["square", "circle", "triangle"]
     var seatNodeList: [String:[SKNode]] = ["square": [], "circle": [], "triangle": []]
     var continuousTimer: Timer?
+    
+    func playPoopCleanedSoundEffect() {
+        guard let url = Bundle.main.url(forResource: "poop-cleaned", withExtension: "wav") else { return }
+        do {
+            
+            poopCleaned = try AVAudioPlayer(contentsOf: url)
+            poopCleaned.numberOfLoops = 0
+            poopCleaned.prepareToPlay()
+            poopCleaned.play()
+            
+            
+        } catch let error {
+            print("Error: \(error.localizedDescription)")
+        }
+    }
+    func playPoopSpawnSoundEffect() {
+        guard let url = Bundle.main.url(forResource: "poop-spawn", withExtension: "wav") else { return }
+        do {
+            
+            poopSpawned = try AVAudioPlayer(contentsOf: url)
+            poopSpawned.numberOfLoops = 0
+            poopSpawned.prepareToPlay()
+            poopSpawned.play()
+            
+            
+        } catch let error {
+            print("Error: \(error.localizedDescription)")
+        }
+    }
+    
     
     override func sceneDidLoad() {
         if let cleanerBackgroundNode = scene?.childNode(withName: "cleaner-background") {
@@ -179,7 +212,7 @@ class CleanerGameScene: SKScene {
                                 activePoop?.size = CGSize(width: 30, height: 30)
                                 activePoop?.zPosition = 10
                                 self.scene?.addChild(activePoop!)
-                                
+                                playPoopSpawnSoundEffect()
                                 activeSeatWithPoop = node.name!
                                 buttonGuessClickable = true
                                 print("\(activeSeatWithPoop) : \(activePoop?.name)")
@@ -232,6 +265,7 @@ class CleanerGameScene: SKScene {
                                 self.activePoop?.run(SKAction.fadeOut(withDuration: 0.5))
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                     self.activePoop?.removeFromParent()
+                                    self.playPoopCleanedSoundEffect()
                                 }
                                 self.activePoop = nil
                             }
