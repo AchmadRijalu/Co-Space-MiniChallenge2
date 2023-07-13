@@ -48,7 +48,7 @@ struct RoleRevealView: View {
                         }
                         .padding(.horizontal, 30)
                         .padding(.bottom, 10)
-                        .background(Color(#colorLiteral(red: 0.5612951517, green: 0.5604736209, blue: 0.7392155528, alpha: 1)))
+                        .background(Color(#colorLiteral(red: 0.5612951517, green: 0.5604736209, blue: 0.7392155528, alpha: 1))).cornerRadius(12)
                     }.padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 50))
                     Spacer()
                 }.frame(maxWidth: .infinity, maxHeight: 50)

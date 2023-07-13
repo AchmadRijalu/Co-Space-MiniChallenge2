@@ -152,10 +152,10 @@ class GuiderGameScene: SKScene, SKPhysicsContactDelegate{
         }
         
         // CHANGE GAME PACE
-        DispatchQueue.main.asyncAfter(deadline: .now() + 120.0) {
-            self.game.patienceRangeGuide = ["start": 2, "end": 4]
-            self.game.watchingTimeRange = ["start": 7, "end": 10]
-        }
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 120.0) {
+//            self.game.patienceRangeGuide = ["start": 2, "end": 4]
+//            self.game.watchingTimeRange = ["start": 7, "end": 10]
+//        }
         
         if let background1stageNode = scene?.childNode(withName: "backgroundstage") {
             stage =  background1stageNode

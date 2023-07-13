@@ -280,9 +280,10 @@ class SecurityGameScene: SKScene {
         }
         
         // CHANGE GAME PACE
-        DispatchQueue.main.asyncAfter(deadline: .now() + 120.0) {
-            self.game.patienceRangeSecurity = ["start": 7, "end": 9]
-        }
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 120.0) {
+//            self.game.patienceRangeSecurity = ["start": 7, "end": 9]
+//        }
+        
         let timer = Timer.scheduledTimer(withTimeInterval: 0.25, repeats: true) { [weak self] _ in
             guard let self = self else { return }
             

@@ -72,7 +72,6 @@ class InventoryGameScene: SKScene {
     // MARK: - DidMove code
     override func didMove(to view: SKView) {
         if let inventoryScene = SKScene(fileNamed: "InventoryGameScene") {
-            
             let counterCoinNode = inventoryScene.childNode(withName: "counter-coins")!
             coin1LabelNode = setupLabelNode(counterCoinNode.position, "\(self.game.coin)")
             self.addChild(coin1LabelNode)
@@ -176,43 +175,41 @@ class InventoryGameScene: SKScene {
     }
     
     // MARK: - clicktouch code
-    func handleClick(for node: SKSpriteNode, with textures: (pressed: String, unpressed: String)) {
-        let clicked = SKAction.setTexture(SKTexture(imageNamed: textures.pressed))
-        let unclicked = SKAction.setTexture(SKTexture(imageNamed: textures.unpressed))
-        let delay = SKAction.wait(forDuration: 0.5)
-        let sequence = SKAction.sequence([clicked, delay, unclicked])
-        node.run(sequence)
-        playSoundEffect(sound : "storage-door" )
-    }
-    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first else { return }
         let touchLocation = touch.location(in: self)
         
-        if (self.game.poopState == 0){
-            if let node = atPoint(touchLocation) as? SKSpriteNode {
-                switch node.name {
-                case "inventory-button-open-2":
-                    handleClick(for: node, with: ("inventory-button-open-pressed",  "inventory-button-open"))
+        if (self.game.poopState == 1){
+            if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "inventory-button-open-2"{
+                if(drawermoonOpen != true){
                     drawermoonOpen = true
                     drawersunOpen = false
                     drawerstarOpen = false
-                    animateDrawer(door: "moon", moon: drawermoonOpen, sun: drawersunOpen, star: drawerstarOpen)
-                case "inventory-button-open-1":
-                    handleClick(for: node, with: ("inventory-button-open-pressed",  "inventory-button-open"))
-                    drawersunOpen = true
-                    drawerstarOpen = false
-                    drawermoonOpen = false
-                    animateDrawer(door: "sun", moon: drawermoonOpen, sun: drawersunOpen, star: drawerstarOpen)
-                case "inventory-button-open-3":
-                    handleClick(for: node, with: ("inventory-button-open-pressed",  "inventory-button-open"))
-                    drawerstarOpen = true
-                    drawersunOpen = false
-                    drawermoonOpen = false
                      playSoundEffect(sound : "storage-door" )
-                    animateDrawer(door: "star", moon: drawermoonOpen, sun: drawersunOpen, star: drawerstarOpen)
-                default:
-                    break
+                    animateDrawer(door: "moon", moon: drawermoonOpen, sun: drawersunOpen, star: drawerstarOpen)
+                    //                inventoryStorageContentSun.size
+                }
+            }
+            if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "inventory-button-open-1"{
+                if(drawersunOpen != true){
+                    if(drawersunOpen != true){
+                        drawersunOpen = true
+                        drawerstarOpen = false
+                        drawermoonOpen = false
+                         playSoundEffect(sound : "storage-door" )
+                        animateDrawer(door: "sun", moon: drawermoonOpen, sun: drawersunOpen, star: drawerstarOpen)
+                    }
+                }
+            }
+            if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "inventory-button-open-3"{
+                if(drawerstarOpen != true){
+                    if(drawerstarOpen != true){
+                        drawerstarOpen = true
+                        drawersunOpen = false
+                        drawermoonOpen = false
+                         playSoundEffect(sound : "storage-door" )
+                        animateDrawer(door: "star", moon: drawermoonOpen, sun: drawersunOpen, star: drawerstarOpen)
+                    }
                 }
             }
         }
@@ -223,16 +220,6 @@ class InventoryGameScene: SKScene {
                 self.game.buyPotion()
                 updaterlabel()
             }
-            else if (circleclick) {
-                self.game.buyIdentityCard(symbol: "circle")
-            }
-            else if (squareclick) {
-                self.game.buyIdentityCard(symbol: "square")
-            }
-            else {
-                self.game.buyPotion()
-            }
-            updaterlabel()
         }
         
         if (self.game.coin >= 5){
