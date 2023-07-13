@@ -13,8 +13,8 @@ import SwiftUI
 @MainActor
 class MainGame: NSObject, GKGameCenterControllerDelegate, ObservableObject {
     // =========================== MAIN GAME PROPERTIES ===========================
-    @Published var playerNumberMin = 2
-    @Published var playerNumberMax = 2
+    @Published var playerNumberMin = 4
+    @Published var playerNumberMax = 4
     
     /// The game interface state.
     @Published var matchAvailable = false
@@ -178,8 +178,8 @@ class MainGame: NSObject, GKGameCenterControllerDelegate, ObservableObject {
     // Shuffling Role
     func shuffleRole(){
         if self.isHost {
-//            let role = ["security", "guide", "cleaner", "inventory"]
-            let role = ["security", "guide"]
+            let role = ["security", "guide", "cleaner", "inventory"]
+//            let role = ["security", "guide"]
             var shuffledRole = role.shuffled()
             
             var assignedRoles: [String: String] = [:]

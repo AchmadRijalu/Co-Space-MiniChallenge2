@@ -99,22 +99,6 @@ class ResultGameScene : SKScene,  SKPhysicsContactDelegate, ObservableObject{
     override func didMove(to view: SKView) {
         scene?.backgroundColor = .clear
         //Background sprite
-        let labelNode = SKLabelNode(text: "Score")
-        labelNode.fontName = "Arial"
-        labelNode.fontSize = 24
-        labelNode.fontColor = .white
-        labelNode.position = CGPoint(x: (self.size.width - (0.1 * self.size.width)) / 2, y: (self.size.height - (0.55 * self.size.height)) / 2)
-        labelNode.zPosition = 5
-        self.addChild(labelNode)
-        
-        let score: Int = 100
-        let scoreNode = SKLabelNode(text: String(score))
-        scoreNode.fontName = "Arial"
-        scoreNode.fontSize = 24
-        scoreNode.fontColor = .white
-        scoreNode.position = CGPoint(x: (self.size.width + (0.1 * self.size.width)) / 2, y: (self.size.height - (0.55 * self.size.height)) / 2)
-        scoreNode.zPosition = 5
-        addChild(scoreNode)
         
         backgroundNode.size = self.size
         backgroundNode.color = SKColor.black.withAlphaComponent(0.9)
@@ -211,6 +195,23 @@ class ResultGameScene : SKScene,  SKPhysicsContactDelegate, ObservableObject{
                 springAction.timingMode = .easeOut
                 // Run the spring-like animation on the dockResultNode
                 self.dockChangedResultNode.run(SKAction.group([scaleAction, springAction]))
+                
+                let labelNode = SKLabelNode(text: "Score")
+                labelNode.fontName = "Arial"
+                labelNode.fontSize = 24
+                labelNode.fontColor = .white
+                labelNode.position = CGPoint(x: (self.size.width - (0.1 * self.size.width)) / 2, y: (self.size.height - (0.55 * self.size.height)) / 2)
+                labelNode.zPosition = 5
+                self.addChild(labelNode)
+                
+                let score: Int = self.game.score
+                let scoreNode = SKLabelNode(text: String(score))
+                scoreNode.fontName = "Arial"
+                scoreNode.fontSize = 24
+                scoreNode.fontColor = .white
+                scoreNode.position = CGPoint(x: (self.size.width + (0.1 * self.size.width)) / 2, y: (self.size.height - (0.55 * self.size.height)) / 2)
+                scoreNode.zPosition = 5
+                self.addChild(scoreNode)
             }
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.5){
