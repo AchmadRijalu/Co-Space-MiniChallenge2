@@ -281,7 +281,7 @@ class GuiderGameScene: SKScene, SKPhysicsContactDelegate{
                                     newSpriteNode.run(moveToSeat)
                                     queueList[i].guest.removeFromParent()
                                     
-                                    self. playEarnCoinSoundEffect()
+                                    self.playEarnCoinSoundEffect()
                                     self.game.updateCoin(add: true, amount: 1)
                                     self.game.updateScore(amount: 1)
                                     

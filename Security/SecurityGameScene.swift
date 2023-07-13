@@ -19,13 +19,16 @@ class SecurityGameScene: SKScene {
     var game: MainGame!
     
     let securitybackground = SKSpriteNode(imageNamed : "security-background")
-    let planetbackground = SKSpriteNode(imageNamed : "security-planet")
+    let planetbackground = SKSpriteNode(imageNamed : "security-moon-editable")
     let square = SKSpriteNode(imageNamed : "button-square")
     let squareidentitycardquantity = SKSpriteNode(imageNamed: "identity-card-qty")
     let circle = SKSpriteNode(imageNamed : "button-circle")
     let circleidentitycardquantity = SKSpriteNode(imageNamed: "identity-card-qty")
     let triangle = SKSpriteNode(imageNamed : "button-triangle")
     let triangleidentitycardquantity = SKSpriteNode(imageNamed: "identity-card-qty")
+    let backgroundstage = SKSpriteNode(imageNamed: "security-stage-1")
+    let texturestage = [ "security-stage-1",  "security-stage-2",  "security-stage-3",  "security-stage-4"]
+    var currentTextureIndex = 0
     var square1textNode = SKNode()
     var square1TextLabelNode = SKLabelNode()
     var triangle1textNode = SKNode()
@@ -122,10 +125,17 @@ class SecurityGameScene: SKScene {
         
         if let planet1backgroundNode = scene?.childNode(withName: "planetbackground") {
             planetbackground.name = "planetbackgroundNode"
-            planetbackground.size = CGSize(width:700, height: 350)
+            planetbackground.size = CGSize(width:800, height: 280)
             planetbackground.position = planet1backgroundNode.position
             planetbackground.zPosition = -1
             self.addChild(planetbackground)
+        }
+        if let background1stageNode = scene?.childNode(withName: "backgroundstage") {
+            backgroundstage.name = "backgroundstageNode"
+            backgroundstage.size = CGSize(width:280, height: 170)
+            backgroundstage.position = background1stageNode.position
+            backgroundstage.zPosition = -1
+            self.addChild(backgroundstage)
         }
         
         if let security1labelNode = scene?.childNode(withName: "securitylabel") {
@@ -267,27 +277,45 @@ class SecurityGameScene: SKScene {
             particles.zPosition = -2
             addChild(particles)
         }
+        let timer = Timer.scheduledTimer(withTimeInterval: 0.25, repeats: true) { [weak self] _ in
+            guard let self = self else { return }
+            
+            // Update the texture
+           self.currentTextureIndex = (self.currentTextureIndex + 1) % self.texturestage.count
+            let textureName = self.texturestage[self.currentTextureIndex]
+            self.backgroundstage.texture = SKTexture(imageNamed: textureName)
+        }
     }
     
+    func handleClick(for node: SKSpriteNode, with textures: (pressed: String, unpressed: String), and symbol: String) {
+        let clicked = SKAction.setTexture(SKTexture(imageNamed: textures.pressed))
+        let unclicked = SKAction.setTexture(SKTexture(imageNamed: textures.unpressed))
+        let delay = SKAction.wait(forDuration: 0.5)
+        let sequence = SKAction.sequence([clicked, delay, unclicked])
+        
+        node.run(sequence)
+        playSoundEffect(sound: "teleport-to-guide")
+        usingIdentityCard(symbol: symbol)
+    }
+
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first else { return }
         let touchLocation = touch.location(in: self)
-        
         //        print("Health dari Scene \(game.health)")
         print("Health dari scene \(self.game.health)")
         
-        if (idCardClickable && self.queueList.count > 0){
-            if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "square1buttonNode" {
-                playSoundEffect(sound: "teleport-to-guide")
-                usingIdentityCard(symbol: "square")
-            }
-            else if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "circle1buttonNode" {
-                playSoundEffect(sound: "teleport-to-guide")
-                usingIdentityCard(symbol: "circle")
-            }
-            else if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "triangle1buttonNode" {
-                playSoundEffect(sound: "teleport-to-guide")
-                usingIdentityCard(symbol: "triangle")
+        if idCardClickable && queueList.count > 0 {
+            if let node = atPoint(touchLocation) as? SKSpriteNode {
+                switch node.name {
+                case "square1buttonNode":
+                    handleClick(for: node, with: ("security-button-rectangle-pressed", "button-rectangle"), and: "square")
+                case "circle1buttonNode":
+                    handleClick(for: node, with: ("security-button-circle-pressed", "button-circle"), and: "circle")
+                case "triangle1buttonNode":
+                    handleClick(for: node, with: ("security-button-triangle-pressed", "button-triangle"), and: "triangle")
+                default:
+                    break
+                }
             }
         }
     }
@@ -332,8 +360,6 @@ class SecurityGameScene: SKScene {
                 if (i == 0 && self.guestTimer == nil) {
                     let firstQueueGuestTime = queueList[i].guest.userData?.value(forKey: "patience") as? Int
                     timerRenewal(seconds: firstQueueGuestTime ?? 5)
-                   
-                    
                 }
             }
         }
@@ -426,6 +452,7 @@ class SecurityGameScene: SKScene {
             healthBarNode.zPosition = healthBarNode.zPosition + 1
             addChild(healthBarNode)
         }
+        
     }
     
     func updateHealthBar(newHealth: Int) {
@@ -451,10 +478,6 @@ class SecurityGameScene: SKScene {
                     self.playLowTimerStatusSoundEffect()
                     self.isLowerTimer = true
                 }
-                
-               
-                
-                
             }
             self.updateTimerBar(progress: CGFloat(self.timerCount), full: CGFloat(seconds))
             if (self.timerCount >= Double(seconds)){
