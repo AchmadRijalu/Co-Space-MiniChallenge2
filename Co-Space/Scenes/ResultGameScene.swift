@@ -11,7 +11,7 @@ import AVFoundation
 
 class ResultGameScene : SKScene,  SKPhysicsContactDelegate, ObservableObject{
     
-    @Published var game : MainGame!
+    var game : MainGame!
     
     var moonResultNode =  SKSpriteNode()
     var logoResultNode = SKSpriteNode()

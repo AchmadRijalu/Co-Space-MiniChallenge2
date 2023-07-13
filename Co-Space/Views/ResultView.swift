@@ -18,8 +18,8 @@ struct ResultView: View {
             VStack{
                 SpriteView(scene: scene, options: [.allowsTransparency], debugOptions: []).ignoresSafeArea()
             }
-            .onAppear{
-//                scene.game = games
+            .task{
+                scene.game = game
                 scene.backgroundColor = .clear
             }
             .edgesIgnoringSafeArea(.all)
