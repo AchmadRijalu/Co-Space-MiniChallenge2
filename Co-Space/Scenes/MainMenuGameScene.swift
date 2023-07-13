@@ -143,7 +143,13 @@ class MainMenuGameScene: SKScene, SKPhysicsContactDelegate {
 //            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
 //                self.backsound.mainMenuBacksound.stop()
 //            }
-//                        game?.createRoom()
+                        game?.createRoom()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3){
+                let moveBackAction = SKAction.move(to: CGPoint(x: self.defaultPositionX, y: node.position.y), duration: 0.1)
+                node.run(moveBackAction)
+                self.mainMenuLabelNode.isHidden = false
+            }
+           
         }
     }
     
@@ -157,6 +163,11 @@ class MainMenuGameScene: SKScene, SKPhysicsContactDelegate {
         let moveBackAction = SKAction.move(to: CGPoint(x: defaultPositionX, y: node.position.y), duration: 0.1)
         node.run(moveBackAction)
         mainMenuLabelNode.isHidden = false
+        if node.position.x > 98.6 {
+            let moveBackAction = SKAction.move(to: CGPoint(x: defaultPositionX, y: node.position.y), duration: 0.1)
+            node.run(moveBackAction)
+            mainMenuLabelNode.isHidden = false
+        }
         
         
         
