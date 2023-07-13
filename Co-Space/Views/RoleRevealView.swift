@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SpriteKit
+import AVFoundation
 
 struct RoleRevealView: View {
     @ObservedObject var game: MainGame
@@ -15,8 +16,11 @@ struct RoleRevealView: View {
     @State var timerCount = 15
     @State var isMovingToGameView = false
     
+    
     var scene = SKScene(fileNamed: "RoleRevealScene.sks") as! RoleRevealScene
     
+    
+   
     var body: some View {
         NavigationView{
             ZStack(alignment: .top) {
@@ -64,6 +68,7 @@ struct RoleRevealView: View {
         }
         .navigationBarBackButtonHidden(true)
     }
+   
 }
 
 struct RoleRevealView_Previews: PreviewProvider {

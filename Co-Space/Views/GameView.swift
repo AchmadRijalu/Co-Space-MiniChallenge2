@@ -12,8 +12,6 @@ struct GameView: View {
     @State var isPresented:Bool = false
     @State var timer: Timer? = nil
     @State var isGameOver:Bool = false
-    @EnvironmentObject var isGameStart : GameStartViewModel
-    
     @State var isStart: Int = 0
     
     var body: some View {
