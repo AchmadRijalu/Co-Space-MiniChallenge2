@@ -9,18 +9,14 @@ import Foundation
 import SpriteKit
 import AVFoundation
 var hyperDriveInSoundEffect = AVAudioPlayer()
+var cospaceAnnouncerSoundEffect = AVAudioPlayer()
 class GameStartGameScene : SKScene{
     var game: MainGame!
-    
-    
     var logoGameStartResultNode = SKSpriteNode()
     var spaceShipBackground = SKSpriteNode()
     var purpleBackground = SKSpriteNode()
     var dockGameStartResultNode = SKSpriteNode()
-    
-    
-    
-    
+
     func createAnimatedImagesArray(imageName: String, frameCount: Int) -> [SKTexture] {
         var animatedImages: [SKTexture] = []
         for index in 1..<frameCount{
@@ -31,8 +27,8 @@ class GameStartGameScene : SKScene{
         
         return animatedImages
     }
-    func playDriveInSoundEffect() {
-        guard let url = Bundle.main.url(forResource: "transition-hyper-drive-in", withExtension: "wav") else { return }
+    func playDriveInSoundEffect(nameSound:String) {
+        guard let url = Bundle.main.url(forResource: nameSound, withExtension: "wav") else { return }
         do {
             
             hyperDriveInSoundEffect = try AVAudioPlayer(contentsOf: url)
@@ -42,6 +38,22 @@ class GameStartGameScene : SKScene{
             hyperDriveInSoundEffect.prepareToPlay()
             hyperDriveInSoundEffect.play()
             
+        } catch let error {
+            print("Error: \(error.localizedDescription)")
+        }
+    }
+    
+    func playAnnouncerSoundEffect(nameSound:String) {
+        guard let url = Bundle.main.url(forResource: nameSound, withExtension: "wav") else { return }
+        do {
+            
+            hyperDriveInSoundEffect = try AVAudioPlayer(contentsOf: url)
+            hyperDriveInSoundEffect.numberOfLoops = 0
+            hyperDriveInSoundEffect.enableRate = true
+            hyperDriveInSoundEffect.rate = 2.0
+            hyperDriveInSoundEffect.prepareToPlay()
+            hyperDriveInSoundEffect.play()
+//            "transition-hyper-drive-in"
             
         } catch let error {
             print("Error: \(error.localizedDescription)")
@@ -83,6 +95,7 @@ class GameStartGameScene : SKScene{
             let fallAction = SKAction.move(to: CGPoint(x: 423.855, y: 240.825), duration: 0.3)
             let fadeInAction = SKAction.fadeIn(withDuration: 3.0)
             let sequence = SKAction.sequence([fallAction, fadeInAction])
+            self.playAnnouncerSoundEffect(nameSound: "cospace-announcer")
             self.logoGameStartResultNode.run(sequence)
         }
 
@@ -97,7 +110,7 @@ class GameStartGameScene : SKScene{
                 spriteNode?.removeFromParent()
             }])
             spriteNode.run(sequence)
-            self.playDriveInSoundEffect()
+            self.playDriveInSoundEffect(nameSound: "transition-hyper-drive-in")
             
         }
         
