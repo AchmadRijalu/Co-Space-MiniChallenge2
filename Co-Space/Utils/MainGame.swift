@@ -24,7 +24,7 @@ class MainGame: NSObject, GKGameCenterControllerDelegate, ObservableObject {
 
     /// Self Profile
     @Published var isHost = false
-    @Published var myRole: String = ""
+    @Published var myRole: String = "inventory"
     
     /// Game communication
     @Published var messages: [Message] = []

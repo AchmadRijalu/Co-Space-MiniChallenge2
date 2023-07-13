@@ -25,6 +25,8 @@ class ResultGameScene : SKScene,  SKPhysicsContactDelegate, ObservableObject{
     var exitResultNode = SKSpriteNode()
     var hyperDriveOutSoundEffect = AVAudioPlayer()
     var gameOverSoundEffect = SKAudioNode()
+    var scoretext = SKLabelNode()
+    var score = SKLabelNode()
     
     func createAnimatedImagesArrayReverse(imageName: String, frameCount: Int) -> [SKTexture] {
         var animatedImages: [SKTexture] = []
@@ -97,6 +99,23 @@ class ResultGameScene : SKScene,  SKPhysicsContactDelegate, ObservableObject{
     override func didMove(to view: SKView) {
         scene?.backgroundColor = .clear
         //Background sprite
+        let labelNode = SKLabelNode(text: "Score")
+        labelNode.fontName = "Arial"
+        labelNode.fontSize = 24
+        labelNode.fontColor = .white
+        labelNode.position = CGPoint(x: (self.size.width - (0.1 * self.size.width)) / 2, y: (self.size.height - (0.55 * self.size.height)) / 2)
+        labelNode.zPosition = 5
+        self.addChild(labelNode)
+        
+        let score: Int = 100
+        let scoreNode = SKLabelNode(text: String(score))
+        scoreNode.fontName = "Arial"
+        scoreNode.fontSize = 24
+        scoreNode.fontColor = .white
+        scoreNode.position = CGPoint(x: (self.size.width + (0.1 * self.size.width)) / 2, y: (self.size.height - (0.55 * self.size.height)) / 2)
+        scoreNode.zPosition = 5
+        addChild(scoreNode)
+        
         backgroundNode.size = self.size
         backgroundNode.color = SKColor.black.withAlphaComponent(0.9)
         backgroundNode.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2)
@@ -244,6 +263,8 @@ class ResultGameScene : SKScene,  SKPhysicsContactDelegate, ObservableObject{
                 self.playAgainResultNode.position = finalPositionPlayAgain
                 self.playAgainResultNode.zPosition = 3
                 
+               
+                
                 let initialPositionExit = CGPoint(x: self.size.width / 2, y: -self.exitResultNode.size.height / 2)
                 let finalPositionExit = CGPoint(x: self.size.width / 2 + 120, y: self.size.height / 2)
                 self.exitResultNode = SKSpriteNode(imageNamed: "result-button-exit")
@@ -274,6 +295,7 @@ class ResultGameScene : SKScene,  SKPhysicsContactDelegate, ObservableObject{
                 }
                 
                 
+                
                 let player = IngameViewModel.shared
                 player.gameStartBacksound.stop()
                 
@@ -297,7 +319,15 @@ class ResultGameScene : SKScene,  SKPhysicsContactDelegate, ObservableObject{
             
         }
     }
-    
+    private func setupLabelNode(_ position: CGPoint, _ text: String) -> SKLabelNode {
+        let labelNode = SKLabelNode(fontNamed: "SpaceGrotesk-Bold")
+        labelNode.text = text
+        labelNode.fontColor = .black
+        labelNode.fontSize = 12
+        labelNode.position = position
+        labelNode.zPosition = 2
+        return labelNode
+    }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             let location = touch.location(in: self)
