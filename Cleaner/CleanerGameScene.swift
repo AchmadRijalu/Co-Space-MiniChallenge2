@@ -25,6 +25,8 @@ class CleanerGameScene: SKScene {
     var poopSpawned = AVAudioPlayer()
     
     var damageanimation: SKNode?
+    let texturestage = [ "security-stage-1",  "security-stage-2",  "security-stage-3",  "security-stage-4"]
+    var currentTextureIndex = 0
     let cleanerBackground = SKSpriteNode(imageNamed : "cleaner-background")
     let cleanerPlanet = SKSpriteNode(imageNamed : "cleaner-planet")
     let cleanerStorage = SKSpriteNode(imageNamed : "cleaner-storage")
@@ -34,6 +36,7 @@ class CleanerGameScene: SKScene {
     let cleanerButtonSun = SKSpriteNode(imageNamed : "cleaner-button-sun")
     let cleanerButtonStar = SKSpriteNode(imageNamed : "cleaner-button-star")
     var cleanerStorageContent = SKSpriteNode()
+    
     
     let symbol = ["square", "circle", "triangle"]
     var seatNodeList: [String:[SKNode]] = ["square": [], "circle": [], "triangle": []]
@@ -74,7 +77,7 @@ class CleanerGameScene: SKScene {
             cleanerBackground.name = "cleaner-planet"
             cleanerBackground.size = CGSize(width: 1000, height: 1000)
             cleanerBackground.position = cleanerBackgroundNode.position
-            cleanerBackground.zPosition = 1
+            cleanerBackground.zPosition = 0
             self.addChild(cleanerBackground)
         }
         
@@ -144,6 +147,7 @@ class CleanerGameScene: SKScene {
             self.addChild(cleanerStorageContent)
         }
         
+        
         if let damageanimationNode = self.scene?.childNode(withName: "damageanimation") {
             damageanimation = damageanimationNode
         }
@@ -165,21 +169,28 @@ class CleanerGameScene: SKScene {
     }
     
     override func didMove(to view: SKView) {
+        if let particles = SKEmitterNode(fileNamed: "Starfield"){
+            particles.position = CGPoint (x: 1000, y: 0)
+            particles.advanceSimulationTime(60)
+            particles.zPosition = 1
+            addChild(particles)
+        }
+        
         continuousTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
-//            if (self.seatWithPoop.count < 2){
-//                while true {
-//                    var randomSymbolShuffled = self.symbol.shuffled()
-//                    if let chosenSymbol = randomSymbolShuffled.popLast() {
-//                        let randomizedSeat = "\(chosenSymbol)-seat-\(Int.random(in: 1...5))"
-//                        if (!self.seatWithPoop.contains(randomizedSeat)){
-//                            self.seatWithPoop.append(randomizedSeat)
-//                            print("NEW SEAT WITH POOP")
-//                            print(self.seatWithPoop)
-//                            break
-//                        }
-//                    }
-//                }
-//            }
+            if (self.seatWithPoop.count < 2){
+                while true {
+                    var randomSymbolShuffled = self.symbol.shuffled()
+                    if let chosenSymbol = randomSymbolShuffled.popLast() {
+                        let randomizedSeat = "\(chosenSymbol)-seat-\(Int.random(in: 1...5))"
+                        if (!self.seatWithPoop.contains(randomizedSeat)){
+                            self.seatWithPoop.append(randomizedSeat)
+                            print("NEW SEAT WITH POOP")
+                            print(self.seatWithPoop)
+                            break
+                        }
+                    }
+                }
+            }
             
             if (self.game.newDirtySeatCleaner.count > 0){
                 let processedDirt = self.game.newDirtySeatCleaner[0]
@@ -233,7 +244,25 @@ class CleanerGameScene: SKScene {
                     if (activePoop != nil && activeSeatWithPoop != "" && buttonGuessClickable) {
                         buttonGuessClickable = false
                         let guessedSymbol: String = String((node.name?.split(separator: "-")[2])!) as String
-                        
+                        if let node = self.atPoint(touchLocation) as? SKSpriteNode {
+                            if node.name == "cleaner-guess-\(guessedSymbol)" {
+                                if let node = self.atPoint(touchLocation) as? SKSpriteNode {
+                                    let buttonTextures: [String: (pressed: String, normal: String)] = [
+                                        "cleaner-guess-moon": ("cleaner-button-moon-pressed", "cleaner-button-moon"),
+                                        "cleaner-guess-sun": ("cleaner-button-sun-pressed", "cleaner-button-sun"),
+                                        "cleaner-guess-star": ("cleaner-button-star-pressed", "cleaner-button-star")
+                                    ]
+                                    
+                                    if let textures = buttonTextures[node.name ?? ""] {
+                                        let clicked = SKAction.setTexture(SKTexture(imageNamed: textures.pressed))
+                                        let unclicked = SKAction.setTexture(SKTexture(imageNamed: textures.normal))
+                                        let delay = SKAction.wait(forDuration: 0.5)
+                                        let sequence = SKAction.sequence([clicked, delay, unclicked])
+                                        node.run(sequence)
+                                    }
+                                }
+                            }
+                        }
                         if (drawerOpen){
                             animateDrawer(open: false)
                             drawerOpen = false
