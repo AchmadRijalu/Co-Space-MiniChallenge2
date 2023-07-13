@@ -230,8 +230,6 @@ class SecurityGameScene: SKScene {
             addChild(particles)
         }
         
-        updateCounterUI()
-        
         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
             self.continuousTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
                 self.addNewGuestTimer += 1
@@ -263,10 +261,17 @@ class SecurityGameScene: SKScene {
                 if self.game.health <= 2 && self.game.health > 0{
                     self.playLowHealthStatusSoundEffect()
                 }
-                 if self.game.health == 0 {
-                    self.stopLowHealthStatusSoundEffect()
+                if self.game.health <= 0 {
+                     self.lowHealthSoundEffect.stop()
+                    self.continuousTimer?.invalidate()
+                    self.continuousTimer = nil
                 }
             }
+        }
+        
+        // CHANGE GAME PACE
+        DispatchQueue.main.asyncAfter(deadline: .now() + 120.0) {
+            self.game.patienceRangeSecurity = ["start": 7, "end": 9]
         }
     }
     
@@ -375,7 +380,14 @@ class SecurityGameScene: SKScene {
                     guestLeave = false
                     //                    self.game.health -= 1
                     self.game.updateHealth(add: false, amount: 1)
-                    playSoundEffect(sound: "angry-alien")
+                    if healthCount  <= 0 {
+                        lowHealthSoundEffect.stop()
+                        lowTimerSoundEffect.stop()
+                        SoundEffect.stop()
+                    }
+                    else{
+                        playSoundEffect(sound: "angry-alien")
+                    }
                 }
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
@@ -425,7 +437,6 @@ class SecurityGameScene: SKScene {
         healthBarNode.size.width = newWidth
         
         if healthBarNode.size.width <= 52{
-            //           playLowHealthStatusSoundEffect()
         }
         
     }
@@ -442,10 +453,6 @@ class SecurityGameScene: SKScene {
                     self.playLowTimerStatusSoundEffect()
                     self.isLowerTimer = true
                 }
-                
-               
-                
-                
             }
             self.updateTimerBar(progress: CGFloat(self.timerCount), full: CGFloat(seconds))
             if (self.timerCount >= Double(seconds)){

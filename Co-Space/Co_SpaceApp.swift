@@ -12,8 +12,8 @@ struct Co_SpaceApp: App {
     @StateObject var gameStart = GameStartViewModel()
     var body: some Scene {
         WindowGroup {
-            MainmenuView().environmentObject(gameStart)
-//            RoleRevealView(game: MainGame()).environmentObject(gameStart)
+//            MainmenuView().environmentObject(gameStart)
+            RoleRevealView(game: MainGame()).environmentObject(gameStart)
         }
     }
 }

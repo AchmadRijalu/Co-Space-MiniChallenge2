@@ -10,6 +10,7 @@ import SpriteKit
 import AVFoundation
 var hyperDriveInSoundEffect = AVAudioPlayer()
 class GameStartGameScene : SKScene{
+    var game: MainGame!
     
     
     var logoGameStartResultNode = SKSpriteNode()
