@@ -150,15 +150,15 @@ class MainMenuGameScene: SKScene, SKPhysicsContactDelegate {
         
         if node.position.x > 98.6 {
             
-            let newScene = ResultGameScene(size: self.size) // Initialize new scene
-            newScene.game = game
-            let transition = SKTransition.doorsOpenHorizontal(withDuration: 0.5) // Set the transition effect
-            self.scene?.view?.presentScene(newScene, transition: transition) // Change the scene
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
-                self.audioPlayer?.stop()
-            }
-            //            game?.createRoom()
+//            let newScene = ResultGameScene(size: self.size) // Initialize new scene
+//            newScene.game = game
+//            let transition = SKTransition.doorsOpenHorizontal(withDuration: 0.5) // Set the transition effect
+//            self.scene?.view?.presentScene(newScene, transition: transition) // Change the scene
+//
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
+//                self.audioPlayer?.stop()
+//            }
+                        game?.createRoom()
         }
     }
     

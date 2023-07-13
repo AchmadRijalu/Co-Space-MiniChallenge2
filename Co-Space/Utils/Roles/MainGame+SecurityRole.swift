@@ -12,24 +12,40 @@ import SwiftUI
 extension MainGame {
     // Panggil pas pake identity card ke guest
     func useIdentityCard(symbol: String) -> String{
-        if (self.availableIdCard[symbol]! > 0){
-            self.availableIdCard[symbol]! -= 1
-            
-            do {
-                // perbarui jumlah id card
-                let data = encode(idCard: self.availableIdCard)
-                try myMatch?.sendData(toAllPlayers: data!, with: GKMatch.SendDataMode.reliable)
-            } catch {
-                print("Error: \(error.localizedDescription).")
+        if (symbol == "square"){
+            if (self.idCardSquare > 0){
+                self.idCardSquare -= 1
             }
-            
-            if (self.availableIdCard[symbol]! == 0) {
-                return "empty"
+            else {
+                return "fail"
             }
-            
-            return "success"
         }
-        return "fail" // Kalo fail brarti ga cukup
+        else if (symbol == "circle") {
+            if (self.idCardCircle > 0){
+                self.idCardCircle -= 1
+            }
+            else {
+                return "fail"
+            }
+        }
+        else if (symbol == "triangle") {
+            if (self.idCardTriangle > 0){
+                self.idCardTriangle -= 1
+            }
+            else {
+                return "fail"
+            }
+        }
+        
+        do {
+            // perbarui jumlah id card
+            let data = encode(idCard: [self.idCardSquare, self.idCardCircle, self.idCardTriangle])
+            try myMatch?.sendData(toAllPlayers: data!, with: GKMatch.SendDataMode.reliable)
+        } catch {
+            print("Error: \(error.localizedDescription).")
+        }
+        
+        return "success"
     }
     
     // Send Guest to Guide

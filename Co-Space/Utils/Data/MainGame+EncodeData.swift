@@ -19,7 +19,7 @@ struct GameData: Codable {
     var roles: [String:String]?
     
     // Security Properties
-    var identityCard: [String:Int]?
+    var identityCard: [Int]?
     var newGuest: [String]?
     
     // Guide Properties
@@ -69,7 +69,7 @@ extension MainGame {
     }
     
     // ========================== BUAT UPDATE IDENTITY CARD KE PLAYER LAIN ==========================
-    func encode(idCard: [String:Int]?) -> Data? {
+    func encode(idCard: [Int]?) -> Data? {
         let gameData = GameData(identityCard: idCard)
         return encode(gameData: gameData)
     }

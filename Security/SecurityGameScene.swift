@@ -163,10 +163,17 @@ class SecurityGameScene: SKScene {
         self.dissapearNode = scene?.childNode(withName: "disappearLocation") ?? SKNode()
         createHealthBar()
         createTimerBar()
-              
-        updateCounterUI(symbol: "triangle")
-        updateCounterUI(symbol: "circle")
-        updateCounterUI(symbol: "square")
+    }
+    
+    override func didMove(to view: SKView) {
+        if let particles = SKEmitterNode(fileNamed: "Starfield"){
+            particles.position = CGPoint (x: 1000, y: 0)
+            particles.advanceSimulationTime(60)
+            particles.zPosition = -2
+            addChild(particles)
+        }
+        
+        updateCounterUI()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
             self.continuousTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
@@ -192,17 +199,9 @@ class SecurityGameScene: SKScene {
                     }
                 }
                 self.updateHealthBar(newHealth: self.game.health)
+                self.updateCounterUI()
                 print("New Health \(self.game.health)")
             }
-        }
-    }
-    
-    override func didMove(to view: SKView) {
-        if let particles = SKEmitterNode(fileNamed: "Starfield"){
-            particles.position = CGPoint (x: 1000, y: 0)
-            particles.advanceSimulationTime(60)
-            particles.zPosition = -2
-            addChild(particles)
         }
     }
     
@@ -232,7 +231,7 @@ class SecurityGameScene: SKScene {
         if (result == "success" || result == "empty"){
             guestTimer?.invalidate()
             guestTimer = nil
-            updateCounterUI(symbol: symbol)
+            updateCounterUI()
             moveGuest()
             if (result == "empty"){
                 // Disable button
@@ -243,16 +242,6 @@ class SecurityGameScene: SKScene {
             // Feedback kalo abis
             
         }
-    }
-    
-    func usingIdentityCard2(symbol: String){
-        self.tappedSymbol = symbol
-//        game?.availableIdCard[symbol]! -= 1
-//        game?.useIdentityCard(symbol: symbol)
-        guestTimer?.invalidate()
-        guestTimer = nil
-        updateCounterUI(symbol: symbol)
-        moveGuest()
     }
     
     func checkQueue(){
@@ -422,19 +411,10 @@ class SecurityGameScene: SKScene {
         return newNode
     }
     
-    func updateCounterUI(symbol: String) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            let newCount = "x \((self.game.availableIdCard[symbol])!)"
-            if (symbol == "square"){
-                self.square1TextLabelNode.text = newCount
-            }
-            else if (symbol == "triangle") {
-                self.triangle1TextLabelNode.text = newCount
-            }
-            else if (symbol == "circle") {
-                self.circle1TextLabelNode.text = newCount
-            }
-        }
+    func updateCounterUI() {
+        self.square1TextLabelNode.text = "x \(self.game.idCardSquare)"
+        self.triangle1TextLabelNode.text = "x \(self.game.idCardTriangle)"
+        self.circle1TextLabelNode.text = "x \(self.game.idCardCircle)"
     }
 }
 

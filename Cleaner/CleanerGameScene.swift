@@ -19,6 +19,7 @@ class CleanerGameScene: SKScene {
     let cleaningItemNodeSize = ["green": ["width": 77, "height": 156], "orange": ["width": 128, "height": 156], "brown": ["width": 110, "height": 156]]
     var drawerOpen: Bool = false
     var buttonGuessClickable: Bool = false
+    var buttonSetNewSeat: Bool = true
     
     var damageanimation: SKNode?
     let cleanerBackground = SKSpriteNode(imageNamed : "cleaner-background")
@@ -147,16 +148,15 @@ class CleanerGameScene: SKScene {
 //                }
 //            }
             
-            if (self.game.newDirtySeatCleaner != nil){
-                let seatSymbol = (self.game.newDirtySeatCleaner?[0])!
-                let seatNumber = "\((self.game.newDirtySeatCleaner?[1])!)"
+            if (self.game.newDirtySeatCleaner.count > 0){
+                let processedDirt = self.game.newDirtySeatCleaner[0]
+                let seatSymbol = (processedDirt[0])
+                let seatNumber = "\(processedDirt[1])"
                 let newDirtySeat = "\(seatSymbol)-seat-\(seatNumber)"
                 print("New dirty seat: \(newDirtySeat)")
                 self.seatWithPoop.append(newDirtySeat)
-                self.game.newDirtySeatCleaner = nil
+                self.game.newDirtySeatCleaner.removeFirst()
             }
-            
-            print(self.seatWithPoop)
         }
     }
     
@@ -169,7 +169,7 @@ class CleanerGameScene: SKScene {
         if let node = self.atPoint(touchLocation) as? SKSpriteNode {
             if (node.name != nil){
                 if (node.name!.contains("seat")){
-                    if (activePoop == nil && activeSeatWithPoop == ""){
+                    if (activePoop == nil && activeSeatWithPoop == "" && buttonSetNewSeat){
                         if (seatWithPoop.contains(node.name!)) {
                             var randomPoopShuffled = self.game.cleaningItemAndPoop.shuffled()
                             if let chosenPoop = randomPoopShuffled.popLast() {
@@ -186,10 +186,12 @@ class CleanerGameScene: SKScene {
                             }
                             self.game.randomizeDrawer()
                             self.game.updatePoopState(newState: 1)
+                            buttonSetNewSeat = false
                         }
                         else {
                             damageanimationrun()
                             print("Health berkurang, salah kursi")
+                            self.game.updateHealth(add: false, amount: 1)
                         }
                     }
                 }
@@ -242,12 +244,13 @@ class CleanerGameScene: SKScene {
                             activeSeatWithPoop = ""
                             print("Poop hilang")
                             
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                                 self.animateDrawer(open: false)
                                 self.drawerOpen = false
                                 self.game.updatePoopState(newState: 2)
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                     self.cleanerStorageContent.texture = nil
+                                    self.buttonSetNewSeat = true
                                 }
                             }
                         }

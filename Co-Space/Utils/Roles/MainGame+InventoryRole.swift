@@ -16,12 +16,21 @@ extension MainGame {
         let addAmount = 10
         
         if (self.coin >= coinPrice){
-            self.availableIdCard[symbol]? += addAmount
+            if (symbol == "square") {
+                self.idCardSquare += addAmount
+            }
+            else if (symbol == "circle") {
+                self.idCardCircle += addAmount
+            }
+            else if (symbol == "triangle") {
+                self.idCardTriangle += addAmount
+            }
+            
             updateCoin(add: false, amount: coinPrice)
             
             do {
                 // perbarui jumlah id card
-                let data = encode(idCard: self.availableIdCard)
+                let data = encode(idCard: [self.idCardSquare, self.idCardCircle, self.idCardTriangle])
                 try myMatch?.sendData(toAllPlayers: data!, with: GKMatch.SendDataMode.reliable)
             } catch {
                 print("Error: \(error.localizedDescription).")

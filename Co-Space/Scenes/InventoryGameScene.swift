@@ -14,7 +14,7 @@ class InventoryGameScene: SKScene {
     // MARK: - Declaring as SKNode
     var game: MainGame!
     
-    var inventoryBackground, inventoryLabel, inventoryShop, inventoryStorageMoon, inventoryStorageSun, inventoryStorageStar, inventoryPotionCard, inventoryTriangleCard, inventoryCircleCard, inventoryRectangleCard, inventoryStorageDoorLeft1, inventoryStorageDoorRight1, inventoryStorageDoorLeft2, inventoryStorageDoorRight2, inventoryStorageDoorLeft3, inventoryStorageDoorRight3, inventoryButtonBuy, inventoryButtonOpen1, inventoryButtonOpen2, inventoryButtonOpen3, inventoryPoop: SKNode?
+    var inventoryBackground, inventoryLabel, inventoryShop, inventoryStorageMoon, inventoryStorageSun, inventoryStorageStar, inventoryPotionCard, inventoryTriangleCard, inventoryCircleCard, inventoryRectangleCard, inventoryStorageDoorLeft1, inventoryStorageDoorRight1, inventoryStorageDoorLeft2, inventoryStorageDoorRight2, inventoryStorageDoorLeft3, inventoryStorageDoorRight3, inventoryButtonOpen1, inventoryButtonOpen2, inventoryButtonOpen3, inventoryPoop: SKNode?
     var inventoryStorageContentMoon = SKSpriteNode(imageNamed : "cleaner-tool-brown")
     var inventoryStorageContentSun = SKSpriteNode(imageNamed : "cleaner-tool-green")
     var inventoryStorageContentStar = SKSpriteNode(imageNamed : "cleaner-tool-orange")
@@ -29,10 +29,6 @@ class InventoryGameScene: SKScene {
     var drawermoonOpen = false
     var drawersunOpen = false
     var drawerstarOpen = false
-    var potionclick = false
-    var triangleclick = false
-    var squareclick = false
-    var circleclick = false
     var activePoop = false
     
     var continuousTimer: Timer?
@@ -75,6 +71,7 @@ class InventoryGameScene: SKScene {
         }
         
         self.continuousTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
+            print("Health: \(self.game.health)")
             if (self.game.poopState == 1) {
                 self.setColor()
             }
@@ -91,9 +88,25 @@ class InventoryGameScene: SKScene {
                 self.inventoryStorageDoorRight3?.run(growActionRight)
                 self.drawerstarOpen = false
                 
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    self.game.updatePoopState(newState: 0)
-                }
+                self.game.updatePoopState(newState: 0)
+            }
+            
+            if (self.game.coin >= 5) {
+                self.changeImage(node: self.inventoryRectangleCard!, imageName: "inventory-rectangle-card-on")
+                self.changeImage(node: self.inventoryCircleCard!, imageName: "inventory-circle-card-on")
+                self.changeImage(node: self.inventoryTriangleCard!, imageName: "inventory-triangle-card-on")
+            }
+            else {
+                self.changeImage(node: self.inventoryTriangleCard!, imageName: "inventory-triangle-card-off")
+                self.changeImage(node: self.inventoryCircleCard!, imageName: "inventory-circle-card-off")
+                self.changeImage(node: self.inventoryRectangleCard!, imageName: "inventory-rectangle-card-off")
+            }
+            
+            if (self.game.coin >= self.game.potionPrice) {
+                self.changeImage(node: self.inventoryPotionCard!, imageName: "inventory-potion-card-on")
+            }
+            else {
+                self.changeImage(node: self.inventoryPotionCard!, imageName: "inventory-potion-card-off")
             }
             
             self.updaterlabel()
@@ -112,7 +125,6 @@ class InventoryGameScene: SKScene {
         inventoryTriangleCard = scene?.childNode(withName: "inventory-triangle-card-off")
         inventoryCircleCard = scene?.childNode(withName: "inventory-circle-card-off")
         inventoryRectangleCard = scene?.childNode(withName: "inventory-rectangle-card-off")
-        inventoryButtonBuy = scene?.childNode(withName: "inventory-button-buy")
         inventoryStorageDoorLeft1 = scene?.childNode(withName: "inventory-storage-door-left-1")
         inventoryStorageDoorLeft2 = scene?.childNode(withName: "inventory-storage-door-left-2")
         inventoryStorageDoorLeft3 = scene?.childNode(withName: "inventory-storage-door-left-3")
@@ -155,9 +167,6 @@ class InventoryGameScene: SKScene {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first else { return }
         let touchLocation = touch.location(in: self)
-        resetItemShop()
-        
-//        print(self.game.drawerContent)
         
         if (self.game.poopState == 1){
             if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "inventory-button-open-2"{
@@ -196,26 +205,7 @@ class InventoryGameScene: SKScene {
         
         if (self.game.coin >= self.game.potionPrice){
             if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "inventory-potion-card-off" {
-                changeImage(node: inventoryPotionCard!, imageName: "inventory-potion-card-on")
-                potionclick = true
-            }
-        }
-        
-        if (triangleclick || circleclick || squareclick || potionclick){
-            if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "inventory-button-buy" {
-                if (triangleclick) {
-                    self.game.buyIdentityCard(symbol: "triangle")
-                }
-                else if (circleclick) {
-                    self.game.buyIdentityCard(symbol: "circle")
-                }
-                else if (squareclick) {
-                    self.game.buyIdentityCard(symbol: "square")
-                }
-                else {
-                    self.game.buyPotion()
-                }
-                
+                self.game.buyPotion()
                 updaterlabel()
             }
         }
@@ -223,14 +213,14 @@ class InventoryGameScene: SKScene {
         if (self.game.coin >= 5){
             if let node = self.atPoint(touchLocation) as? SKSpriteNode {
                 if node.name == "inventory-triangle-card-off" {
-                    changeImage(node: inventoryTriangleCard!, imageName: "inventory-triangle-card-on")
-                    triangleclick = true
+                    self.game.buyIdentityCard(symbol: "triangle")
+                    updaterlabel()
                 } else if node.name == "inventory-circle-card-off" {
-                    changeImage(node: inventoryCircleCard!, imageName: "inventory-circle-card-on")
-                    circleclick = true
+                    self.game.buyIdentityCard(symbol: "circle")
+                    updaterlabel()
                 } else if node.name == "inventory-rectangle-card-off" {
-                    changeImage(node: inventoryRectangleCard!, imageName: "inventory-rectangle-card-on")
-                    squareclick = true
+                    self.game.buyIdentityCard(symbol: "square")
+                    updaterlabel()
                 }
             }
         }
@@ -241,18 +231,6 @@ class InventoryGameScene: SKScene {
         if let nodeToChange = node as? SKSpriteNode {
             nodeToChange.texture = SKTexture(imageNamed: imageName)
         }
-    }
-    
-    // MARK: - resetshop code
-    func resetItemShop() {
-        changeImage(node: inventoryPotionCard!, imageName: "inventory-potion-card-off")
-        changeImage(node: inventoryTriangleCard!, imageName: "inventory-triangle-card-off")
-        changeImage(node: inventoryCircleCard!, imageName: "inventory-circle-card-off")
-        changeImage(node: inventoryRectangleCard!, imageName: "inventory-rectangle-card-off")
-        potionclick = false
-        circleclick = false
-        squareclick = false
-        triangleclick = false
     }
     
     // MARK: - updatelabel code

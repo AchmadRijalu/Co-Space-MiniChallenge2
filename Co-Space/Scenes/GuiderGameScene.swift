@@ -86,6 +86,8 @@ class GuiderGameScene: SKScene, SKPhysicsContactDelegate{
         }
     }
     
+    var timerCountNewGuest = 0
+    let symbolGuest = ["square", "circle", "triangle"]
     override func didMove(to view: SKView) {
         if let particles = SKEmitterNode(fileNamed: "Starfield"){
             particles.position = CGPoint (x: 1000, y: 0)
@@ -96,20 +98,23 @@ class GuiderGameScene: SKScene, SKPhysicsContactDelegate{
         createTimerBar()
         continuousTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
             self.checkQueue()
-            if (self.game.newGuestData != nil) {
+            if (self.game.newGuestData.count > 0) {
                 if ((self.queueList.count + self.newGuest.count) >= 3){
-                    // fail
+                    // UPDATE HEALTH
                     print("Health Reduce: Queue penuh")
-                    self.game.newGuestData = nil
                     self.game.updateHealth(add: false, amount: 1)
                 }
                 else {
                     self.guestCounter += 1
-                    self.newGuest["guest-\(self.guestCounter)"] = self.generateGuest(symbol: (self.game.newGuestData?[0] ?? "rectangle"), imageName: (self.game.newGuestData?[1] ?? "guest-1"))
-                    self.game.newGuestData = nil
+                    
+                    let processedGuest = self.game.newGuestData[0]
+                    let guestSymbol = processedGuest[0]
+                    let guestImage = processedGuest[1]
+                    self.newGuest["guest-\(self.guestCounter)"] = self.generateGuest(symbol: guestSymbol, imageName: guestImage)
                     self.addChild(self.newGuest["guest-\(self.guestCounter)"]!)
                     self.updateNewGuest(guestIdx: "guest-\(self.guestCounter)")
                 }
+                self.game.newGuestData.removeFirst()
             }
             
             if (self.guestTimer != nil && self.queueList.count <= 0){
@@ -117,15 +122,16 @@ class GuiderGameScene: SKScene, SKPhysicsContactDelegate{
                 self.guestTimer = nil
             }
             
-            if (self.game.newCleanedSeat != nil) {
-                let seatSymbol = (self.game.newCleanedSeat?[0])!
-                let seatNumber = (Int((self.game.newCleanedSeat?[1])!))!
+            if (self.game.newCleanedSeat.count > 0) {
+                let processedSeat = self.game.newCleanedSeat[0]
+                let seatSymbol = processedSeat[0]
+                let seatNumber = (Int(processedSeat[1]))!
                 self.seatNodeStatusList[seatSymbol]?[seatNumber - 1] = 0
                 if let dirtyNode = self.childNode(withName: "\(seatSymbol)-\(seatNumber)-dirt") {
                     dirtyNode.removeFromParent()
                 }
                 print("New cleaned seat: \(seatSymbol)-\(seatNumber)-dirt")
-                self.game.newCleanedSeat = nil
+                self.game.newCleanedSeat.removeFirst()
             }
         }
     }
@@ -182,7 +188,6 @@ class GuiderGameScene: SKScene, SKPhysicsContactDelegate{
             for i in 0...(self.queueList.count - 1) {
                 let newQueue = i + 1
                 if (queueList[i].queue != newQueue){
-                    
                     self.queueList[i].queue = newQueue
                 }
                 let moveAction = SKAction.move(to: locationList[newQueue - 1].position, duration: 1.0)
@@ -277,6 +282,8 @@ class GuiderGameScene: SKScene, SKPhysicsContactDelegate{
                         newNode.removeFromParent()
                         self.scene?.addChild(newNode)
                         runBounceAndDisappearAnimation(sprite: newNode)
+                        
+                        self.game.updateHealth(add: false, amount: 1)
                         
                         self.isTimeVibrating = true
                         if self.isTimeVibrating == true{

@@ -63,18 +63,20 @@ extension MainGame: GKMatchDelegate {
             self.myRole = gameRole[GKLocalPlayer.local.displayName] ?? ""
         }
         else if let idCard = gameData?.identityCard {
-            self.availableIdCard = idCard
+            self.idCardSquare = idCard[0]
+            self.idCardCircle = idCard[1]
+            self.idCardTriangle = idCard[2]
         }
         else if let newGuest = gameData?.newGuest{
             // Idx 0: Symbol, Idx 1: Image name
             if (self.myRole == "guide") {
-                self.newGuestData = newGuest
+                self.newGuestData.append(newGuest)
             }
         }
         else if let newDirt = gameData?.newDirtySeat{
             // Idx 0: Symbol, Idx 1: Number
             if (self.myRole == "cleaner") {
-                self.newDirtySeatCleaner = newDirt
+                self.newDirtySeatCleaner.append(newDirt)
             }
         }
         else if let newPoopState = gameData?.poopState{
@@ -86,7 +88,7 @@ extension MainGame: GKMatchDelegate {
         else if let newCleaned = gameData?.newCleanedSeat{
             // Idx 0: Symbol, Idx 1: Number
             if (self.myRole == "guide") {
-                self.newCleanedSeat = newCleaned
+                self.newCleanedSeat.append(newCleaned)
             }
         }
     }
