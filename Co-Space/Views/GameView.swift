@@ -9,7 +9,8 @@ import SwiftUI
 
 struct GameView: View {
     @ObservedObject var game: MainGame
-    @State var isPresented:Bool = false
+    @State var isGameOver:Bool = false
+    @EnvironmentObject var isGameStart : GameStartViewModel
     
     var body: some View {
         NavigationView {
@@ -27,8 +28,11 @@ struct GameView: View {
                     else if (game.myRole == "inventory") {
                         InventoryView(game: game)
                     }
+                    if isGameStart.isGameStart == false{
+                        GameStartView()
+                    }
                     
-                    if isPresented == true{
+                    if isGameOver == true{
                         ResultView(game: game)
                     }
                 }

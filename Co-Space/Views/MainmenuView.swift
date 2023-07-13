@@ -16,7 +16,7 @@ struct MainmenuView: View {
     @State private var isNextScreenActive = false
     @State private var isDragging = false
     var scene = SKScene(fileNamed: "MainMenuGameScene.sks") as! MainMenuGameScene
-    
+    let audioPlayerManager = IngameViewModel()
     @StateObject var game: MainGame = MainGame()
     
     var body: some View {
@@ -59,6 +59,7 @@ struct MainmenuView: View {
             isDragging = false
         }
         .navigationBarBackButtonHidden(true)
+//        .environmentObject(audioPlayerManager)
     }
 }
 

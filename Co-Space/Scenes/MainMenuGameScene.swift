@@ -14,31 +14,16 @@ class MainMenuGameScene: SKScene, SKPhysicsContactDelegate {
     let defaultPositionX:CGFloat = -98.107
     let minDragX: CGFloat = -98.107  // Batas minimum sumbu X
     let maxDragX: CGFloat = 105  // Batas maksimum sumbu X
-    var audioPlayer: AVAudioPlayer?
-    var backgroundMusic = SKAudioNode()
+//    var audioPlayer: AVAudioPlayer?
+    var backsound =  IngameViewModel.shared
+    var planeSwipeSound = SKAudioNode()
     var isBacksoundEnabled = true
     
 //
-    func playSoundMultipleTimes(count: Int) {
-        guard let url = Bundle.main.url(forResource: "backsound", withExtension: "wav") else { return }
-        do {
-            audioPlayer = try AVAudioPlayer(contentsOf: url)
-            audioPlayer?.numberOfLoops = count - 1
-            audioPlayer?.prepareToPlay()
-            audioPlayer?.play()
-
-        } catch let error {
-            print("error")
-            print(error.localizedDescription)
-        }
-    }
-    
+   
     override func didMove(to view: SKView) {
-        
-        
         //Background Music
-        playSoundMultipleTimes(count: 0)
-        
+        backsound.playBacksoundSoundMultipleTimes(count: 0)
         if let planeSliderNode = self.childNode(withName: "planeSliderNode"){
             self.planeSliderNode = planeSliderNode as? SKSpriteNode
             self.planeSliderNode.name = "planeSliderNode"
@@ -85,25 +70,26 @@ class MainMenuGameScene: SKScene, SKPhysicsContactDelegate {
                     
                     if spriteNode.name == "soundButtonNode" {
                         if isBacksoundEnabled == true{
-                            audioPlayer?.pause()
+                            backsound.mainMenuBacksound.pause()
                             isBacksoundEnabled = false
                             self.mainMenuSoundNode?.texture = SKTexture(imageNamed: "mainmenu-button-sound-disabled")
                         }
                         else{
-                            audioPlayer?.play()
+                            backsound.mainMenuBacksound.play()
                             isBacksoundEnabled = true
                             self.mainMenuSoundNode?.texture = SKTexture(imageNamed: "mainmenu-button-sound")
                         }
                     }
                     if spriteNode.name == "planeSliderNode" {
+                        //Here
                         if let musicURL = Bundle.main.url(forResource: "swipe-rocket", withExtension: "wav") {
-                            backgroundMusic = SKAudioNode(url: musicURL)
-                            backgroundMusic.autoplayLooped = false
-                            addChild(backgroundMusic)
-                            backgroundMusic.run(SKAction.sequence([
+                            planeSwipeSound = SKAudioNode(url: musicURL)
+                            planeSwipeSound.autoplayLooped = false
+                            addChild(planeSwipeSound)
+                            planeSwipeSound.run(SKAction.sequence([
                                 SKAction.run {
                                     // this will start playing the pling once.
-                                    self.backgroundMusic.run(SKAction.play())
+                                    self.planeSwipeSound.run(SKAction.play())
                                 }
                             ])
                             )
@@ -150,15 +136,14 @@ class MainMenuGameScene: SKScene, SKPhysicsContactDelegate {
         
         if node.position.x > 98.6 {
             
-            let newScene = ResultGameScene(size: self.size) // Initialize new scene
-            newScene.game = game
-            let transition = SKTransition.doorsOpenHorizontal(withDuration: 0.5) // Set the transition effect
-            self.scene?.view?.presentScene(newScene, transition: transition) // Change the scene
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
-                self.audioPlayer?.stop()
-            }
-            //            game?.createRoom()
+//            let newScene = ResultGameScene(size: self.size) // Initialize new scene
+//            newScene.game = game
+//            let transition = SKTransition.doorsOpenHorizontal(withDuration: 0.5) // Set the transition effect
+//            self.scene?.view?.presentScene(newScene, transition: transition) // Change the scene
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
+//                self.backsound.mainMenuBacksound.stop()
+//            }
+//                        game?.createRoom()
         }
     }
     
