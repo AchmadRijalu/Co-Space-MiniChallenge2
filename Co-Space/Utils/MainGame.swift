@@ -13,8 +13,8 @@ import SwiftUI
 @MainActor
 class MainGame: NSObject, GKGameCenterControllerDelegate, ObservableObject {
     // =========================== MAIN GAME PROPERTIES ===========================
-    @Published var playerNumberMin = 4
-    @Published var playerNumberMax = 4
+    @Published var playerNumberMin = 2
+    @Published var playerNumberMax = 2
     
     /// The game interface state.
     @Published var matchAvailable = false
@@ -143,14 +143,9 @@ class MainGame: NSObject, GKGameCenterControllerDelegate, ObservableObject {
     
     // Starting and stopping the game.
     func startGame(match: GKMatch) {
-        let player = IngameViewModel.shared
+       
         GKAccessPoint.shared.isActive = false
         self.playingGame = true
-        
-        if self.playingGame == true{
-            player.mainMenuBacksound.stop()
-            player.playGameStartSoundMultipleTimes(count: 0)
-        }
         myMatch = match
         myMatch?.delegate = self
             
@@ -183,8 +178,8 @@ class MainGame: NSObject, GKGameCenterControllerDelegate, ObservableObject {
     // Shuffling Role
     func shuffleRole(){
         if self.isHost {
-            let role = ["security", "guide", "cleaner", "inventory"]
-//            let role = ["security", "guide"]
+//            let role = ["security", "guide", "cleaner", "inventory"]
+            let role = ["security", "guide"]
             var shuffledRole = role.shuffled()
             
             var assignedRoles: [String: String] = [:]
@@ -200,11 +195,6 @@ class MainGame: NSObject, GKGameCenterControllerDelegate, ObservableObject {
                     assignedRoles[p.displayName] = chosenRole
                 }
             }
-            
-//            assignedRoles["AchmadRijalu"] = "cleaner"
-//            assignedRoles["Alfazasharfan"] = "inventory"
-//            assignedRoles["DarkKnight1709"] = "security"
-//            self.myRole = "guide"
             
             // Kirim role" ke player selain local (yg role local gausa dikirim)
             do {

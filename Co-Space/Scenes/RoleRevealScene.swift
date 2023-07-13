@@ -24,12 +24,15 @@ class RoleRevealScene: SKScene {
     let buttonNextDisableTexture = SKTexture(imageNamed: "role-reveal-button-next-disabled")
     let buttonPreviousEnableTexture = SKTexture(imageNamed: "role-reveal-button-back-unfilled")
     let buttonPreviousDisableTexture = SKTexture(imageNamed: "role-reveal-button-back-disabled")
+    let player = IngameViewModel.shared
     
     override func sceneDidLoad() {
         refreshInstruction()
     }
     
     override func didMove(to view: SKView) {
+        player.mainMenuBacksound.stop()
+        player.playGameStartSoundMultipleTimes(count: 0)
         currentInstruction = SKTexture(imageNamed: instructionArrays[game?.myRole ?? "security"]?[counterNext] ?? "instruction-security-1")
         if let roleRevealNode = self.childNode(withName: "role-reveal") as? SKSpriteNode {
             roleRevealNode.texture = SKTexture(imageNamed: "role-reveal-\(game?.myRole ?? "security")")

@@ -142,6 +142,13 @@ class GuiderGameScene: SKScene, SKPhysicsContactDelegate{
             particles.zPosition = -2
             addChild(particles)
         }
+        
+        // CHANGE GAME PACE
+        DispatchQueue.main.asyncAfter(deadline: .now() + 120.0) {
+            self.game.patienceRangeGuide = ["start": 2, "end": 4]
+            self.game.watchingTimeRange = ["start": 7, "end": 10]
+        }
+        
         createTimerBar()
         continuousTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
             self.checkQueue()
