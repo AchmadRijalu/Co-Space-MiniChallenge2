@@ -8,6 +8,7 @@
 import SpriteKit
 import GameplayKit
 import SwiftUI
+import AVFoundation
 
 struct GuestQueueSecurity {
     var queue: Int
@@ -51,10 +52,66 @@ class SecurityGameScene: SKScene {
     var timerBarNode: SKSpriteNode!
     var timerBarDuration: TimeInterval = 10
     let healthBarWidth: CGFloat = 130.0
-    let healthBarHeight: CGFloat = 15.0 
+    let healthBarHeight: CGFloat = 15.0
     var healthBarNode: SKSpriteNode!
     
+    
+    //MARK: - Declaring sound effect avaudioplayer
+    var SoundEffect = AVAudioPlayer()
+    var lowHealthSoundEffect = AVAudioPlayer()
+//    var lowTimerSoundEffect = SKAudioNode()
+    var lowTimerSoundEffect = AVAudioPlayer()
+    
+    func playSoundEffect(sound:String) {
+        guard let url = Bundle.main.url(forResource: sound, withExtension: "wav") else { return }
+        do {
+            SoundEffect = try AVAudioPlayer(contentsOf: url)
+            SoundEffect.numberOfLoops = 0
+            SoundEffect.prepareToPlay()
+            SoundEffect.play()
+        } catch let error {
+            print("Error: \(error.localizedDescription)")
+        }
+    }
+    
+    func playLowHealthStatusSoundEffect() {
+        guard let url = Bundle.main.url(forResource: "low-health", withExtension: "wav") else { return }
+        do {
+            lowHealthSoundEffect = try AVAudioPlayer(contentsOf: url)
+            lowHealthSoundEffect.numberOfLoops = -1
+            lowHealthSoundEffect.prepareToPlay()
+            lowHealthSoundEffect.volume = 0.5
+            lowHealthSoundEffect.play()
+        } catch let error {
+            print("Error: \(error.localizedDescription)")
+        }
+    }
+    
+    func stopLowHealthStatusSoundEffect() {
+        guard let url = Bundle.main.url(forResource: "low-health", withExtension: "wav") else { return }
+        do {
+            lowHealthSoundEffect = try AVAudioPlayer(contentsOf: url)
+            lowHealthSoundEffect.stop()
+        } catch let error {
+            print("Error: \(error.localizedDescription)")
+        }
+    }
+    
+        func playLowTimerStatusSoundEffect() {
+            guard let url = Bundle.main.url(forResource: "low-timer", withExtension: "wav") else { return }
+            do {
+                lowTimerSoundEffect = try AVAudioPlayer(contentsOf: url)
+                lowTimerSoundEffect.numberOfLoops = 0
+                lowTimerSoundEffect.prepareToPlay()
+                lowTimerSoundEffect.play()
+            } catch let error {
+                print("Error: \(error.localizedDescription)")
+            }
+        }
+    
+    
     override func sceneDidLoad() {
+        
         if let security1backgroundNode = scene?.childNode(withName: "securitybackground") {
             securitybackground.name = "securitybackgroundNode"
             securitybackground.size = CGSize(width: UIScreen.main.bounds.width + 0.5 * UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
@@ -181,6 +238,7 @@ class SecurityGameScene: SKScene {
                 self.checkQueue()
                 if (self.addNewGuestTimer >= self.newGuestPace){
                     if (self.queueList.count < 5){
+                       
                         let newGuestNode = self.generateNewGuest()
                         let queueCount = self.queueList.count
                         self.addChild(newGuestNode)
@@ -188,6 +246,7 @@ class SecurityGameScene: SKScene {
                         if ((queueCount + 1) == 1){
                             let firstQueueGuestTime = newGuestNode.userData?.value(forKey: "patience") as? Int
                             self.timerRenewal(seconds: firstQueueGuestTime ?? 5)
+                            
                         }
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                             self.queueList.append(GuestQueueSecurity(queue: (queueCount + 1), guest: newGuestNode))
@@ -201,6 +260,12 @@ class SecurityGameScene: SKScene {
                 self.updateHealthBar(newHealth: self.game.health)
                 self.updateCounterUI()
                 print("New Health \(self.game.health)")
+                if self.game.health <= 2 && self.game.health > 0{
+                    self.playLowHealthStatusSoundEffect()
+                }
+                 if self.game.health == 0 {
+                    self.stopLowHealthStatusSoundEffect()
+                }
             }
         }
     }
@@ -209,17 +274,20 @@ class SecurityGameScene: SKScene {
         guard let touch = touches.first else { return }
         let touchLocation = touch.location(in: self)
         
-//        print("Health dari Scene \(game.health)")
+        //        print("Health dari Scene \(game.health)")
         print("Health dari scene \(self.game.health)")
         
         if (idCardClickable && self.queueList.count > 0){
             if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "square1buttonNode" {
+                playSoundEffect(sound: "teleport-to-guide")
                 usingIdentityCard(symbol: "square")
             }
             else if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "circle1buttonNode" {
+                playSoundEffect(sound: "teleport-to-guide")
                 usingIdentityCard(symbol: "circle")
             }
             else if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "triangle1buttonNode" {
+                playSoundEffect(sound: "teleport-to-guide")
                 usingIdentityCard(symbol: "triangle")
             }
         }
@@ -235,7 +303,6 @@ class SecurityGameScene: SKScene {
             moveGuest()
             if (result == "empty"){
                 // Disable button
-                
             }
         }
         else {
@@ -256,6 +323,8 @@ class SecurityGameScene: SKScene {
                 if (i == 0 && self.guestTimer == nil) {
                     let firstQueueGuestTime = queueList[i].guest.userData?.value(forKey: "patience") as? Int
                     timerRenewal(seconds: firstQueueGuestTime ?? 5)
+                   
+                    
                 }
             }
         }
@@ -304,8 +373,9 @@ class SecurityGameScene: SKScene {
                     let moveAction = SKAction.moveBy(x: 0, y: -175, duration: 1.0)
                     artificialGuestNode.run(moveAction)
                     guestLeave = false
-//                    self.game.health -= 1
+                    //                    self.game.health -= 1
                     self.game.updateHealth(add: false, amount: 1)
+                    playSoundEffect(sound: "angry-alien")
                 }
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
@@ -351,15 +421,32 @@ class SecurityGameScene: SKScene {
     
     func updateHealthBar(newHealth: Int) {
         let healthRatio = CGFloat(newHealth) / 5.0
-            let newWidth = healthBarWidth * healthRatio
-            healthBarNode.size.width = newWidth
+        let newWidth = healthBarWidth * healthRatio
+        healthBarNode.size.width = newWidth
+        
+        if healthBarNode.size.width <= 52{
+            //           playLowHealthStatusSoundEffect()
         }
+        
+    }
     
     var timerCount: Double = 0
+    var isLowerTimer:Bool = false
+    
     private func timerRenewal(seconds: Int){
+        self.isLowerTimer = false
         self.guestTimer = Timer.scheduledTimer(withTimeInterval: TimeInterval(0.05), repeats: true) { timer in
             self.timerCount += 0.05
-            
+            if self.timerCount > (Double(seconds) - 2.5){
+                if self.isLowerTimer == false{
+                    self.playLowTimerStatusSoundEffect()
+                    self.isLowerTimer = true
+                }
+                
+               
+                
+                
+            }
             self.updateTimerBar(progress: CGFloat(self.timerCount), full: CGFloat(seconds))
             if (self.timerCount >= Double(seconds)){
                 self.guestLeave = true
@@ -386,10 +473,13 @@ class SecurityGameScene: SKScene {
             addChild(self.timerBarNode)
         }
     }
-
+    
     func updateTimerBar(progress: CGFloat, full: CGFloat) {
         let newWidth = (1.0 - (Double(progress) / Double(full))) * 130
         timerBarNode.size.width = newWidth
+        //        print(timerBarNode.size.width)
+        
+        
     }
     
     func generateNewGuest() -> SKNode {

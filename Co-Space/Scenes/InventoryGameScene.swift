@@ -21,6 +21,8 @@ class InventoryGameScene: SKScene {
     
     //MARK: - Declaring sound effect avaudioplayer
     var storageDoorOpenedSoundEffect = AVAudioPlayer()
+    var buyItemSoundEffect = AVAudioPlayer()
+    var coinIncreaseSoundEffect = AVAudioPlayer()
 //    var gameOverSoundEffect = SKAudioNode()
     
     // MARK: - Inventory price,coin and drawer open button
@@ -45,9 +47,18 @@ class InventoryGameScene: SKScene {
             storageDoorOpenedSoundEffect.numberOfLoops = 0
             storageDoorOpenedSoundEffect.prepareToPlay()
             storageDoorOpenedSoundEffect.play()
-            
-            
-            
+        } catch let error {
+            print("Error: \(error.localizedDescription)")
+        }
+    }
+    
+    func playBuyItemSoundEffect() {
+        guard let url = Bundle.main.url(forResource: "buy-button", withExtension: "wav") else { return }
+        do {
+            buyItemSoundEffect = try AVAudioPlayer(contentsOf: url)
+            buyItemSoundEffect.numberOfLoops = 0
+            buyItemSoundEffect.prepareToPlay()
+            buyItemSoundEffect.play()
         } catch let error {
             print("Error: \(error.localizedDescription)")
         }
@@ -205,6 +216,7 @@ class InventoryGameScene: SKScene {
         
         if (self.game.coin >= self.game.potionPrice){
             if let node = self.atPoint(touchLocation) as? SKSpriteNode, node.name == "inventory-potion-card-off" {
+                 playBuyItemSoundEffect()
                 self.game.buyPotion()
                 updaterlabel()
             }

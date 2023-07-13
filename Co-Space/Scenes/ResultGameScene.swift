@@ -8,6 +8,7 @@
 import Foundation
 import SpriteKit
 import AVFoundation
+
 class ResultGameScene : SKScene,  SKPhysicsContactDelegate, ObservableObject{
     
     @Published var game : MainGame!

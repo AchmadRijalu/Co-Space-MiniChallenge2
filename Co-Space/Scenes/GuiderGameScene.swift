@@ -48,7 +48,51 @@ class GuiderGameScene: SKScene, SKPhysicsContactDelegate{
     var timerBarDuration: TimeInterval = 10
     var guestCounter = 0
     
+    //MARK: - SoundEffect assets start here
+    var alienSit = AVAudioPlayer()
+    var alienLeave = AVAudioPlayer()
+    var earnCoin = AVAudioPlayer()
     
+    func playAlienSitSoundEffect() {
+        guard let url = Bundle.main.url(forResource: "alien-sit", withExtension: "wav") else { return }
+        do {
+            
+            alienSit = try AVAudioPlayer(contentsOf: url)
+            alienSit.numberOfLoops = 0
+            alienSit.prepareToPlay()
+            self.alienSit.play()
+
+        } catch let error {
+            print("Error: \(error.localizedDescription)")
+        }
+    }
+    func playAlienLeaveSoundEffect() {
+        guard let url = Bundle.main.url(forResource: "alien-leave", withExtension: "wav") else { return }
+        do {
+            
+            alienLeave = try AVAudioPlayer(contentsOf: url)
+            alienLeave.numberOfLoops = 0
+            alienLeave.prepareToPlay()
+            self.alienSit.play()
+
+        } catch let error {
+            print("Error: \(error.localizedDescription)")
+        }
+    }
+    
+    func playEarnCoinSoundEffect() {
+        guard let url = Bundle.main.url(forResource: "earn-coins", withExtension: "wav") else { return }
+        do {
+            earnCoin = try AVAudioPlayer(contentsOf: url)
+            earnCoin.numberOfLoops = 0
+            earnCoin.volume = 0.5
+            earnCoin.prepareToPlay()
+            self.earnCoin.play()
+
+        } catch let error {
+            print("Error: \(error.localizedDescription)")
+        }
+    }
     
     //MARK: - SET UP THE SEAT NODE
     func setupGuestSeatNodesList() {
@@ -228,20 +272,21 @@ class GuiderGameScene: SKScene, SKPhysicsContactDelegate{
                                 else {
                                     let newSpriteNode = SKSpriteNode()
                                     let seatSprite:CGPoint = CGPoint(x: (seatNodeList[signSeat]?[numberSeat - 1].position.x ?? .zero) + 8, y: (seatNodeList[signSeat]?[numberSeat - 1].position.y ?? .zero) - 10)
-                                    
-                                    
                                     let moveToSeat = SKAction.move(to: seatSprite, duration: 0.4)
                                     // Ada orangnya isi 1
                                     seatNodeStatusList[signSeat]?[numberSeat - 1] = 1
-                                    
                                     newSpriteNode.texture = queueList[i].guest.texture
                                     newSpriteNode.position = queueList[i].guest.position
                                     newSpriteNode.size = CGSize(width: 35, height: 55)
                                     newSpriteNode.zPosition = 2
                                     self.addChild(newSpriteNode)
+                                    //MARK: - Play Sit Sound Effect
+                                    self.playAlienSitSoundEffect()
+                                    
                                     newSpriteNode.run(moveToSeat)
                                     queueList[i].guest.removeFromParent()
                                     
+                                    self.playEarnCoinSoundEffect()
                                     self.game.updateCoin(add: true, amount: 1)
                                     self.game.updateScore(amount: 1)
                                     
@@ -249,6 +294,8 @@ class GuiderGameScene: SKScene, SKPhysicsContactDelegate{
                                     DispatchQueue.main.asyncAfter(deadline: .now() + randomNumChangeToDirty) {
                                         // Kotor isi 2
                                         self.seatNodeStatusList[signSeat]?[numberSeat - 1] = 2
+                                        //MARK: - Play Leave Sound Effect
+                                        self.playAlienLeaveSoundEffect()
                                         newSpriteNode.texture = SKTexture(imageNamed: "dirtysign")
                                         newSpriteNode.name = "\(signSeat)-\(numberSeat)-dirt"
                                         newSpriteNode.size = CGSize(width: 15, height: 45)
