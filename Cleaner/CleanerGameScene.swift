@@ -21,6 +21,8 @@ class CleanerGameScene: SKScene {
     var buttonGuessClickable: Bool = false
     
     var damageanimation: SKNode?
+    let texturestage = [ "security-stage-1",  "security-stage-2",  "security-stage-3",  "security-stage-4"]
+    var currentTextureIndex = 0
     let cleanerBackground = SKSpriteNode(imageNamed : "cleaner-background")
     let cleanerPlanet = SKSpriteNode(imageNamed : "cleaner-planet")
     let cleanerStorage = SKSpriteNode(imageNamed : "cleaner-storage")
@@ -30,6 +32,7 @@ class CleanerGameScene: SKScene {
     let cleanerButtonSun = SKSpriteNode(imageNamed : "cleaner-button-sun")
     let cleanerButtonStar = SKSpriteNode(imageNamed : "cleaner-button-star")
     var cleanerStorageContent = SKSpriteNode()
+    
     
     let symbol = ["square", "circle", "triangle"]
     var seatNodeList: [String:[SKNode]] = ["square": [], "circle": [], "triangle": []]
@@ -110,6 +113,7 @@ class CleanerGameScene: SKScene {
             self.addChild(cleanerStorageContent)
         }
         
+        
         if let damageanimationNode = self.scene?.childNode(withName: "damageanimation") {
             damageanimation = damageanimationNode
         }
@@ -137,6 +141,7 @@ class CleanerGameScene: SKScene {
             particles.zPosition = 1
             addChild(particles)
         }
+        
         continuousTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
             if (self.seatWithPoop.count < 2){
                 while true {

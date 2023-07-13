@@ -19,6 +19,11 @@ struct GuestQueueGuide {
 class GuiderGameScene: SKScene, SKPhysicsContactDelegate{
     var game: MainGame!
     var newGuestNode: [String]?
+    var spriteNode: SKSpriteNode?
+    var timer1: Timer?
+    let textureNames = ["texture1", "texture2", "texture3", "texture4"]
+    var currentTextureIndex = 0
+
     
     var planetGuide: SKNode?
     //Spawn Location
@@ -33,6 +38,7 @@ class GuiderGameScene: SKScene, SKPhysicsContactDelegate{
     var guestTimer: Timer?
     var continuousTimer: Timer?
     var locationList: [SKNode] = []
+    var stage: SKNode?
     var moveLocationList: [SKNode] = []
     var queueList: [GuestQueueGuide] = []
     var newGuestFromSecurity: SKSpriteNode?
@@ -125,17 +131,22 @@ class GuiderGameScene: SKScene, SKPhysicsContactDelegate{
             }
         }
         
-        if let locationSpawnNode = self.scene?.childNode(withName: "locationSpawn") {
-            locationSpawn = locationSpawnNode
+        if let locationStageNode = self.scene?.childNode(withName: "stageNode") as? SKSpriteNode {
+            let newtexture = SKTexture(imageNamed: "stage-2")
+            locationStageNode.texture = newtexture
         }
     }
     
     override func didMove(to view: SKView) {
+//        timer1 = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(changeTexture), userInfo: nil, repeats: true)
         if let particles = SKEmitterNode(fileNamed: "Starfield"){
             particles.position = CGPoint (x: 1000, y: 0)
             particles.advanceSimulationTime(60)
             particles.zPosition = -2
             addChild(particles)
+        }
+        if let background1stageNode = scene?.childNode(withName: "backgroundstage") {
+            stage =  background1stageNode
         }
         createTimerBar()
         continuousTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
