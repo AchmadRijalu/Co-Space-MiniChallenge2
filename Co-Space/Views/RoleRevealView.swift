@@ -12,7 +12,7 @@ struct RoleRevealView: View {
     @ObservedObject var game: MainGame
     
     @State var startTimer: Timer?
-    @State var timerCount = 3
+    @State var timerCount = 15
     @State var isMovingToGameView = false
     
     var scene = SKScene(fileNamed: "RoleRevealScene.sks") as! RoleRevealScene
@@ -42,7 +42,7 @@ struct RoleRevealView: View {
                                 .font(.system(size:30, weight: .bold))
                                 .foregroundColor(.white)
                         }
-                        .padding(.leading, 30)
+                        .padding(.horizontal, 30)
                         .padding(.bottom, 10)
                         .background(Color(#colorLiteral(red: 0.5612951517, green: 0.5604736209, blue: 0.7392155528, alpha: 1)))
                     }.padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 50))
