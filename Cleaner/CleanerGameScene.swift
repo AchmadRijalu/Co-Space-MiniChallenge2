@@ -320,6 +320,7 @@ class CleanerGameScene: SKScene {
                         else {
                             damageanimationrun()
                             print("Health berkurang, salah tebak")
+                            self.game.updateHealth(add: false, amount: 1)
                         }
                     }
                 }

@@ -38,6 +38,8 @@ class SecurityGameScene: SKScene {
     var securitylabel = SKSpriteNode(imageNamed: "security-label")
     var tappedSymbol = ""
     
+    var damageanimation: SKNode?
+    
     let newGuestPace = 5
     var locationList: [SKNode] = []
     var dissapearNode: SKNode = SKNode()
@@ -194,6 +196,10 @@ class SecurityGameScene: SKScene {
             self.addChild(circleidentitycardquantity)
         }
         
+        if let damageanimationNode = self.scene?.childNode(withName: "damageanimation") {
+            damageanimation = damageanimationNode
+        }
+        
         square1textNode = self.childNode(withName: "squaretext")!
         let squaretext = SKLabelNode(fontNamed: "Arial")
         squaretext.fontColor = .black
@@ -267,7 +273,7 @@ class SecurityGameScene: SKScene {
                 }
                 self.updateHealthBar(newHealth: self.game.health)
                 self.updateCounterUI()
-                print("New Health \(self.game.health)")
+//                print("New Health \(self.game.health)")
                 if self.game.health <= 2 && self.game.health > 0{
                     self.playLowHealthStatusSoundEffect()
                 }
@@ -275,14 +281,21 @@ class SecurityGameScene: SKScene {
                      self.lowHealthSoundEffect.stop()
                     self.continuousTimer?.invalidate()
                     self.continuousTimer = nil
+                    self.guestTimer?.invalidate()
+                }
+                if self.game.health > 2 {
+                    if (self.lowHealthSoundEffect.isPlaying) {
+                        self.lowHealthSoundEffect.stop()
+                    }
                 }
             }
         }
         
         // CHANGE GAME PACE
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 120.0) {
-//            self.game.patienceRangeSecurity = ["start": 7, "end": 9]
-//        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 120.0) {
+            print("GAME PACE CHANGED")
+            self.game.patienceRangeSecurity = ["start": 7, "end": 9]
+        }
         
         let timer = Timer.scheduledTimer(withTimeInterval: 0.25, repeats: true) { [weak self] _ in
             guard let self = self else { return }
@@ -406,6 +419,7 @@ class SecurityGameScene: SKScene {
                     artificialGuestNode.run(moveAction)
                     guestLeave = false
                     //                    self.game.health -= 1
+                    damageanimationrun()
                     self.game.updateHealth(add: false, amount: 1)
                     if healthCount  <= 0 {
                         lowHealthSoundEffect.stop()
@@ -476,16 +490,25 @@ class SecurityGameScene: SKScene {
         self.isLowerTimer = false
         self.guestTimer = Timer.scheduledTimer(withTimeInterval: TimeInterval(0.05), repeats: true) { timer in
             self.timerCount += 0.05
+            
+            self.updateTimerBar(progress: CGFloat(self.timerCount), full: CGFloat(seconds))
+            if (self.timerCount >= Double(seconds)){
+                self.guestLeave = true
+                self.moveGuest()
+            }
+            
             if self.timerCount > (Double(seconds) - 2.5){
                 if self.isLowerTimer == false{
                     self.playLowTimerStatusSoundEffect()
                     self.isLowerTimer = true
                 }
             }
-            self.updateTimerBar(progress: CGFloat(self.timerCount), full: CGFloat(seconds))
-            if (self.timerCount >= Double(seconds)){
-                self.guestLeave = true
-                self.moveGuest()
+            else {
+                if (self.lowTimerSoundEffect.isPlaying) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        self.lowTimerSoundEffect.stop()
+                    }
+                }
             }
         }
     }
@@ -540,6 +563,13 @@ class SecurityGameScene: SKScene {
         self.square1TextLabelNode.text = "x \(self.game.idCardSquare)"
         self.triangle1TextLabelNode.text = "x \(self.game.idCardTriangle)"
         self.circle1TextLabelNode.text = "x \(self.game.idCardCircle)"
+    }
+    
+    func damageanimationrun() {
+        let fadeInAction = SKAction.fadeIn(withDuration: 0.8)
+        let fadeOutAction = SKAction.fadeOut(withDuration: 0.8)
+        let sequence = SKAction.sequence([fadeInAction,fadeOutAction])
+        damageanimation?.run(sequence)
     }
 }
 

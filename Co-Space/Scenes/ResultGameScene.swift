@@ -170,7 +170,6 @@ class ResultGameScene : SKScene,  SKPhysicsContactDelegate, ObservableObject{
                 let animationDuration: TimeInterval = 1.0
                 // Set spring-like animation properties
                 let damping: CGFloat = 0.4
-                let initialVelocity: CGFloat = 0.0
                 // Create the dockChangedResultNode the animation asset and set its properties
                 self.dockChangedResultNode = SKSpriteNode(imageNamed: "result-background-dock")
                 self.dockChangedResultNode.name = "result-background-dock"
@@ -202,6 +201,7 @@ class ResultGameScene : SKScene,  SKPhysicsContactDelegate, ObservableObject{
                 labelNode.position = CGPoint(x: (self.size.width - (0.1 * self.size.width)) / 2, y: (self.size.height - (0.55 * self.size.height)) / 2)
                 labelNode.zPosition = 5
                 self.addChild(labelNode)
+                labelNode.run(SKAction.fadeIn(withDuration: 0.6))
                 
                 let score: Int = self.game.score
                 let scoreNode = SKLabelNode(text: String(score))
@@ -211,6 +211,7 @@ class ResultGameScene : SKScene,  SKPhysicsContactDelegate, ObservableObject{
                 scoreNode.position = CGPoint(x: (self.size.width + (0.1 * self.size.width)) / 2, y: (self.size.height - (0.55 * self.size.height)) / 2)
                 scoreNode.zPosition = 5
                 self.addChild(scoreNode)
+                scoreNode.run(SKAction.fadeIn(withDuration: 0.6))
             }
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.5){
@@ -228,7 +229,7 @@ class ResultGameScene : SKScene,  SKPhysicsContactDelegate, ObservableObject{
                 
                 let spaceJumpAction = SKAction.animate(with: spaceJumpTex, timePerFrame: 0.03)
                 
-                var spriteNode = SKSpriteNode(texture: spaceJumpTex[0], size: self.size)
+                let spriteNode = SKSpriteNode(texture: spaceJumpTex[0], size: self.size)
                 spriteNode.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2)
                 spriteNode.zPosition = -1
                 self.backgroundNode.removeFromParent()

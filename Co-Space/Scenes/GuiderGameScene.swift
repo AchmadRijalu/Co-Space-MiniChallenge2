@@ -24,6 +24,7 @@ class GuiderGameScene: SKScene, SKPhysicsContactDelegate{
     let textureNames = ["texture1", "texture2", "texture3", "texture4"]
     var currentTextureIndex = 0
 
+    var damageanimation: SKNode?
     
     var planetGuide: SKNode?
     //Spawn Location
@@ -138,6 +139,10 @@ class GuiderGameScene: SKScene, SKPhysicsContactDelegate{
             let newtexture = SKTexture(imageNamed: "stage-2")
             locationStageNode.texture = newtexture
         }
+        
+        if let damageanimationNode = self.scene?.childNode(withName: "damageanimation") {
+            damageanimation = damageanimationNode
+        }
     }
     
     var timerCountNewGuest = 0
@@ -152,10 +157,11 @@ class GuiderGameScene: SKScene, SKPhysicsContactDelegate{
         }
         
         // CHANGE GAME PACE
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 120.0) {
-//            self.game.patienceRangeGuide = ["start": 2, "end": 4]
-//            self.game.watchingTimeRange = ["start": 7, "end": 10]
-//        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 120.0) {
+            print("GAME PACE CHANGED")
+            self.game.patienceRangeGuide = ["start": 2, "end": 4]
+            self.game.watchingTimeRange = ["start": 7, "end": 10]
+        }
         
         if let background1stageNode = scene?.childNode(withName: "backgroundstage") {
             stage =  background1stageNode
@@ -166,8 +172,9 @@ class GuiderGameScene: SKScene, SKPhysicsContactDelegate{
             if (self.game.newGuestData.count > 0) {
                 if ((self.queueList.count + self.newGuest.count) >= 3){
                     // UPDATE HEALTH
-                    print("Health Reduce: Queue penuh")
+//                    print("Health Reduce: Queue penuh")
                     self.game.updateHealth(add: false, amount: 1)
+                    self.damageanimationrun()
                 }
                 else {
                     self.guestCounter += 1
@@ -195,8 +202,14 @@ class GuiderGameScene: SKScene, SKPhysicsContactDelegate{
                 if let dirtyNode = self.childNode(withName: "\(seatSymbol)-\(seatNumber)-dirt") {
                     dirtyNode.removeFromParent()
                 }
-                print("New cleaned seat: \(seatSymbol)-\(seatNumber)-dirt")
+//                print("New cleaned seat: \(seatSymbol)-\(seatNumber)-dirt")
                 self.game.newCleanedSeat.removeFirst()
+            }
+            
+            if (self.game.health <= 0){
+                self.guestTimer?.invalidate()
+                self.guestTimer = nil
+                self.continuousTimer?.invalidate()
             }
         }
     }
@@ -352,6 +365,7 @@ class GuiderGameScene: SKScene, SKPhysicsContactDelegate{
                         runBounceAndDisappearAnimation(sprite: newNode)
                         
                         self.game.updateHealth(add: false, amount: 1)
+                        damageanimationrun()
                         
                         self.isTimeVibrating = true
                         if self.isTimeVibrating == true{
@@ -415,7 +429,6 @@ class GuiderGameScene: SKScene, SKPhysicsContactDelegate{
             if self.timerCount >= Double(seconds) {
                 self.guestLeave = true
                 self.moveGuest(numberSeat: nil, signSeat: nil)
-                self.game.updateHealth(add: false, amount: 1)
             }
         }
     }
@@ -538,5 +551,10 @@ class GuiderGameScene: SKScene, SKPhysicsContactDelegate{
         sprite.removeAllActions()
     }
     
-    
+    func damageanimationrun() {
+        let fadeInAction = SKAction.fadeIn(withDuration: 0.8)
+        let fadeOutAction = SKAction.fadeOut(withDuration: 0.8)
+        let sequence = SKAction.sequence([fadeInAction,fadeOutAction])
+        damageanimation?.run(sequence)
+    }
 }
