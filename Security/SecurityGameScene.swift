@@ -239,7 +239,7 @@ class SecurityGameScene: SKScene {
     }
     
     override func didMove(to view: SKView) {
-        if let particles = SKEmitterNode(fileNamed: "Starfield"){
+        if let particles = SKEmitterNode(fileNamed: "StarfieldSecurity"){
             particles.position = CGPoint (x: 1000, y: 0)
             particles.advanceSimulationTime(60)
             particles.zPosition = -2

@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		4A862D652A46FE6E00AF4E54 /* SecurityGameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A862D612A46FE6E00AF4E54 /* SecurityGameScene.swift */; };
 		4A862D672A46FE6E00AF4E54 /* SecurityGameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 4A862D632A46FE6E00AF4E54 /* SecurityGameScene.sks */; };
-		4A862D6B2A4708ED00AF4E54 /* Starfield.sks in Resources */ = {isa = PBXBuildFile; fileRef = 4A862D692A4708ED00AF4E54 /* Starfield.sks */; };
 		4A862D6C2A4708ED00AF4E54 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A862D6A2A4708ED00AF4E54 /* Assets.xcassets */; };
 		4AC6ACFE2A50416000168957 /* RoleRevealScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 4AC6ACFD2A50416000168957 /* RoleRevealScene.sks */; };
 		4AC6AD002A50428400168957 /* RoleRevealScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC6ACFF2A50428400168957 /* RoleRevealScene.swift */; };
@@ -29,6 +28,9 @@
 		561429E62A4A7D3800A39D62 /* MainGame+InventoryRole.swift in Sources */ = {isa = PBXBuildFile; fileRef = 561429E52A4A7D3800A39D62 /* MainGame+InventoryRole.swift */; };
 		563EFB762A566518005EEA26 /* GameStart.gif in Resources */ = {isa = PBXBuildFile; fileRef = 563EFB752A566518005EEA26 /* GameStart.gif */; };
 		563EFB782A566BF6005EEA26 /* SpaceGrotesk-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 563EFB772A566BF6005EEA26 /* SpaceGrotesk-Bold.ttf */; };
+		5644D3E02A66529F00FA7AFA /* StarfieldSecurity.sks in Resources */ = {isa = PBXBuildFile; fileRef = 5644D3DF2A66529F00FA7AFA /* StarfieldSecurity.sks */; };
+		5644D3E32A6652AA00FA7AFA /* StarfieldGuide.sks in Resources */ = {isa = PBXBuildFile; fileRef = 5644D3E12A6652AA00FA7AFA /* StarfieldGuide.sks */; };
+		5644D3E42A6652AA00FA7AFA /* StarfieldCleaner.sks in Resources */ = {isa = PBXBuildFile; fileRef = 5644D3E22A6652AA00FA7AFA /* StarfieldCleaner.sks */; };
 		567593CA2A4BBD2A00CCE935 /* MainGame+GlobalFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567593C92A4BBD2A00CCE935 /* MainGame+GlobalFunction.swift */; };
 		56F837A72A550D2C00F8615F /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56F837A62A550D2C00F8615F /* GameView.swift */; };
 		770FAB442A5DA7F2003E81B1 /* game-over.wav in Resources */ = {isa = PBXBuildFile; fileRef = 770FAB422A5DA7F2003E81B1 /* game-over.wav */; };
@@ -88,7 +90,6 @@
 /* Begin PBXFileReference section */
 		4A862D612A46FE6E00AF4E54 /* SecurityGameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SecurityGameScene.swift; path = Security/SecurityGameScene.swift; sourceTree = SOURCE_ROOT; };
 		4A862D632A46FE6E00AF4E54 /* SecurityGameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = SecurityGameScene.sks; path = Security/SecurityGameScene.sks; sourceTree = SOURCE_ROOT; };
-		4A862D692A4708ED00AF4E54 /* Starfield.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Starfield.sks; sourceTree = "<group>"; };
 		4A862D6A2A4708ED00AF4E54 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4AC6ACFD2A50416000168957 /* RoleRevealScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = RoleRevealScene.sks; path = ../../RoleRevealScene.sks; sourceTree = "<group>"; };
 		4AC6ACFF2A50428400168957 /* RoleRevealScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoleRevealScene.swift; sourceTree = "<group>"; };
@@ -109,6 +110,9 @@
 		563EFB742A565351005EEA26 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		563EFB752A566518005EEA26 /* GameStart.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = GameStart.gif; sourceTree = "<group>"; };
 		563EFB772A566BF6005EEA26 /* SpaceGrotesk-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SpaceGrotesk-Bold.ttf"; sourceTree = "<group>"; };
+		5644D3DF2A66529F00FA7AFA /* StarfieldSecurity.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = StarfieldSecurity.sks; sourceTree = "<group>"; };
+		5644D3E12A6652AA00FA7AFA /* StarfieldGuide.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = StarfieldGuide.sks; sourceTree = "<group>"; };
+		5644D3E22A6652AA00FA7AFA /* StarfieldCleaner.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = StarfieldCleaner.sks; sourceTree = "<group>"; };
 		567593C92A4BBD2A00CCE935 /* MainGame+GlobalFunction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainGame+GlobalFunction.swift"; sourceTree = "<group>"; };
 		56F837A62A550D2C00F8615F /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
 		770FAB422A5DA7F2003E81B1 /* game-over.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "game-over.wav"; sourceTree = "<group>"; };
@@ -350,7 +354,9 @@
 				CF78F2602A4BD19900409E06 /* InventoryGameScene.swift */,
 				4A862D632A46FE6E00AF4E54 /* SecurityGameScene.sks */,
 				4A862D612A46FE6E00AF4E54 /* SecurityGameScene.swift */,
-				4A862D692A4708ED00AF4E54 /* Starfield.sks */,
+				5644D3DF2A66529F00FA7AFA /* StarfieldSecurity.sks */,
+				5644D3E22A6652AA00FA7AFA /* StarfieldCleaner.sks */,
+				5644D3E12A6652AA00FA7AFA /* StarfieldGuide.sks */,
 				4A862D6A2A4708ED00AF4E54 /* Assets.xcassets */,
 				CF2CF9042A53B1AE00377547 /* ResultGameScene.swift */,
 				CF2CF9062A53B1C500377547 /* ResultGameScene.sks */,
@@ -441,10 +447,10 @@
 				4AC6ACFE2A50416000168957 /* RoleRevealScene.sks in Resources */,
 				77A8673C2A5FCEE4008FAC72 /* poop-spawn.wav in Resources */,
 				CF2CF9072A53B1C500377547 /* ResultGameScene.sks in Resources */,
+				5644D3E42A6652AA00FA7AFA /* StarfieldCleaner.sks in Resources */,
 				77E3E30B2A414BFF00143224 /* Preview Assets.xcassets in Resources */,
 				77D6B4982A4DEA2200BB551F /* MainMenuGameScene.sks in Resources */,
 				563EFB762A566518005EEA26 /* GameStart.gif in Resources */,
-				4A862D6B2A4708ED00AF4E54 /* Starfield.sks in Resources */,
 				77A867272A5EF0B7008FAC72 /* alien-sit.wav in Resources */,
 				77A8673F2A5FFE26008FAC72 /* count-down-15-second.wav in Resources */,
 				7760AB762A5DA5AC001B84B5 /* swipe-rocket.wav in Resources */,
@@ -454,6 +460,7 @@
 				77A867352A5FA079008FAC72 /* GameStartGameScene.sks in Resources */,
 				770FAB472A5E375E003E81B1 /* backsound.wav in Resources */,
 				770FAB452A5DA7F2003E81B1 /* transition-hyper-drive-out.wav in Resources */,
+				5644D3E32A6652AA00FA7AFA /* StarfieldGuide.sks in Resources */,
 				77A867292A5EF0C3008FAC72 /* alien-leave.wav in Resources */,
 				4A862D6C2A4708ED00AF4E54 /* Assets.xcassets in Resources */,
 				77E3E3082A414BFF00143224 /* Assets.xcassets in Resources */,
@@ -466,6 +473,7 @@
 				77A8672B2A5F8561008FAC72 /* earn-coins.wav in Resources */,
 				77A8673D2A5FCEE4008FAC72 /* poop-cleaned.wav in Resources */,
 				77D6B4902A49DD8B00BB551F /* ParticleAssets.xcassets in Resources */,
+				5644D3E02A66529F00FA7AFA /* StarfieldSecurity.sks in Resources */,
 				CF0DBABD2A4EE0000018BDD6 /* InventoryGameScene.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -149,7 +149,7 @@ class GuiderGameScene: SKScene, SKPhysicsContactDelegate{
     let symbolGuest = ["square", "circle", "triangle"]
     override func didMove(to view: SKView) {
 //        timer1 = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(changeTexture), userInfo: nil, repeats: true)
-        if let particles = SKEmitterNode(fileNamed: "Starfield"){
+        if let particles = SKEmitterNode(fileNamed: "StarfieldGuide"){
             particles.position = CGPoint (x: 1000, y: 0)
             particles.advanceSimulationTime(60)
             particles.zPosition = -2
