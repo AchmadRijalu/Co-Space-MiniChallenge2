@@ -17,6 +17,8 @@ struct GameData: Codable {
     var score: Int?
     var potionPrice: Int?
     var roles: [String:String]?
+    var playAgain: Bool?
+    var exit: Bool?
     
     // Security Properties
     var identityCard: [Int]?
@@ -65,6 +67,18 @@ extension MainGame {
     // ========================== BUAT UPDATE ROLES KE PLAYER LAIN ==========================
     func encode(roles: [String:String]?) -> Data? {
         let gameData = GameData(roles: roles)
+        return encode(gameData: gameData)
+    }
+    
+    // ========================== BUAT UPDATE PLAY AGAIN KE PLAYER LAIN ==========================
+    func encode(playAgainStatus: Bool?) -> Data? {
+        let gameData = GameData(playAgain: playAgainStatus)
+        return encode(gameData: gameData)
+    }
+    
+    // ========================== BUAT UPDATE EXIT KE PLAYER LAIN ==========================
+    func encode(exitStatus: Bool?) -> Data? {
+        let gameData = GameData(exit: exitStatus)
         return encode(gameData: gameData)
     }
     

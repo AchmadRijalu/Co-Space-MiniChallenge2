@@ -322,13 +322,13 @@
 			children = (
 				77E3E3192A415D8500143224 /* MainmenuView.swift */,
 				4AC6AD012A5042C400168957 /* RoleRevealView.swift */,
+				77A867362A5FA123008FAC72 /* GameStartView.swift */,
 				56F837A62A550D2C00F8615F /* GameView.swift */,
 				77E3E31F2A415DA700143224 /* SecurityView.swift */,
 				77E3E31B2A415D9200143224 /* GuiderView.swift */,
 				77E3E31D2A415D9B00143224 /* CleanerView.swift */,
 				77E3E3172A415D7900143224 /* InventoryView.swift */,
 				CF2CF9082A53BE6E00377547 /* ResultView.swift */,
-				77A867362A5FA123008FAC72 /* GameStartView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";

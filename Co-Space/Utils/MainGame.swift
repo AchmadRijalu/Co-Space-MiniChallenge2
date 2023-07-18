@@ -13,14 +13,16 @@ import SwiftUI
 @MainActor
 class MainGame: NSObject, GKGameCenterControllerDelegate, ObservableObject {
     // =========================== MAIN GAME PROPERTIES ===========================
-    @Published var playerNumberMin = 4
-    @Published var playerNumberMax = 4
+    @Published var playerNumberMin = 2
+    @Published var playerNumberMax = 2
     
     /// The game interface state.
     @Published var matchAvailable = false
     @Published var playingGame = false
     @Published var myMatch: GKMatch? = nil
     @Published var automatch = false
+    var playAgain = false
+    var exit = false
 
     /// Self Profile
     @Published var isHost = false
@@ -35,7 +37,7 @@ class MainGame: NSObject, GKGameCenterControllerDelegate, ObservableObject {
     var watchingTimeRange = ["start": 5, "end": 8] // will change to 7-10
     var score = 0
     var coin = 0
-    var health = 5
+    var health = 1
     var potionPrice = 10 
                            
     /// The voice chat properties.
@@ -178,8 +180,9 @@ class MainGame: NSObject, GKGameCenterControllerDelegate, ObservableObject {
     // Shuffling Role
     func shuffleRole(){
         if self.isHost {
-            let role = ["security", "guide", "cleaner", "inventory"]
-//            let role = ["security", "guide"]
+//            let role = ["security", "guide", "cleaner", "inventory"]
+            let role = ["security", "guide"]
+            
             var shuffledRole = role.shuffled()
             
             var assignedRoles: [String: String] = [:]
@@ -216,19 +219,42 @@ class MainGame: NSObject, GKGameCenterControllerDelegate, ObservableObject {
         }
     }
     
-    // Resets a match after players reach an outcome or cancel the game.
+    // Reset game variable
     func resetMatch() {
-        // Reset the game data.
+        patienceRangeSecurity = ["start": 8, "end": 10] // will change to 5-7
+        patienceRangeGuide = ["start": 3, "end": 5] // will change to 2-4
+        watchingTimeRange = ["start": 5, "end": 8] // will change to 7-10
+        score = 0
+        coin = 0
+        health = 5
+        potionPrice = 10
+        
+        // =========================== ROLE SECURITY PROPERTIES ===========================
+        idCardSquare = 10
+        idCardCircle = 10
+        idCardTriangle = 10
+        newGuestData = []
+        
+        // =========================== ROLE GUIDE PROPERTIES ===========================
+        newCleanedSeat = []
+        
+        // =========================== ROLE CLEANER PROPERTIES ===========================
+        // 0 = No poop active || 1 = poop active || 2 = poop cleaning done
+        poopState = 0
+        newDirtySeatCleaner = []
+        
+        // =========================== ROLE INVENTORY PROPERTIES ===========================
+        drawerContent = ["sun": "green", "moon": "brown", "star": "orange"]
+    }
+    
+    // Disconnect from match if exited
+    func disconnectMatch() {
         playingGame = false
         myMatch?.disconnect()
         myMatch?.delegate = nil
         myMatch = nil
-        voiceChat = nil
-        messages = []
         GKAccessPoint.shared.isActive = true
     }
-    
-    // Rewarding players with achievements.
     
     /// Reports the local player's progress toward an achievement.
     func reportProgress() {

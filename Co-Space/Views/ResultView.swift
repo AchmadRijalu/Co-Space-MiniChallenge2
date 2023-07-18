@@ -11,7 +11,6 @@ import SpriteKit
 struct ResultView: View {
     @ObservedObject var game: MainGame
     
-    
     var scene = SKScene(fileNamed: "ResultGameScene.sks") as! ResultGameScene
     let backgroundOpacity: Double = 0.1
     var body: some View {
@@ -25,7 +24,6 @@ struct ResultView: View {
             }
             .edgesIgnoringSafeArea(.all)
         }
-        .navigationBarBackButtonHidden()
     }
 }
 

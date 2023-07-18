@@ -11,7 +11,6 @@ import AVFoundation
 var cospaceGameOverAnnouncerSoundEffect = AVAudioPlayer()
 
 class ResultGameScene : SKScene,  SKPhysicsContactDelegate, ObservableObject{
-    
     var game : MainGame!
     
     var moonResultNode =  SKSpriteNode()
@@ -27,6 +26,8 @@ class ResultGameScene : SKScene,  SKPhysicsContactDelegate, ObservableObject{
     var gameOverSoundEffect = SKAudioNode()
     var scoretext = SKLabelNode()
     var score = SKLabelNode()
+    
+    var didMoveRun = false
     
     func createAnimatedImagesArrayReverse(imageName: String, frameCount: Int) -> [SKTexture] {
         var animatedImages: [SKTexture] = []
@@ -99,6 +100,7 @@ class ResultGameScene : SKScene,  SKPhysicsContactDelegate, ObservableObject{
     override func didMove(to view: SKView) {
         scene?.backgroundColor = .clear
         //Background sprite
+        print("DID MOVE JALAN DI RESULT")
         
         backgroundNode.size = self.size
         backgroundNode.color = SKColor.black.withAlphaComponent(0.9)
@@ -120,8 +122,6 @@ class ResultGameScene : SKScene,  SKPhysicsContactDelegate, ObservableObject{
             let fadeInAction = SKAction.fadeIn(withDuration: 3.0)
             let sequence = SKAction.sequence([fallAction, fadeInAction])
             self.moonResultNode.run(sequence)
-            
-            
             
             //Logo sprite
             self.logoResultNode.name = "logoResultNode"
@@ -264,7 +264,7 @@ class ResultGameScene : SKScene,  SKPhysicsContactDelegate, ObservableObject{
                 self.playAgainResultNode.position = finalPositionPlayAgain
                 self.playAgainResultNode.zPosition = 3
                 
-               
+                
                 
                 let initialPositionExit = CGPoint(x: self.size.width / 2, y: -self.exitResultNode.size.height / 2)
                 let finalPositionExit = CGPoint(x: self.size.width / 2 + 120, y: self.size.height / 2)
@@ -317,7 +317,6 @@ class ResultGameScene : SKScene,  SKPhysicsContactDelegate, ObservableObject{
                 
                 
             }
-            
         }
     }
     private func setupLabelNode(_ position: CGPoint, _ text: String) -> SKLabelNode {
@@ -338,9 +337,7 @@ class ResultGameScene : SKScene,  SKPhysicsContactDelegate, ObservableObject{
                 if let spriteNode = node as? SKSpriteNode {
                     if spriteNode.name == "result-button-play-again" {
                         print("Touched result-button-play-again")
-                    } else if spriteNode.name == "result-button-exit" {
-                        print("Touched result-button-exit")
-                        // Add your scene transition code here
+                        
                         let newScene = SKScene(fileNamed: "MainMenuGameScene.sks") as! MainMenuGameScene
                         newScene.size = self.size
                         newScene.game = game
@@ -350,6 +347,15 @@ class ResultGameScene : SKScene,  SKPhysicsContactDelegate, ObservableObject{
                         let transition = SKTransition.doorsOpenHorizontal(withDuration: 0.5) // Set the transition effect
                         //                        view?.presentScene(newScene, transition: transition)
                         self.scene?.view?.presentScene(newScene, transition: transition) // Change the scene
+                        
+                        
+                        if (self.game.playAgain == false) {
+                            self.game.goPlayAgain()
+                        }
+                    }
+                    else if spriteNode.name == "result-button-exit" {
+                        print("Touched result-button-exit")
+                        self.game.goExit()
                     }
                 }
             }

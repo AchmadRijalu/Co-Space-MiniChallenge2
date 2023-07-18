@@ -62,6 +62,15 @@ extension MainGame: GKMatchDelegate {
         else if let gameRole = gameData?.roles {
             self.myRole = gameRole[GKLocalPlayer.local.displayName] ?? ""
         }
+        else if let playAgainStatus = gameData?.playAgain {
+            self.resetMatch()
+            self.shuffleRole()
+            self.playAgain = playAgainStatus
+        }
+        else if let exitStatus = gameData?.exit {
+            self.disconnectMatch()
+            self.exit = exitStatus
+        }
         else if let idCard = gameData?.identityCard {
             self.idCardSquare = idCard[0]
             self.idCardCircle = idCard[1]

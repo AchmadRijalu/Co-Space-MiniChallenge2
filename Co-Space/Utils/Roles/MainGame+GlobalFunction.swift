@@ -77,4 +77,36 @@ extension MainGame{
             print("Error: \(error.localizedDescription).")
         }
     }
+    
+    // Panggil buat play again
+    func goPlayAgain() {
+        self.playAgain = true
+        
+        do {
+            // perbarui score
+            let data = encode(playAgainStatus: true)
+            try myMatch?.sendData(toAllPlayers: data!, with: GKMatch.SendDataMode.reliable)
+        } catch {
+            print("Error: \(error.localizedDescription).")
+        }
+        
+        
+        self.resetMatch()
+        self.shuffleRole()
+    }
+    
+    func goExit() {
+        self.exit = true
+        
+        do {
+            // perbarui score
+            let data = encode(exitStatus: true)
+            try myMatch?.sendData(toAllPlayers: data!, with: GKMatch.SendDataMode.reliable)
+        } catch {
+            print("Error: \(error.localizedDescription).")
+        }
+        
+        self.resetMatch()
+        self.disconnectMatch()
+    }
 }

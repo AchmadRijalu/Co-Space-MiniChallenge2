@@ -15,7 +15,7 @@ struct RoleRevealView: View {
     @State var startTimer: Timer?
     @State var timerCount = 15
     @State var isMovingToGameView = false
-    
+    @State var iShowScene:Bool = false
     
     var scene = SKScene(fileNamed: "RoleRevealScene.sks") as! RoleRevealScene
     
@@ -29,11 +29,17 @@ struct RoleRevealView: View {
                     isActive: $isMovingToGameView,
                     label: EmptyView.init
                 )
-                SpriteView(scene: scene)
-                    .task{
-                        scene.game = game
-                    }
-                    .ignoresSafeArea()
+                if self.iShowScene {
+                    SpriteView(scene: scene)
+                        .task{
+                            scene.game = game
+                        }
+                        .ignoresSafeArea()
+                }
+                else {
+                    //Loading shuffling role
+                }
+               
                 VStack(alignment: .trailing){
                     HStack{
                         Spacer()
@@ -58,12 +64,24 @@ struct RoleRevealView: View {
             .ignoresSafeArea()
         }
         .task{
+            
             startTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
                 timerCount -= 1
                 if (timerCount <= 0){
                     startTimer?.invalidate()
                     isMovingToGameView = true
                 }
+                if timerCount == 13{
+                    self.iShowScene = true
+                }
+            }
+        }
+        .onAppear {
+            if (self.game.playAgain == true) {
+                self.game.playAgain = false
+            }
+            if (self.game.exit == true) {
+                self.game.exit = false
             }
         }
         .navigationBarBackButtonHidden(true)
