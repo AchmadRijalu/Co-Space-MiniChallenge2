@@ -39,7 +39,7 @@ struct RoleRevealView: View {
                 }
                 else {
                     //Loading shuffling role
-                    
+                    SpriteView(scene: sceneLoading)
                 }
                
                 VStack(alignment: .trailing){
