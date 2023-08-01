@@ -62,6 +62,8 @@
 		77A867412A60075F008FAC72 /* cospace-announcer.wav in Resources */ = {isa = PBXBuildFile; fileRef = 77A867402A60075F008FAC72 /* cospace-announcer.wav */; };
 		77A867432A6034E3008FAC72 /* click-button.wav in Resources */ = {isa = PBXBuildFile; fileRef = 77A867422A6034E3008FAC72 /* click-button.wav */; };
 		77ACA6A12A57BD3E00C591E7 /* SpriteKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77E3E32B2A43D50B00143224 /* SpriteKit.framework */; };
+		77C1F9692A74BFAA00D2FBD2 /* RoleRevealLoadingScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 77C1F9682A74BFAA00D2FBD2 /* RoleRevealLoadingScene.sks */; };
+		77C1F96B2A74BFE400D2FBD2 /* RoleRevealLoadingScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C1F96A2A74BFE400D2FBD2 /* RoleRevealLoadingScene.swift */; };
 		77D6B4902A49DD8B00BB551F /* ParticleAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 77D6B48E2A49DD8B00BB551F /* ParticleAssets.xcassets */; };
 		77D6B4922A49DDBE00BB551F /* starfield.sks in Resources */ = {isa = PBXBuildFile; fileRef = 77D6B4912A49DDBE00BB551F /* starfield.sks */; };
 		77D6B4942A4BC57F00BB551F /* GuiderGameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D6B4932A4BC57F00BB551F /* GuiderGameViewModel.swift */; };
@@ -143,6 +145,8 @@
 		77A8673E2A5FFE26008FAC72 /* count-down-15-second.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "count-down-15-second.wav"; sourceTree = "<group>"; };
 		77A867402A60075F008FAC72 /* cospace-announcer.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "cospace-announcer.wav"; sourceTree = "<group>"; };
 		77A867422A6034E3008FAC72 /* click-button.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "click-button.wav"; sourceTree = "<group>"; };
+		77C1F9682A74BFAA00D2FBD2 /* RoleRevealLoadingScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = RoleRevealLoadingScene.sks; sourceTree = "<group>"; };
+		77C1F96A2A74BFE400D2FBD2 /* RoleRevealLoadingScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoleRevealLoadingScene.swift; sourceTree = "<group>"; };
 		77D6B48E2A49DD8B00BB551F /* ParticleAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = ParticleAssets.xcassets; sourceTree = "<group>"; };
 		77D6B4912A49DDBE00BB551F /* starfield.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = starfield.sks; sourceTree = "<group>"; };
 		77D6B4932A4BC57F00BB551F /* GuiderGameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuiderGameViewModel.swift; sourceTree = "<group>"; };
@@ -362,6 +366,8 @@
 				CF2CF9062A53B1C500377547 /* ResultGameScene.sks */,
 				77A867322A5FA069008FAC72 /* GameStartGameScene.swift */,
 				77A867342A5FA079008FAC72 /* GameStartGameScene.sks */,
+				77C1F9682A74BFAA00D2FBD2 /* RoleRevealLoadingScene.sks */,
+				77C1F96A2A74BFE400D2FBD2 /* RoleRevealLoadingScene.swift */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -474,6 +480,7 @@
 				77A8673D2A5FCEE4008FAC72 /* poop-cleaned.wav in Resources */,
 				77D6B4902A49DD8B00BB551F /* ParticleAssets.xcassets in Resources */,
 				5644D3E02A66529F00FA7AFA /* StarfieldSecurity.sks in Resources */,
+				77C1F9692A74BFAA00D2FBD2 /* RoleRevealLoadingScene.sks in Resources */,
 				CF0DBABD2A4EE0000018BDD6 /* InventoryGameScene.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -497,6 +504,7 @@
 				561429E02A4A757300A39D62 /* MainGame+SecurityRole.swift in Sources */,
 				CF2CF9052A53B1AE00377547 /* ResultGameScene.swift in Sources */,
 				CF2CF9092A53BE6E00377547 /* ResultView.swift in Sources */,
+				77C1F96B2A74BFE400D2FBD2 /* RoleRevealLoadingScene.swift in Sources */,
 				561429DE2A4A710400A39D62 /* MainGame+DecodeData.swift in Sources */,
 				561429D52A4A6ECD00A39D62 /* MainGame+Messages.swift in Sources */,
 				77E3E31A2A415D8500143224 /* MainmenuView.swift in Sources */,
@@ -652,7 +660,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Co-Space/Co-Space.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"Co-Space/Preview Content\"";
 				DEVELOPMENT_TEAM = DYXBWDG6F4;
 				ENABLE_PREVIEWS = YES;
@@ -686,7 +694,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Co-Space/Co-Space.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"Co-Space/Preview Content\"";
 				DEVELOPMENT_TEAM = DYXBWDG6F4;
 				ENABLE_PREVIEWS = YES;

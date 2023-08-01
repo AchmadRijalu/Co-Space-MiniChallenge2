@@ -11,7 +11,6 @@ import AVFoundation
 
 struct RoleRevealView: View {
     @ObservedObject var game: MainGame
-    
     @State var startTimer: Timer?
     @State var timerCount = 15
     @State var isMovingToGameView = false
@@ -19,6 +18,8 @@ struct RoleRevealView: View {
     
     var scene = SKScene(fileNamed: "RoleRevealScene.sks") as! RoleRevealScene
     
+    
+    var sceneLoading = SKScene(fileNamed: "RoleRevealLoadingScene.sks") as! RoleRevealSceneLoading
     
    
     var body: some View {
@@ -38,6 +39,7 @@ struct RoleRevealView: View {
                 }
                 else {
                     //Loading shuffling role
+                    
                 }
                
                 VStack(alignment: .trailing){
